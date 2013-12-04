@@ -1,6 +1,7 @@
 \documentclass{cshonours}
 
 \usepackage{url}
+\usepackage{minted}
 \usepackage[style=alphabetic, sorting=nyt]{biblatex}
 \addbibresource{bibliography.bib}
 
@@ -15,14 +16,193 @@
 \maketitle
 
 \chapter*{Abstract}
+The complexity of software and the scale at which it is expected to be delivered is continuing to increase rapidly ~\cite{SoftwareComplexity}.
+As a direct consequence of this, the supporting application infrastructure needed to keep these services running and providing a suitable Quality of Service (QoS) must grow at a similar rate.
+
+A typical stack for delivering scalable web based applications now consists of many interconnected parts, including database servers, application servers, caching layers, load balancers and network hardware.
+This growth in both application and infrastructure complexity presents significant engineering challenges in the design of fault-tolerant and performant distributed systems.
+
+Over the past few years, the concept of cloud computing has lowered the barrier of entry for smaller companies/startups to rapidly launch and deliver applications at scale, significantly reducing the time-to-market and fixed costs of such a setup ~\cite{CloudComputing}.
+In addition, hybrid or private clouds have enabled larger companies with privacy or regulatory constraints to reap some of the benefits of this movement.
+
+Whilst the fundamental problems of delivering software at scale are significantly reduced by the cloud computing movement, the inherent complexities of distributed systems with many components and therefore points of failure, continually prove to be problematic. Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either 'high' or 'out of control’~\cite{Gartner2013}. Managing this complexity, and therefore being able to efficiently identify and fix issues is the key to providing the reliable and performant services we expect, over time.
+
 \chapter*{Originality Avowal}
 \chapter*{Acknowledgements}
 
 \tableofcontents
 
-\chapter{Background}
+\chapter{Introduction}
+
+\section{Thesis}
 \section{Motivation}
-\subsection{Motivation Subsection}
+
+After taking part in the Agile delivery of software in the highly regulated insurance industry, I noted some problems in the management and reliability of software delivered. These reliability issues were predominantly caused by the growth in complexity of the underlying Application Infrastructure, hosted internally as a result of regulatory constraints. This was a problem which was exacerbated by the outsourcing of this infrastructure management to a third-party contractor.
+
+I discovered a real disparity between the knowledge application developers had of the specific requirements of their application (hardware specifications, dependencies on other services, likely points of failure) and the lack of awareness of these facts within the Operations team. This phenomenon has been noted in other areas of the industry~\cite[DevOps] and has recently given rise to the term 'DevOps' - an attempt to improve communication between the teams or build tools to do so.
+
+Better collaboration and knowledge transfer between these two often separate teams often provides the following benefits:
+
+\begin{description}
+  \item [Pro-Active maintenance of the system and its dependencies]\hfill \\
+    The effect of changes is well understood by all members of the team and problems can be foreseen ahead of time. The infrastructure can be modernised progressively. 
+  \item [Identification of weaknesses in the system architecture]\hfill \\
+    e.g. single points of failure, overworked or repeatedly unreliable components can be identified, and discussion between the teams can lead to effective solutions. 
+  \item [Reduced risk of change]\hfill \\
+    Delivery of features and bug-fixes to deployed software can happen regularly and reliably through Continuous Delivery. 
+  \item [Quick and effective root cause analysis]\hfill \\
+    When issues do occur, they can be diagnosed and fixed quickly, and then prevented in the future.
+\end{description}
+
+\section{Solution Objectives}
+
+A pragmatic approach to the modelling of complex infrastructure within real-world systems. The application will comprise of a modelling language or tool used to specify nodes that provide services, and specify their constraints and dependencies with other parts of the system.
+
+This model can serve as 'living documentation' which is used by Ops teams and Developers to help manage and transfer knowledge, making their implicit knowledge more explicit. This should improve collaboration between the teams and provide deeper insight into issues with the performance or reliability of the system.
+
+Additionally, the tool will verify the correctness of the live system continuously and warn of any divergence, it will also allow the attachment of metadata and metrics to nodes. These tests, metadata and metrics will then serve as a useful diagnostic tool if the state of the system changes, e.g. a loss of connectivity between two nodes. This fine-grained and clear mechanism of communicating failure should reduce investigation and response times when issues arise, and provide the insight which prevents them from recurring.
+
+Languages and tools for the modelling of software architecture and infrastructure do exist, however they lack the simplicity and pragmatism in their implementation to see widespread adoption in industry~\cite{ModellingAdoption}, especially in the case of smaller companies with more time constraints. I propose a simple, pragmatic tool which may come with some modelling limitations, but will be quick and easy to set up and begin reaping the benefits. This tool could become a platform to solve other distributed systems issues, such as service discovery etc. but these problems are not part of the initial scope.
+
+\section{Software Platform and Target OS}
+
+The exact architecture of the solution is currently under investigation, but it will most likely consist of the following components:
+
+\begin{description}
+  \item [Application Core]\hfill \\
+    A graph database or in-memory representation of the modelled system, together with an orchestration layer for executing tests/collecting metrics. All exposed via a REST API written in Ruby, using the minimal Sinatra framework. I have chosen Ruby due to its conciseness, its excellent tooling for developing and testing web-based applications, and my own familiarity with the language.
+  \item [Web UI]\hfill \\
+    A Single Page Application (SPA) written using a client side Javascript MVC framework such as Backbone, Angular.js or Ember.js. As the user interface needs to be rich and interactive, allowing for efficient visual exploration and modification of the system. A web based application was chosen as it requires no user installation or updates, it is cross-platform and can interact with the application core via the REST API.
+  \item [Server Agent]\hfill \\
+    A service which runs continuously on each node registering its role, executing tests and reporting metrics via the REST API. This is likely to be written in Ruby or Go (http://golang.org); a language recently developed by Google for systems programming.
+
+    If written in Go, the agent could be compiled and statically-linked, producing a single binary compatible with all 32/64-bit UNIX systems without any install process or runtime components. This is especially important to reduce the attack surface-area of production systems. Updates could also be pushed out via the highly efficient BSDiff tool.
+\end{description}
+
+\textbf{Scope Limitations:} Due to the significant differences between Windows and UNIX based servers, including compatibility of tools, remote command execution strategies and scriptability, I have decided to target only UNIX based (specifically Linux) servers initially. This decision is based upon their overwhelming prevalence in the server market ~\cite{LinuxMarketShare}.
+
+\section{Background Research}
+\subsection{Existing Modelling Tools}
+
+\paragraph{Diagrams vs. Models}
+A drawing tool can only be considered a modelling tool only if the tool “understands” the drawings \cite[p.~11]{ModelDrivenDevelopment}. This has a number of benefits: 
+A modelling tool guarantees a minimum level of semantic meaning and model quality, because they grant alignment to some sort of meta-model. \cite[p.~12]{ModelDrivenDevelopment}
+The model can often be used to derive an implementation or perform checks/validation to ensure that a given implementation satisfies the model. 
+
+\paragraph{Textual vs. Graphical}
+Models can be built textually as well as graphically. Textual models are commonly expressed using Domain Specific Languages (DSL’s). Textual models can still sometimes be used with graphical tooling to provide a visualisation of the expressed model.
+
+\paragraph{General Modelling Tools}
+
+A number of modelling standards are extremely flexible and allow the expression of arbitrary systems. One example of this is the Common Information Model (CIM) standard \cite{CIM}. There are many IDE’s and tools that have the ability to construct CIM compliant models, such as the Eclipse Modelling Framework \cite{EMF}.
+
+It is relatively difficult to find practical examples of infrastructure modelling in CIM, making it difficult to get started with unless the user already has experience with MDSE techniques. These modelling tools will continue to be evaluated during my background analysis.
+
+\paragraph{Infrastructure Modelling Tools}
+
+Configuration Management
+Modern configuration management tools could be considered a type of infrastructure modelling tool. Most of these tools such as Puppet, or Chef use a custom DSL to declaratively define hosts, and install and manage their respective services.
+
+These configuration management tools are especially interesting due to their mass adoption in recent years within the Agile software development community, as well as large enterprises such as Amazon and Facebook \cite{Chef}. They combine many concepts of MDSE implemented in a pragmatic fashion.  These DSL’s can be executed to drive infrastructure changes or ensure convergence with the model. For example, this snippet of a Puppet recipe details the configuration of the SSH service on a given host:
+
+\begin{minted}[fontfamily=fi4]{ruby}
+class sshd { 
+    package { 'openssh-server': 
+        ensure => latest 
+    } 
+    service { 'ssh': 
+        subscribe => File[sshdconfig], 
+        require   => Package['openssh-server'], 
+    } 
+    file { 'sshdconfig': 
+        name    => '/etc/ssh/sshd_config', 
+        owner   => root, 
+        group   => root, 
+        mode    => 644, 
+        source  => 'puppet:///sshd/sshd_config', 
+        require => Package['openssh-server'], 
+    } 
+}
+\end{minted}
+
+As part of the runtime execution, each service’s conformance to this set of properties is verified and if there is any divergence, the tool will orchestrate a set of imperative actions, for example installing the service or altering its configuration file and then restarting it.
+
+\subsection{Existing Monitoring Tools}
+
+I have extensively researched existing monitoring tools ranging from very simple ping checks to complete enterprise solutions and evaluated their effectiveness. In the interest of brevity, I have included a small sample of popular monitoring tools I have evaluated which give an indication of the cross-section of the market:
+
+\subsubsection{Nagios}
+
+An open source infrastructure and application monitoring framework, often considered the ‘industry standard’. It provides a vast array of features, from execution of fine-grained protocol specific tests to complex capacity planning techniques. It is also very extensible, which is perhaps the largest reason for its success within the industry.
+
+Nagios is in active use by over 250,000 organisations worldwide, including Amazon, AT\&T and JP Morgan Chase. It has a number of built in strategies for tracking hosts, including via the Simple Network Management Protocol (SNMP) or an agent based architecture.
+
+Anecdotal evidence of Nagios draws the conclusion that it is a mature and flexible solution for basic monitoring of large numbers of hosts, but severely lacks some higher level concepts such as integration tests of system components. It is also considered extremely time consuming and unintuitive to set up and manage, which perhaps explains its lack of adoption within smaller businesses/startups.
+
+\subsubsection{StatsD, CollectD, Graphite}
+
+This collection of tools all work together in providing near real-time metrics tracking and graphing, they are used heavily at vastly successful startups such as 37signals, GitHub and Shopify. Metrics can be collected from the infrastructure and application layers. 
+CollectD is a system utility written in C which periodically makes system calls to extract performance fundamentals such as CPU, memory and network usage. 
+
+Application level metrics can be collected using StatsD. Applications can send metrics to a local StatsD instance via UDP, which adds very little performance overhead. This means that it is possible to heavily instrument the critical paths of an application except in extremely performance sensitive scenarios. Both of these tools aggregate this data and flush it to a backend Graphite instance at configurable intervals. Graphite provides extremely flexible data visualisation techniques, but requires some up front investment in time to produce meaningful results.
+
+This collection of tools provides an extremely flexible and performant source of aggregate data which can be used to diagnose reliability and performance problems effectively. Its disadvantages however include a lack of any alerting mechanism, a large number of independent components which are both non-trivial to deploy and difficult to monitor themselves, and a difficulty in actually interpreting aggregate data to draw conclusions without deep insight into both the application and the infrastructure it’s relying on.
+
+\subsubsection{New Relic - APM} 
+New Relic is a popular subscription-based, hosted Application Performance Monitoring (APM) service. It provides integration with popular languages, frameworks and platforms such as the Java Virtual Machine (JVM), Ruby/Ruby on Rails and Python with the Django web framework.
+
+New Relic is extremely easy to integrate with existing web applications as it provides environment specific tooling such as Ruby gems or Python packages. It reports on fine-grained application metrics such as slow SQL queries, poor response times and browser based monitoring metrics with a snippet of JavaScript.
+
+Whilst New Relic is extremely simple to set up and provides a fairly deep insight into application performance, it is a relatively expensive service beyond a trivial number of hosts, treats all hosts as independent nodes rather than interconnected services with dependencies, and lacks the extensibility of the open source solutions when it comes to monitoring other non-supported parts of the stack.
+
+\subsubsection{Summary}
+ A vast array of monitoring tools already exist, many of which are mature solutions. However, they generally require a large investment of time and do not help with visualising or managing infrastructure complexity. They often also require deep insight into the application/service being monitored, which is not always the case when developers and operations teams are separate.
+
+An ideal solution would be an open source tool, incorporating the ease of setup of a service like New Relic, with the flexibility and alerting of Nagios and Graphite. It would also provide a holistic view of the system and its dependencies so it is easy to visually identify problems and their effects without deep insight into the application architecture.
+
+\subsection{Prototyping \& Risk Mitigation}
+
+After some background research and a number of discussions with typical users of monitoring/modelling tools there were some common themes identified. Some of these needs are not satisfied by existing tools, therefore I have considered them as risks so that solutions can be identified early through the process of prototyping.
+
+\paragraph{Speed/Ease of Setup} Many comments from developers detailed the fact that most monitoring tools were too time consuming to set up, and clients did not see demonstrable value in investing the time upfront before services were launched and issues actually occurred. 
+
+A tool that provides a simple installation process, follows ‘convention over configuration’ and provides a degree of auto-detection of installed services would be extremely valuable and increase chances of adoption significantly.
+ As part of the prototyping phase, I have built a solution that partially satisfies these properties.
+
+\paragraph{Google's Go Programming Language} The tool is written in Go, a systems programing language which is compiled and statically-linked to bundle all dependencies. Cross-compilation to target different architectures with no runtime dependencies is a first-class feature of Go and is therefore very simple.
+
+The build process produces binaries targeting Linux and Mac OS X (both 32 and 64-bit architectures). 
+
+\paragraph{Simple Install Process} The install process is a one-line bash command that downloads and executes the bootstrap shell script, that in turn detects system architecture and downloads the appropriate binary, copying it into the system path and configuring it to run as a service.
+
+When the binary is first executed, it performs node registration by making a POST request to the monitoring tool’s REST API with the hostname of the server, and supplementary metadata.
+
+\textbf{Example Install Command:}
+\begin{minted}[fontfamily=fi4]{bash}
+  curl https://management-server/agent/install | sh
+\end{minted}
+
+\paragraph{Automatic Service Detection} The tool builds in a basic service detection process that is executed during node registration and at rare periodic intervals after this point. 
+ It detects the presence of known binaries such as apache2, nginx or mysql on the system path as defined in a service definition file retrieved from the management server. It then takes further steps to extract version numbers from installed services and includes this information in the node metadata.
+
+There are a number of issues that prevent this process from being accurate in every scenario, but in practice it is a flexible solution which can detect most services accurately enough to be a useful time saving feature.
+
+\paragraph{Security} Installation of any networked monitoring tool increases the attack surface-area on production systems that often host important services and contain sensitive user data. In order to partially mitigate this concern, communication between the monitoring system and the application server must be encrypted, and both the server and client must verify each other’s respective identity to ensure that no Man in the Middle (MiTM) or general spoofing/poisoning attacks can become effective.
+
+Public-Key cryptography can generally provide this functionality, if the agent installation is performed via HTTPS, the identity of the management server can be verified and a public key can be exchanged from this point forwards in all communication. Only the management server will be permitted to connect to the agent software.
+
+This strategy needs to be carefully evaluated and tested, but should not present a major risk to the implementation. The difficulty will lie in expressing this capability to future users of the system so they can be confident in its security.
+
+\section{Requirements/Specification}
+
+A list of concrete requirements will be established from user stories based on my own personal experiences developing software in industry, and conversations with the following typical users of the system.
+
+\begin{itemize}
+  \item A Technical Architect at Red Badger Consulting Ltd
+  \item A Lead Developer at MinoCloud
+  \item A Project Manager at HCL
+\end{itemize}
+
 % \include{Chapters/Background}
 % \include{Chapters/Body}
 % \include{Chapters/DesignSpecification}

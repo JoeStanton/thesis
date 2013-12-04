@@ -1,7 +1,47 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {1}Background}{1}
+\contentsline {chapter}{\numberline {1}Introduction}{1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.1}Motivation}{1}
+\contentsline {section}{\numberline {1.1}Thesis}{1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.1.1}Motivation Subsection}{1}
+\contentsline {section}{\numberline {1.2}Motivation}{1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.3}Solution Objectives}{2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.4}Software Platform and Target OS}{3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.5}Background Research}{4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.5.1}Existing Modelling Tools}{4}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Diagrams vs. Models}{4}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Textual vs. Graphical}{4}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{General Modelling Tools}{4}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Infrastructure Modelling Tools}{4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.5.2}Existing Monitoring Tools}{5}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Nagios}{5}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{StatsD, CollectD, Graphite}{6}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{New Relic - APM}{6}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Summary}{7}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.5.3}Prototyping \& Risk Mitigation}{7}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Speed/Ease of Setup}{7}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Google's Go Programming Language}{8}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Simple Install Process}{8}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Automatic Service Detection}{8}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Security}{8}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.6}Requirements/Specification}{9}
