@@ -10,38 +10,66 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1.4}Software Platform and Target OS}{3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.5}Background Research}{4}
+\contentsline {chapter}{\numberline {2}Background Research \& Literature Review}{4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.5.1}Existing Modelling Tools}{4}
+\contentsline {section}{\numberline {2.1}Managing Software Complexity}{4}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Diagrams vs. Models}{4}
+\contentsline {subsection}{\numberline {2.1.1}Modelling and Model Driven Software Engineering (MDSE)}{4}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Textual vs. Graphical}{4}
+\contentsline {paragraph}{Diagrams vs. Models}{5}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{General Modelling Tools}{4}
+\contentsline {paragraph}{Modelling Techniques}{5}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Infrastructure Modelling Tools}{4}
+\contentsline {paragraph}{Adoption of Modelling and MDSE}{5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.5.2}Existing Monitoring Tools}{5}
+\contentsline {subsection}{\numberline {2.1.2}Unit, Integration and Acceptance Testing}{6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Nagios}{5}
+\contentsline {paragraph}{Adoption of XP Techniques}{6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{StatsD, CollectD, Graphite}{6}
+\contentsline {section}{\numberline {2.2}Managing Infrastructure Complexity}{7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{New Relic - APM}{6}
+\contentsline {subsection}{\numberline {2.2.1}General Modelling Tools}{7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Summary}{7}
+\contentsline {subsection}{\numberline {2.2.2}Infrastructure Modelling Tools \& Configuration Management}{7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.5.3}Prototyping \& Risk Mitigation}{7}
+\contentsline {subsection}{\numberline {2.2.3}Existing Monitoring Tools}{8}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Speed/Ease of Setup}{7}
+\contentsline {subsubsection}{Nagios}{8}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Google's Go Programming Language}{8}
+\contentsline {subsubsection}{StatsD, CollectD, Graphite}{9}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Simple Install Process}{8}
+\contentsline {subsubsection}{New Relic - APM}{9}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Automatic Service Detection}{8}
+\contentsline {subsubsection}{Summary}{10}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Security}{8}
+\contentsline {chapter}{\numberline {3}Requirements Specification}{11}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1.6}Requirements/Specification}{9}
+\contentsline {subsection}{\numberline {3.0.4}User Stories}{11}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}Design and Implementation}{13}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.1}Prototyping \& Risk Mitigation}{13}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Speed/Ease of Setup}{13}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Google's Go Programming Language}{13}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Simple Install Process}{13}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Automatic Service Detection}{14}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Security}{14}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.2}System Architecture}{15}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.1}Tools and Methodologies}{16}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.3}Components}{16}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.3.1}Application Core}{16}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.3.2}Verification/Orchestration Service}{16}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.3.3}Web UI}{16}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.3.4}Server Agent}{16}

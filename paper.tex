@@ -27,19 +27,28 @@ In addition, hybrid or private clouds have enabled larger companies with privacy
 
 Whilst the fundamental problems of delivering software at scale are significantly reduced by the cloud computing movement, the inherent complexities of distributed systems with many components and therefore points of failure, continually prove to be problematic. Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either 'high' or 'out of control’~\cite{Gartner2013}. Managing this complexity, and therefore being able to efficiently identify and fix issues is the key to providing the reliable and performant services we expect, over time.
 
+In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage the inherent complexity in modern infrastructure.
+
 \chapter*{Originality Avowal}
-\chapter*{Acknowledgements}
+I verify that I am the sole author of this report, except where explicitly stated to the contrary. 
+
+\textbf{Signed:} Joe Stanton 
+
+\textbf{Date:} \today
+
+% \chapter*{Acknowledgements}
 
 \tableofcontents
 
 \chapter{Introduction}
 
 \section{Thesis}
+\textit{It is practical and useful to develop an infrastructure modelling and monitoring tool to help address inherent complexity in modern IT infrastructure.}
 \section{Motivation}
 
 After taking part in the Agile delivery of software in the highly regulated insurance industry, I noted some problems in the management and reliability of software delivered. These reliability issues were predominantly caused by the growth in complexity of the underlying Application Infrastructure, hosted internally as a result of regulatory constraints. This was a problem which was exacerbated by the outsourcing of this infrastructure management to a third-party contractor.
 
-I discovered a real disparity between the knowledge application developers had of the specific requirements of their application (hardware specifications, dependencies on other services, likely points of failure) and the lack of awareness of these facts within the Operations team. This phenomenon has been noted in other areas of the industry~\cite[DevOps] and has recently given rise to the term 'DevOps' - an attempt to improve communication between the teams or build tools to do so.
+I discovered a real disparity between the knowledge application developers had of the specific requirements of their application (hardware specifications, dependencies on other services, likely points of failure) and the lack of awareness of these facts within the Operations team. This phenomenon has been noted in other areas of the industry ~\cite[DevOps] and has recently given rise to the term 'DevOps' - an attempt to improve communication between the teams or build tools to do so.
 
 Better collaboration and knowledge transfer between these two often separate teams often provides the following benefits:
 
@@ -66,45 +75,80 @@ Languages and tools for the modelling of software architecture and infrastructur
 
 \section{Software Platform and Target OS}
 
-The exact architecture of the solution is currently under investigation, but it will most likely consist of the following components:
+The system will be developed in multiple parts and distributed across hosts, where an appropriate choice of programming language will be used to suit the task. The application will largely consist of background processes which run constantly and push data to a web based frontend.
 
-\begin{description}
-  \item [Application Core]\hfill \\
-    A graph database or in-memory representation of the modelled system, together with an orchestration layer for executing tests/collecting metrics. All exposed via a REST API written in Ruby, using the minimal Sinatra framework. I have chosen Ruby due to its conciseness, its excellent tooling for developing and testing web-based applications, and my own familiarity with the language.
-  \item [Web UI]\hfill \\
-    A Single Page Application (SPA) written using a client side Javascript MVC framework such as Backbone, Angular.js or Ember.js. As the user interface needs to be rich and interactive, allowing for efficient visual exploration and modification of the system. A web based application was chosen as it requires no user installation or updates, it is cross-platform and can interact with the application core via the REST API.
-  \item [Server Agent]\hfill \\
-    A service which runs continuously on each node registering its role, executing tests and reporting metrics via the REST API. This is likely to be written in Ruby or Go (http://golang.org); a language recently developed by Google for systems programming.
+All user interaction will be web based, due to the ease in distributing and updating the system and the lack of an installation step. Latest browsers with HTML5 and CSS3 support will be targeted as these are common amongst IT professionals. More details on the chosen system architecture are presented in section ~\ref{section:architecture}
 
-    If written in Go, the agent could be compiled and statically-linked, producing a single binary compatible with all 32/64-bit UNIX systems without any install process or runtime components. This is especially important to reduce the attack surface-area of production systems. Updates could also be pushed out via the highly efficient BSDiff tool.
-\end{description}
+\textbf{Scope Limitations:} Due to the significant differences between Windows and UNIX based servers, including compatibility of tools, remote command execution strategies and scriptability, I have decided to target only UNIX based (specifically Linux) servers initially. This decision is based upon the dominance of UNIX within the server market, at 66.8\% in a 2013 study ~\cite{UnixMarketShare}.
 
-\textbf{Scope Limitations:} Due to the significant differences between Windows and UNIX based servers, including compatibility of tools, remote command execution strategies and scriptability, I have decided to target only UNIX based (specifically Linux) servers initially. This decision is based upon their overwhelming prevalence in the server market ~\cite{LinuxMarketShare}.
+\chapter{Background Research \& Literature Review}
 
-\section{Background Research}
-\subsection{Existing Modelling Tools}
+In this chapter, we discuss the increase in infrastructure and software complexity, and how the industry has adapted to deal with it. We also review some literature from related research fields and evaluate the effectiveness of the proposed solutions. 
+
+\section{Managing Software Complexity}
+
+The problem of increasing software complexity is a well publicised and researched phenomenon. Software which is complex takes longer to develop, and is harder to maintain. As it affects the value proposition to the user so directly, it is often the dominant factor in determinining the feasibility of implementing a given system.
+
+The rise in software complexity together with ever changing business demands during its development has given rise to a number of popular methodologies or techniques in research and industry, such as Model Driven Development~\cite{MDD}, Extreme Programming~\cite{BeckXP} and the Agile Manifesto~\cite{AgileManifesto}.
+
+\subsection{Modelling and Model Driven Software Engineering (MDSE)}
+
+Modelling of complex software has been used for a number of years as a tool of communication between developers, project managers and end users. A number of tools can be used to produce clear diagrams of a system, but models provide a level of semantic meaning that allows them to be practically used to derive an implementation. The Unified Modeling Language is considered the de-facto set of graphic notation techniques to create visual models of object-oriented software-intensive systems ~\cite{UMLDefinition}.
 
 \paragraph{Diagrams vs. Models}
 A drawing tool can only be considered a modelling tool only if the tool “understands” the drawings \cite[p.~11]{ModelDrivenDevelopment}. This has a number of benefits: 
-A modelling tool guarantees a minimum level of semantic meaning and model quality, because they grant alignment to some sort of meta-model. \cite[p.~12]{ModelDrivenDevelopment}
+A modelling tool guarantees a minimum level of semantic meaning and model quality, because they grant alignment to some sort of meta-model. ~\cite[p.~12]{ModelDrivenDevelopment}
 The model can often be used to derive an implementation or perform checks/validation to ensure that a given implementation satisfies the model. 
 
-\paragraph{Textual vs. Graphical}
-Models can be built textually as well as graphically. Textual models are commonly expressed using Domain Specific Languages (DSL’s). Textual models can still sometimes be used with graphical tooling to provide a visualisation of the expressed model.
+\paragraph{Modelling Techniques}
+Models can be built textually as well as graphically. Textual models are commonly expressed using Domain Specific Languages (DSL’s). A DSL is defined as "a computer programming language of limited expressiveness focused on a particular domain" ~\cite{FowlerDSL}. Textual models can still sometimes be used with graphical tooling to provide a visualisation of the expressed model.
 
-\paragraph{General Modelling Tools}
+\paragraph{Adoption of Modelling and MDSE}
+
+Studies into increased quality, maintainability and developer productivity when using MDSE techniques can be found commonly in academia but are difficult to find in industry. In a study into Industrial Adoption of Model Driven Development, it was stated that "interviewees emphasized tool immaturity, complexity and lack of usability as major barriers to adoption."  ~\cite{IndustryMDSE}
+
+\pagebreak
+\subsection{Unit, Integration and Acceptance Testing}
+
+The XP and Agile movements focus on improving software quality and increased responsiveness to changing customer requirements ~\cite{WikiXP}. These are both process management and technological issues. XP focuses mostly on the technical aspect, there is a very strong focus on testing, and Test Driven Development (TDD) in particular which helps to realise these goals.
+
+There are many types of testing, but they can generally be grouped into three main categories:
+
+\begin{description}
+  \item[Unit Testing] The main role of unit testing is as a design tool, developers can write unit tests to specify the intended behaviour of a component and then implement it to match. They provide fast and specific feedback on the correctness of implementation.
+  \item[Integration Testing] verification that each separate component of the system functions correctly when it has been integrated with other components. This could range from testing the composition of two small components or an entire order processing pipeline. They are used to improve confidence in overall system correctness, and they are often use to guard against regressions in functionality over time.
+  \item[Acceptance Testing] measures how closely the system matches the requirements of the business, and therefore how much value it provides. They are used to guide developers on the overall need for each feature implemented and can generally be understood and verified by the end user.
+\end{description}
+
+All three types of testing aim to help develop software that has less defects and is less risky to change in future, as its behaviour can be verified automatically at any time.
+
+\paragraph{Adoption of XP Techniques}
+
+Both Agile and XP techniques have been adopted widely within the industry, with unit testing as the most adopted practice of all.
+
+\pagebreak
+\section{Managing Infrastructure Complexity}
+
+Managing the increasing complexity of infrastructure presents a problem which has only recently become more prevalent. Cloud Computing is a driving force behind research into this area.
+
+\subsection{General Modelling Tools}
 
 A number of modelling standards are extremely flexible and allow the expression of arbitrary systems. One example of this is the Common Information Model (CIM) standard \cite{CIM}. There are many IDE’s and tools that have the ability to construct CIM compliant models, such as the Eclipse Modelling Framework \cite{EMF}.
 
-It is relatively difficult to find practical examples of infrastructure modelling in CIM, making it difficult to get started with unless the user already has experience with MDSE techniques. These modelling tools will continue to be evaluated during my background analysis.
+It is relatively difficult to find practical examples of infrastructure modelling in CIM, making it difficult to get started with unless the user already has experience with MDSE techniques.
 
-\paragraph{Infrastructure Modelling Tools}
+Such generic modelling tools are useful for communicating ideas or states of a system, but they lack pragmatic value. They are not as inherently executable as their software specific counterparts, which limits their value significantly.
+
+\subsection{Infrastructure Modelling Tools \& Configuration Management}
 
 Configuration Management
-Modern configuration management tools could be considered a type of infrastructure modelling tool. Most of these tools such as Puppet, or Chef use a custom DSL to declaratively define hosts, and install and manage their respective services.
+Modern configuration management tools could be considered a type of infrastructure modelling tool. Most of these tools such as Puppet~\cite{Puppet}, or Chef\cite{Chef} use a custom DSL to declaratively define hosts, and install and manage their respective services.
 
-These configuration management tools are especially interesting due to their mass adoption in recent years within the Agile software development community, as well as large enterprises such as Amazon and Facebook \cite{Chef}. They combine many concepts of MDSE implemented in a pragmatic fashion.  These DSL’s can be executed to drive infrastructure changes or ensure convergence with the model. For example, this snippet of a Puppet recipe details the configuration of the SSH service on a given host:
+Configuration management tools are especially interesting due to their mass adoption in recent years within the Agile software development community, as well as at enterprises such as Facebook and Amazon ~\cite{Chef}.
 
+They combine many concepts of MDSE but implement them in a lightweight, pragmatic fashion.  These DSL’s can be executed to drive infrastructure changes or ensure convergence with the model. Figure ~\ref{fig:PuppetDSLSnippet} provides an example snippet of a Puppet recipe, declaratively specifying a service on a remote host. 
+
+\begin{listing}[h]
 \begin{minted}[fontfamily=fi4]{ruby}
 class sshd { 
     package { 'openssh-server': 
@@ -124,9 +168,13 @@ class sshd {
     } 
 }
 \end{minted}
+\caption{A puppet recipe snippet, declaratively configuring the SSH service on a host.}
+\label{fig:PuppetDSLSnippet}
+\end{listing}
 
 As part of the runtime execution, each service’s conformance to this set of properties is verified and if there is any divergence, the tool will orchestrate a set of imperative actions, for example installing the service or altering its configuration file and then restarting it.
 
+\pagebreak
 \subsection{Existing Monitoring Tools}
 
 I have extensively researched existing monitoring tools ranging from very simple ping checks to complete enterprise solutions and evaluated their effectiveness. In the interest of brevity, I have included a small sample of popular monitoring tools I have evaluated which give an indication of the cross-section of the market:
@@ -135,7 +183,7 @@ I have extensively researched existing monitoring tools ranging from very simple
 
 An open source infrastructure and application monitoring framework, often considered the ‘industry standard’. It provides a vast array of features, from execution of fine-grained protocol specific tests to complex capacity planning techniques. It is also very extensible, which is perhaps the largest reason for its success within the industry.
 
-Nagios is in active use by over 250,000 organisations worldwide, including Amazon, AT\&T and JP Morgan Chase. It has a number of built in strategies for tracking hosts, including via the Simple Network Management Protocol (SNMP) or an agent based architecture.
+Nagios is in active use by over 250,000 organisations worldwide, including Amazon, AT\&T and JP Morgan Chase ~\cite{NagiosUsage}. It supports a number of common montitoring architectures, including both agent based and agentless (based on the Simple Network Management Protocol) ~\cite{NagiosArchitectures}. 
 
 Anecdotal evidence of Nagios draws the conclusion that it is a mature and flexible solution for basic monitoring of large numbers of hosts, but severely lacks some higher level concepts such as integration tests of system components. It is also considered extremely time consuming and unintuitive to set up and manage, which perhaps explains its lack of adoption within smaller businesses/startups.
 
@@ -160,11 +208,37 @@ Whilst New Relic is extremely simple to set up and provides a fairly deep insigh
 
 An ideal solution would be an open source tool, incorporating the ease of setup of a service like New Relic, with the flexibility and alerting of Nagios and Graphite. It would also provide a holistic view of the system and its dependencies so it is easy to visually identify problems and their effects without deep insight into the application architecture.
 
-\subsection{Prototyping \& Risk Mitigation}
 
-After some background research and a number of discussions with typical users of monitoring/modelling tools there were some common themes identified. Some of these needs are not satisfied by existing tools, therefore I have considered them as risks so that solutions can be identified early through the process of prototyping.
+\chapter{Requirements Specification}
 
-\paragraph{Speed/Ease of Setup} Many comments from developers detailed the fact that most monitoring tools were too time consuming to set up, and clients did not see demonstrable value in investing the time upfront before services were launched and issues actually occurred. 
+A list of concrete requirements will be established from user stories based on my own personal experiences developing software in industry, and conversations with the following typical users of the system.
+
+\begin{itemize}
+  \item A Technical Architect at Red Badger Consulting Ltd
+  \item A System Adminstrator at HCL
+\end{itemize}
+
+\subsection{User Stories}
+\begin{itemize}
+  \item As a developer, I would like a simple and expressive way to document my application's infrastructure requirements, so I can effectively communicate them to other developers and system administrators.
+  \item As a developer, I would like to share these infrastructure requirements with non-developers via a web interface. 
+  \item As a system administrator, I would like a clear overview of the system, detailing its dependencies, so I can understand it.
+  \item As a developer / system administrator, I would like to verify the state of the system automatically, so I can more quickly troubleshoot problems when they occur and make the system more amenable to change.
+  \item As a developer / system administrator, I would like to log whenever failures occur, so I can identify unreliable components or inappropriate change by other individuals. 
+  \item As a developer / system administrator, I would like to be notified of changes in the state of the system via email, so I can respond to incidents quickly.
+  \item As a system administrator, I would like to easily setup monitoring for applications I have already deployed.
+  \item As a developer / system administrator, I would like the ability to track custom events such as code deployments or configuration management executions, so I can correlate these events with possible failures they may cause.
+  \item As a developer / system administrator, I would like the system to perform basic root cause analysis so I can identify the problem quickly even I lack knowledge or experience with the monitored application.
+  \item As a developer, I would like the monitoring system to have a pluggable architecture, so I can track/monitor any part of the system. 
+\end{itemize}
+
+\chapter{Design and Implementation}
+
+\section{Prototyping \& Risk Mitigation}
+
+After extensive background and literature review, and a number of discussions with typical users of monitoring/modelling tools there were some common themes identified. Some of these themes are not satisfied by existing tools, therefore I have considered them as risks so that solutions can be identified early through the process of prototyping.
+
+\paragraph{Speed/Ease of Setup} Many comments from developers detailed the fact that most monitoring and modelling tools were too time consuming to set up, and clients did not see demonstrable value in investing time upfront in this process before services were launched and issues actually occurred. 
 
 A tool that provides a simple installation process, follows ‘convention over configuration’ and provides a degree of auto-detection of installed services would be extremely valuable and increase chances of adoption significantly.
  As part of the prototyping phase, I have built a solution that partially satisfies these properties.
@@ -193,23 +267,47 @@ Public-Key cryptography can generally provide this functionality, if the agent i
 
 This strategy needs to be carefully evaluated and tested, but should not present a major risk to the implementation. The difficulty will lie in expressing this capability to future users of the system so they can be confident in its security.
 
-\section{Requirements/Specification}
+\section{System Architecture}
+\label{section:architecture}
 
-A list of concrete requirements will be established from user stories based on my own personal experiences developing software in industry, and conversations with the following typical users of the system.
+\begin{description}
+  \item [Application Core]\hfill \\
+    A graph database or in-memory representation of the modelled system, together with an orchestration layer for executing tests/collecting metrics. All exposed via a REST API written in Ruby, using the minimal Sinatra framework. I have chosen Ruby due to its conciseness, its excellent tooling for developing and testing web-based applications, and my own familiarity with the language.
+  \item [Web UI]\hfill \\
+    A Single Page Application (SPA) written using a client side Javascript MVC framework such as Backbone, Angular.js or Ember.js. As the user interface needs to be rich and interactive, allowing for efficient visual exploration and modification of the system. A web based application was chosen as it requires no user installation or updates, it is cross-platform and can interact with the application core via the REST API.
+  \item [Server Agent]\hfill \\
+    A service which runs continuously on each node registering its role, executing tests and reporting metrics via the REST API. This is likely to be written in Ruby or Go (http://golang.org); a language recently developed by Google for systems programming.
 
-\begin{itemize}
-  \item A Technical Architect at Red Badger Consulting Ltd
-  \item A Lead Developer at MinoCloud
-  \item A Project Manager at HCL
-\end{itemize}
+    If written in Go, the agent could be compiled and statically-linked, producing a single binary compatible with all 32/64-bit UNIX systems without any install process or runtime components. This is especially important to reduce the attack surface-area of production systems. Updates could also be pushed out via the highly efficient BSDiff tool.
+\end{description}
 
-% \include{Chapters/Background}
-% \include{Chapters/Body}
-% \include{Chapters/DesignSpecification}
-% \include{Chapters/Implementation}
-% \include{Chapters/ProfessionalIssues}
-% \include{Chapters/Evaluation}
-% \include{Chapters/Conclusion}
+\pagebreak
+\subsection{Tools and Methodologies}
+\begin{description}
+  \item [Version Control]\hfill \\
+    Due to the size of the project and significant development effort involved, I will be using \textbf{Git} to version control my codebase. This will be hosted in \textbf{GitHub} for redundancy and issue tracking features.
+  \item [Behavior Driven Development]\hfill \\
+    It is of utmost importance to ensure that the codebase of the monitoring tool is as free from defects as possible. An unreliable monitoring tool eliminates all of the safety and guarantees a stable tool would provide. Therefore I will be using Behaviour Driven Development to write tests and relate them to features as I develop the solution.
+
+    Where this is too difficult due to a large number of side effects or dependencies, I will use integration testing to provide some high-level guarantees and ensure that the system satisfies its requirements. A small amount of manual testing will also be required.
+  \item [Vagrant and Amazon AWS]\hfill \\
+    Where integration tests are required, I will use Vagrant ~\cite{Vagrant}, a Ruby scripting tool which controls VirtualBox~\cite{VirtualBox} and automates the provisioning and setup of Virtual Machines according to a specification.
+
+    I can use these provisioned virtual machines to test cross-compilation of the solution, test Linux compatibiltiy, simulate failures and verify the behaviour of the monitoring tool.
+   
+    For real world tests, Amazon AWS will be used to provision cloud based instances together with the API to alter the environment (such as security groups and hardware specifications) and initiate failures. 
+\end{description}
+
+\section{Components}
+\subsection{Application Core}
+\subsection{Verification/Orchestration Service}
+\subsection{Web UI}
+\subsection{Server Agent}
+
+% \chapter{Implementation}
+% \chapter{Professional Issues}
+% \chapter{Evaluation}
+% \chapter{Conclusion}
 
 \printbibliography[title=References]
 % \include{appendix}

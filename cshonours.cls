@@ -206,7 +206,7 @@ class report.cls by Cara MacNish August 1999/September 2000]
     \vskip 0.5em%
 		  {Supervised by Steffen Zschaler}
 \vfill
-      {\it summary \@submityear}
+      {\it \@submityear}
   \end{center}
 %ckm	\par
 %ckm	\@thanks
