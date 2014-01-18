@@ -204,7 +204,7 @@ class report.cls by Cara MacNish August 1999/September 2000]
 %ckm    {\large Draft \@date \par}%       % Set date in \large size.
 %ckm  \vfil\null
     \vskip 0.5em%
-		  {Supervised by Steffen Zschaler}
+		  {Supervised by Dr. Steffen Zschaler}
 \vfill
       {\it \@submityear}
   \end{center}
