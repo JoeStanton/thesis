@@ -17,7 +17,7 @@
 
 \chapter*{Abstract}
 The complexity of software and the scale at which it is expected to be delivered is continuing to increase rapidly ~\cite{SoftwareComplexity}.
-As a direct consequence of this, the supporting application infrastructure needed to keep these services running and providing a suitable Quality of Service (QoS) must grow at a similar rate.
+As a direct consequence of this, the supporting application infrastructure needed to keep these services running and providing a suitable quality of service must grow at a similar rate.
 
 A typical stack for delivering scalable web based applications now consists of many interconnected parts, including database servers, application servers, caching layers, load balancers and network hardware.
 This growth in both application and infrastructure complexity presents significant engineering challenges in the design of fault-tolerant and performant distributed systems.
@@ -25,9 +25,9 @@ This growth in both application and infrastructure complexity presents significa
 Over the past few years, the concept of cloud computing has lowered the barrier of entry for smaller companies/startups to rapidly launch and deliver applications at scale, significantly reducing the time-to-market and fixed costs of such a setup ~\cite{CloudComputing}.
 In addition, hybrid or private clouds have enabled larger companies with privacy or regulatory constraints to reap some of the benefits of this movement.
 
-Whilst the fundamental problems of delivering software at scale are significantly reduced by the cloud computing movement, the inherent complexities of distributed systems with many components and therefore points of failure, continually prove to be problematic. Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either 'high' or 'out of control’~\cite{Gartner2013}. Managing this complexity, and therefore being able to efficiently identify and fix issues is the key to providing the reliable and performant services we expect, over time.
+While the problems of delivering software at scale are significantly reduced by the cloud computing movement, the inherent complexities of distributed systems with many components and therefore points of failure, continually prove to be problematic. Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either 'high' or 'out of control'~\cite{Gartner2013}. Managing this complexity, and therefore being able to efficiently identify and fix issues is the key to providing the reliable and performant services we expect, over time.
 
-In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage the inherent complexity in modern infrastructure.
+In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage some of the inherent complexity in modern infrastructure.
 
 \chapter*{Originality Avowal}
 I verify that I am the sole author of this report, except where explicitly stated to the contrary. 
@@ -46,17 +46,17 @@ I verify that I am the sole author of this report, except where explicitly state
 \textit{It is practical and useful to develop an infrastructure modelling and monitoring tool to help address the inherent complexity in modern IT infrastructure.}
 \section{Motivation}
 
-After taking part in the Agile delivery of software in the highly regulated insurance industry, I noted some problems in the management and reliability of software delivered. These reliability issues were predominantly caused by the growth in complexity of the underlying Application Infrastructure, hosted internally as a result of regulatory constraints. This was a problem which was exacerbated by the outsourcing of this infrastructure management to a third-party contractor.
+After taking part in the delivery of software in the highly regulated insurance industry, I noted some problems with the reliability of the software delivered. These reliability issues were generally unrelated to the application itself, but predominantly caused by the growth in complexity of the underlying application infrastructure, which was provided and managed within the company's own datacenter as a result of regulatory constraints. As the application grew in complexity over time, the number of dependent services and components needed to keep it running became unmanagable by the company's own IT staff.
 
-I discovered a real disparity between the knowledge application developers had of the specific requirements of their application (hardware specifications, dependencies on other services, likely points of failure) and the lack of awareness of these facts within the Operations team. This phenomenon has been noted in other areas of the industry ~\cite[DevOps] and has recently given rise to the term 'DevOps' - an attempt to improve communication between the teams or build tools to do so.
+I discovered a real disparity between the knowledge application developers had of the specific requirements of their application (hardware specifications, dependencies on other services, likely points of failure) and the lack of awareness of this within the operations team. This phenomenon has been noted in other areas of the industry~\cite{DevOps} and has recently given rise to the term `DevOps' - an attempt to improve communication between the teams or build tools which help to do so.
 
-Better collaboration and knowledge transfer between these two often separate teams often provides the following benefits:
+Better collaboration and knowledge transfer between these teams often provides the following benefits:
 
 \begin{description}
-  \item [Pro-Active maintenance of the system and its dependencies]\hfill \\
-    The effect of changes is well understood by all members of the team and problems can be foreseen ahead of time. The infrastructure can be modernised progressively. 
+  \item [Proactive maintenance of the system and its dependencies]\hfill \\
+    The effect of changes is well understood by all members of the team and problems can be foreseen ahead of time. The infrastructure can be modernised progressively.
   \item [Identification of weaknesses in the system architecture]\hfill \\
-    e.g. single points of failure, overworked or repeatedly unreliable components can be identified, and discussion between the teams can lead to effective solutions. 
+    e.g.\ single points of failure, overworked or repeatedly unreliable components can be identified, and discussion between the teams can lead to effective solutions. 
   \item [Reduced risk of change]\hfill \\
     Delivery of features and bug-fixes to deployed software can happen regularly and reliably through Continuous Delivery. 
   \item [Quick and effective root cause analysis]\hfill \\
@@ -65,50 +65,52 @@ Better collaboration and knowledge transfer between these two often separate tea
 
 \section{Solution Objectives}
 
-A pragmatic approach to the modelling of complex infrastructure within real-world systems. The application will comprise of a modelling language or tool used to specify nodes that provide services, and specify their constraints and dependencies with other parts of the system.
+The objective is to design and implement a tool which helps with the modelling of complex infrastructure within real-world systems. The application will provide application developers or operations staff the ability to model systems as a graph of nodes, which may have dependencies and fine grained tests used to verify their current state.
 
-This model can serve as 'living documentation' which is used by Ops teams and Developers to help manage and transfer knowledge, making their implicit knowledge more explicit. This should improve collaboration between the teams and provide deeper insight into issues with the performance or reliability of the system.
+The tool will then execute this model as a means of system monitoring. It will verify the correctness of the live system continuously and warn of any divergence. It will also allow the attachment of metadata and metrics to nodes. This model, metadata and metrics will then serve as a useful diagnostic tool if the state of the system changes, e.g.\ a loss of connectivity between two nodes. This fine-grained and clear mechanism of communicating failure should reduce investigation and response times when issues arise, and provide the insight which prevents them from recurring.
 
-Additionally, the tool will verify the correctness of the live system continuously and warn of any divergence, it will also allow the attachment of metadata and metrics to nodes. These tests, metadata and metrics will then serve as a useful diagnostic tool if the state of the system changes, e.g. a loss of connectivity between two nodes. This fine-grained and clear mechanism of communicating failure should reduce investigation and response times when issues arise, and provide the insight which prevents them from recurring.
+This model can serve as `living documentation' which is used by Ops teams and Developers to help manage and transfer knowledge, documenting their implicit knowledge. It should help to predict the impact of changes. It should improve collaboration between the teams and provide deeper insight into issues with the performance or reliability of the system.
 
-Languages and tools for the modelling of software architecture and infrastructure do exist, however they lack the simplicity and pragmatism in their implementation to see widespread adoption in industry~\cite{ModellingAdoption}, especially in the case of smaller companies with more time constraints. I propose a simple, pragmatic tool which may come with some modelling limitations, but will be quick and easy to set up and begin reaping the benefits. This tool could become a platform to solve other distributed systems issues, such as service discovery etc. but these problems are not part of the initial scope.
+Languages and tools for the modelling of software architecture and infrastructure do exist, however they lack the simplicity and pragmatism in their implementation to see widespread adoption in industry~\cite{ModellingAdoption}. I propose a simple, pragmatic tool which may come with some modelling limitations, but will be quick and easy to set up and begin reaping the benefits.
+
+Given its role as the centralised location of knowledge for the system, this tool could become a platform to solve other distributed systems issues, such as service discovery etc.\ but these problems are not part of the initial scope.
 
 \section{Software Platform and Target OS}
 
-The system will be developed in multiple parts and distributed across hosts, where an appropriate choice of programming language will be used to suit the task. The application will largely consist of background processes which run constantly and push data to a web based frontend.
+The system will be developed in multiple parts and distributed across hosts, where an appropriate choice of programming language will be used to suit the task. The application will generally consist of a web based modelling tool, which also provides feedback on the current state of the system, and a set of background processes that perform the verification and feed changes back to the web interface.
 
-All user interaction will be web based, due to the ease in distributing and updating the system and the lack of an installation step. Latest browsers with HTML5 and CSS3 support will be targeted as these are common amongst IT professionals. More details on the chosen system architecture are presented in section ~\ref{section:architecture}
+All user interaction will be web based, due to the ease in distributing and updating the system and the lack of an installation step. Latest browsers with HTML5 and CSS3 support will be targeted as these are common amongst IT professionals. More details on the chosen system architecture are presented in section~\ref{section:architecture}
 
-\textbf{Scope Limitations:} Due to the significant differences between Windows and UNIX based servers, including compatibility of tools, remote command execution strategies and scriptability, I have decided to target only UNIX based (specifically Linux) servers initially. This decision is based upon the dominance of UNIX within the server market, at 66.8\% in a 2013 study ~\cite{UnixMarketShare}.
+\textbf{Scope Limitations:} Due to the significant differences between Windows and UNIX based servers, including compatibility of tools, remote command execution strategies and scriptability, I have decided to target only UNIX based (specifically Linux) servers initially. This decision is based upon the dominance of UNIX within the server market, at 66.8\% in a 2013 study~\cite{UnixMarketShare}.
 
 \chapter{Background Research \& Literature Review}
 
-In this chapter, we discuss the increase in infrastructure and software complexity, and how the industry has adapted to deal with it. We also review some literature from related research fields and evaluate the effectiveness of the proposed solutions. 
+In this chapter, we discuss the increase in infrastructure and software complexity, and how the industry has adapted to deal with it. We also review some literature from related research fields and evaluate the effectiveness of the proposed solutions.
 
 \section{Managing Software Complexity}
 
 The problem of increasing software complexity is a well publicised and researched phenomenon. Software which is complex takes longer to develop, and is harder to maintain. As it affects the value proposition to the user so directly, it is often the dominant factor in determinining the feasibility of implementing a given system.
 
-The rise in software complexity together with ever changing business demands during its development has given rise to a number of popular methodologies or techniques in research and industry, such as Model Driven Development~\cite{MDD}, Extreme Programming~\cite{BeckXP} and the Agile Manifesto~\cite{AgileManifesto}.
+The rise in software complexity together with ever changing business demands during its development has given rise to a number of popular methodologies or techniques in research and industry, such as Model Driven Development~\cite{MDD}, Extreme Programming~\cite{BeckXP} and the Agile movement~\cite{AgileManifesto}.
 
 \subsection{Modelling and Model Driven Software Engineering (MDSE)}
 
-Modelling of complex software has been used for a number of years as a tool of communication between developers, project managers and end users. A number of tools can be used to produce clear diagrams of a system, but models provide a level of semantic meaning that allows them to be practically used to derive an implementation. The Unified Modeling Language is considered the de-facto set of graphic notation techniques to create visual models of object-oriented software-intensive systems ~\cite{UMLDefinition}.
+Modelling of complex software has been used for a number of years as a tool of communication between developers, project managers and stakeholders. A number of tools can be used to produce clear diagrams of a system, but models provide a level of semantic meaning that allows them to be practically used to derive or verify an implementation. The Unified Modeling Language is considered the de-facto set of graphic notation techniques to create visual models of object-oriented software-intensive systems~\cite{UMLDefinition}.
 
-\paragraph{Diagrams vs. Models}
-A drawing tool can only be considered a modelling tool only if the tool “understands” the drawings \cite[p.~11]{ModelDrivenDevelopment}. This has a number of benefits: 
-A modelling tool guarantees a minimum level of semantic meaning and model quality, because they grant alignment to some sort of meta-model. ~\cite[p.~12]{ModelDrivenDevelopment}
+\paragraph{Diagrams vs.\ Models}
+A drawing tool can only be considered a modelling tool only if the tool `understands' the drawings~\cite[p.~11]{ModelDrivenDevelopment}. This has a number of benefits: 
+A modelling tool guarantees a minimum level of semantic meaning and model quality, because they grant alignment to some sort of meta-model~\cite[p.~12]{ModelDrivenDevelopment}.
 The model can often be used to derive an implementation or perform checks/validation to ensure that a given implementation satisfies the model. 
 
 \paragraph{Modelling Techniques}
-Models can be built textually as well as graphically. Textual models are commonly expressed using Domain Specific Languages (DSL’s). A DSL is defined as "a computer programming language of limited expressiveness focused on a particular domain" ~\cite{FowlerDSL}. Textual models can still sometimes be used with graphical tooling to provide a visualisation of the expressed model.
+Models can be built textually as well as graphically. Textual models are commonly expressed using Domain Specific Languages (DSL’s). A DSL is defined as ``a computer programming language of limited expressiveness focused on a particular domain"~\cite{FowlerDSL}. Textual models can still sometimes be used with graphical tooling to provide a visualisation of the expressed model.
 
 \paragraph{Adoption of Modelling and MDSE}
 
-Studies into increased quality, maintainability and developer productivity when using MDSE techniques can be found commonly in academia but are difficult to find in industry. In a study into Industrial Adoption of Model Driven Development, it was stated that "interviewees emphasized tool immaturity, complexity and lack of usability as major barriers to adoption."  ~\cite{IndustryMDSE}
+Studies into increased quality, maintainability and developer productivity when using MDSE techniques can be found commonly in academia but are difficult to find in industry. In a study into Industrial Adoption of Model Driven Development, it was stated that "interviewees emphasized tool immaturity, complexity and lack of usability as major barriers to adoption"~\cite{IndustryMDSE}.
 
 \pagebreak
-\subsection{Unit, Integration and Acceptance Testing}
+\subsection{Unit and Integration Testing}
 
 The XP and Agile movements focus on improving software quality and increased responsiveness to changing customer requirements ~\cite{WikiXP}. These are both process management and technological issues. XP focuses mostly on the technical aspect, there is a very strong focus on testing, and Test Driven Development (TDD) in particular which helps to realise these goals.
 
@@ -117,75 +119,69 @@ There are many types of testing, but they can generally be grouped into three ma
 \begin{description}
   \item[Unit Testing] The main role of unit testing is as a design tool, developers can write unit tests to specify the intended behaviour of a component and then implement it to match. They provide fast and specific feedback on the correctness of implementation.
   \item[Integration Testing] verification that each separate component of the system functions correctly when it has been integrated with other components. This could range from testing the composition of two small components or an entire order processing pipeline. They are used to improve confidence in overall system correctness, and they are often use to guard against regressions in functionality over time.
-  \item[Acceptance Testing] measures how closely the system matches the requirements of the business, and therefore how much value it provides. They are used to guide developers on the overall need for each feature implemented and can generally be understood and verified by the end user.
 \end{description}
 
-All three types of testing aim to help develop software that has less defects and is less risky to change in future, as its behaviour can be verified automatically at any time.
-
-\paragraph{Adoption of XP Techniques}
-
-Both Agile and XP techniques have been adopted widely within the industry, with unit testing as the most adopted practice of all.
+Testing is often used as a means of managing complexity, especially as systems become larger. A suite of tests is often used as a means to provide quick feedback when changes break other areas of the system. We can see many similarities between the complexity of software and the complexity of its underlying infrastructure, therefore these techniques could have value in this area too.
 
 \pagebreak
 \section{Managing Infrastructure Complexity}
 
-Managing the increasing complexity of infrastructure presents a problem which has only recently become more prevalent. Cloud Computing is a driving force behind research into this area.
+There is clearly a large amount of research and analysis into managing software complexity, in this section, we will review the techniques used to manage the infrastructure side of this complexity.
 
 \subsection{General Modelling Tools}
 
-A number of modelling standards are extremely flexible and allow the expression of arbitrary systems. One example of this is the Common Information Model (CIM) standard \cite{CIM}. There are many IDE’s and tools that have the ability to construct CIM compliant models, such as the Eclipse Modelling Framework \cite{EMF}.
+A number of modelling standards are extremely flexible and allow the expression of arbitrary systems. One example of this is the Common Information Model (CIM) standard~\cite{CIM}. There are many IDE’s and tools that have the ability to construct CIM compliant models, such as the Eclipse Modelling Framework~\cite{EMF}.
 
 It is relatively difficult to find practical examples of infrastructure modelling in CIM, making it difficult to get started with unless the user already has experience with MDSE techniques.
 
-Such generic modelling tools are useful for communicating ideas or states of a system, but they lack pragmatic value. They are not as inherently executable as their software specific counterparts, which limits their value significantly.
+Such generic modelling tools are useful for communicating ideas or states of a system, but it could be argued that they lack pragmatic value. They are generally not  executable like their software modelling counterparts, which limits their value significantly.
 
 \subsection{Infrastructure Modelling Tools \& Configuration Management}
 
-Configuration Management
-Modern configuration management tools could be considered a type of infrastructure modelling tool. Most of these tools such as Puppet~\cite{Puppet}, or Chef\cite{Chef} use a custom DSL to declaratively define hosts, and install and manage their respective services.
+Modern configuration management tools can be considered a type of infrastructure modelling tool. Most of these tools such as Puppet~\cite{Puppet}, or Chef\cite{Chef} use a Domain Specific Language to declaratively define hosts, their respective software stack, and install and manage their respective services.
 
-Configuration management tools are especially interesting due to their mass adoption in recent years within the Agile software development community, as well as at enterprises such as Facebook and Amazon ~\cite{Chef}.
+Configuration management tools are especially interesting due to their mass adoption in recent years within the Agile software development community, as well as at enterprises such as Facebook and Amazon~\cite{Chef}.
 
-They combine many concepts of MDSE but implement them in a lightweight, pragmatic fashion.  These DSL’s can be executed to drive infrastructure changes or ensure convergence with the model. Figure ~\ref{fig:PuppetDSLSnippet} provides an example snippet of a Puppet recipe, declaratively specifying a service on a remote host. 
+The real value of these DSL's is that they are directly executable.  They can be executed to drive infrastructure changes or ensure convergence with the model. Figure~\ref{fig:PuppetDSLSnippet} provides an example snippet of a Puppet recipe, which is declaratively specifying details of the SSH (secure shell) service which will be made available on a specific host.
 
 \begin{listing}[h]
 \begin{minted}[fontfamily=fi4]{ruby}
-class sshd { 
-    package { 'openssh-server': 
-        ensure => latest 
-    } 
-    service { 'ssh': 
-        subscribe => File[sshdconfig], 
-        require   => Package['openssh-server'], 
-    } 
+class sshd {
+    package { 'openssh-server':
+        ensure => latest
+    }
+    service { 'ssh':
+        subscribe => File[sshdconfig],
+        require   => Package['openssh-server'],
+    }
     file { 'sshdconfig': 
-        name    => '/etc/ssh/sshd_config', 
-        owner   => root, 
-        group   => root, 
-        mode    => 644, 
-        source  => 'puppet:///sshd/sshd_config', 
-        require => Package['openssh-server'], 
-    } 
+        name    => '/etc/ssh/sshd_config',
+        owner   => root,
+        group   => root,
+        mode    => 644,
+        source  => 'puppet:///sshd/sshd_config',
+        require => Package['openssh-server'],
+    }
 }
 \end{minted}
-\caption{A puppet recipe snippet, declaratively configuring the SSH service on a host.}
+\caption{A puppet recipe snippet, declaratively configuring the SSH service on a host. The execution of this description is idempotent, so can be repeated safely to ensure convergence.}
 \label{fig:PuppetDSLSnippet}
 \end{listing}
 
 As part of the runtime execution, each service’s conformance to this set of properties is verified and if there is any divergence, the tool will orchestrate a set of imperative actions, for example installing the service or altering its configuration file and then restarting it.
 
-\pagebreak
+\clearpage
 \subsection{Existing Monitoring Tools}
 
 I have extensively researched existing monitoring tools ranging from very simple ping checks to complete enterprise solutions and evaluated their effectiveness. In the interest of brevity, I have included a small sample of popular monitoring tools I have evaluated which give an indication of the cross-section of the market:
 
 \subsubsection{Nagios}
 
-An open source infrastructure and application monitoring framework, often considered the ‘industry standard’. It provides a vast array of features, from execution of fine-grained protocol specific tests to complex capacity planning techniques. It is also very extensible, which is perhaps the largest reason for its success within the industry.
+Nagios is an open source infrastructure and application monitoring framework. Often considered the `industry standard', it provides a vast array of features, from execution of fine-grained protocol specific tests to complex capacity planning techniques. It is also very extensible, which is perhaps the largest reason for its success within the industry.
 
-Nagios is in active use by over 250,000 organisations worldwide, including Amazon, AT\&T and JP Morgan Chase ~\cite{NagiosUsage}. It supports a number of common montitoring architectures, including both agent based and agentless (based on the Simple Network Management Protocol) ~\cite{NagiosArchitectures}. 
+Nagios is in active use by over 250,000 organisations worldwide, including Amazon, AT\&T and JP Morgan Chase~\cite{NagiosUsage}. It supports a number of common montitoring architectures, including both agent based and agentless (based on the Simple Network Management Protocol) which means it can run efficiently up to a very large number of hosts~\cite{NagiosArchitectures}.
 
-Anecdotal evidence of Nagios draws the conclusion that it is a mature and flexible solution for basic monitoring of large numbers of hosts, but severely lacks some higher level concepts such as integration tests of system components. It is also considered extremely time consuming and unintuitive to set up and manage, which perhaps explains its lack of adoption within smaller businesses/startups.
+Anecdotal feedback about Nagios typically suggests that it is a mature and flexible solution for basic monitoring of large numbers of hosts, but severely lacks some higher level concepts such as integration tests of system components. It is also considered extremely time consuming and unintuitive to set up and manage, which perhaps explains its lack of adoption within smaller businesses/startups.
 
 \subsubsection{StatsD, CollectD, Graphite}
 
@@ -194,7 +190,7 @@ CollectD is a system utility written in C which periodically makes system calls 
 
 Application level metrics can be collected using StatsD. Applications can send metrics to a local StatsD instance via UDP, which adds very little performance overhead. This means that it is possible to heavily instrument the critical paths of an application except in extremely performance sensitive scenarios. Both of these tools aggregate this data and flush it to a backend Graphite instance at configurable intervals. Graphite provides extremely flexible data visualisation techniques, but requires some up front investment in time to produce meaningful results.
 
-This collection of tools provides an extremely flexible and performant source of aggregate data which can be used to diagnose reliability and performance problems effectively. Its disadvantages however include a lack of any alerting mechanism, a large number of independent components which are both non-trivial to deploy and difficult to monitor themselves, and a difficulty in actually interpreting aggregate data to draw conclusions without deep insight into both the application and the infrastructure it’s relying on.
+This collection of tools provides an extremely flexible and performant source of aggregate data which can be used to diagnose reliability and performance problems effectively. Its disadvantages however include a lack of any alerting mechanism, a number of independent components which are both non-trivial to deploy and difficult to monitor themselves, and a difficulty in actually interpreting aggregate data to draw conclusions without deep insight into both the application and the infrastructure it’s relying on.
 
 \subsubsection{New Relic - APM} 
 New Relic is a popular subscription-based, hosted Application Performance Monitoring (APM) service. It provides integration with popular languages, frameworks and platforms such as the Java Virtual Machine (JVM), Ruby/Ruby on Rails and Python with the Django web framework.
@@ -274,9 +270,9 @@ This strategy needs to be carefully evaluated and tested, but should not present
   \item [Application Core]\hfill \\
     A graph database or in-memory representation of the modelled system, together with an orchestration layer for executing tests/collecting metrics. All exposed via a REST API written in Ruby, using the minimal Sinatra framework. I have chosen Ruby due to its conciseness, its excellent tooling for developing and testing web-based applications, and my own familiarity with the language.
   \item [Web UI]\hfill \\
-    A Single Page Application (SPA) written using a client side Javascript MVC framework such as Backbone, Angular.js or Ember.js. As the user interface needs to be rich and interactive, allowing for efficient visual exploration and modification of the system. A web based application was chosen as it requires no user installation or updates, it is cross-platform and can interact with the application core via the REST API.
+    A single page application written using a client side Javascript MVC framework such as Backbone, Angular.js or Ember.js. One of these frameworks will be chosen as the user interface needs to be rich and interactive, allowing for efficient visual exploration and modification of the system. A web based application was chosen as it requires no user installation or updates, it is cross-platform and can interact with the application core via the REST API.
   \item [Server Agent]\hfill \\
-    A service which runs continuously on each node registering its role, executing tests and reporting metrics via the REST API. This is likely to be written in Ruby or Go (http://golang.org); a language recently developed by Google for systems programming.
+    A service which runs continuously on each node registering its role, executing tests and reporting metrics via the REST API\@. This is likely to be written in Ruby or Go (http://golang.org); a language recently developed by Google for systems programming.
 
     If written in Go, the agent could be compiled and statically-linked, producing a single binary compatible with all 32/64-bit UNIX systems without any install process or runtime components. This is especially important to reduce the attack surface-area of production systems. Updates could also be pushed out via the highly efficient BSDiff tool.
 \end{description}
@@ -291,7 +287,7 @@ This strategy needs to be carefully evaluated and tested, but should not present
 
     Where this is too difficult due to a large number of side effects or dependencies, I will use integration testing to provide some high-level guarantees and ensure that the system satisfies its requirements. A small amount of manual testing will also be required.
   \item [Vagrant and Amazon AWS]\hfill \\
-    Where integration tests are required, I will use Vagrant ~\cite{Vagrant}, a Ruby scripting tool which controls VirtualBox~\cite{VirtualBox} and automates the provisioning and setup of Virtual Machines according to a specification.
+    Where integration tests are required, I will use Vagrant~\cite{Vagrant}, a Ruby scripting tool which controls VirtualBox~\cite{VirtualBox} and automates the provisioning and setup of Virtual Machines according to a specification.
 
     I can use these provisioned virtual machines to test cross-compilation of the solution, test Linux compatibiltiy, simulate failures and verify the behaviour of the monitoring tool.
    

@@ -16,15 +16,13 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1.1}Modelling and Model Driven Software Engineering (MDSE)}{4}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Diagrams vs. Models}{5}
+\contentsline {paragraph}{Diagrams vs.\ Models}{5}
 \defcounter {refsection}{0}\relax 
 \contentsline {paragraph}{Modelling Techniques}{5}
 \defcounter {refsection}{0}\relax 
 \contentsline {paragraph}{Adoption of Modelling and MDSE}{5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1.2}Unit, Integration and Acceptance Testing}{6}
-\defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Adoption of XP Techniques}{6}
+\contentsline {subsection}{\numberline {2.1.2}Unit and Integration Testing}{6}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.2}Managing Infrastructure Complexity}{7}
 \defcounter {refsection}{0}\relax 
@@ -32,44 +30,44 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2.2}Infrastructure Modelling Tools \& Configuration Management}{7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.3}Existing Monitoring Tools}{8}
+\contentsline {subsection}{\numberline {2.2.3}Existing Monitoring Tools}{9}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Nagios}{8}
+\contentsline {subsubsection}{Nagios}{9}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{StatsD, CollectD, Graphite}{9}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{New Relic - APM}{9}
+\contentsline {subsubsection}{New Relic - APM}{10}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Summary}{10}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Requirements Specification}{11}
+\contentsline {chapter}{\numberline {3}Requirements Specification}{12}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.0.4}User Stories}{11}
+\contentsline {subsection}{\numberline {3.0.4}User Stories}{12}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Design and Implementation}{13}
+\contentsline {chapter}{\numberline {4}Design and Implementation}{14}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Prototyping \& Risk Mitigation}{13}
+\contentsline {section}{\numberline {4.1}Prototyping \& Risk Mitigation}{14}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Speed/Ease of Setup}{13}
+\contentsline {paragraph}{Speed/Ease of Setup}{14}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Google's Go Programming Language}{13}
+\contentsline {paragraph}{Google's Go Programming Language}{14}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Simple Install Process}{13}
+\contentsline {paragraph}{Simple Install Process}{14}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Automatic Service Detection}{14}
+\contentsline {paragraph}{Automatic Service Detection}{15}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Security}{14}
+\contentsline {paragraph}{Security}{15}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}System Architecture}{15}
+\contentsline {section}{\numberline {4.2}System Architecture}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.1}Tools and Methodologies}{16}
+\contentsline {subsection}{\numberline {4.2.1}Tools and Methodologies}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}Components}{16}
+\contentsline {section}{\numberline {4.3}Components}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.1}Application Core}{16}
+\contentsline {subsection}{\numberline {4.3.1}Application Core}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.2}Verification/Orchestration Service}{16}
+\contentsline {subsection}{\numberline {4.3.2}Verification/Orchestration Service}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.3}Web UI}{16}
+\contentsline {subsection}{\numberline {4.3.3}Web UI}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.4}Server Agent}{16}
+\contentsline {subsection}{\numberline {4.3.4}Server Agent}{17}
