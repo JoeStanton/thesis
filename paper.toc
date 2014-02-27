@@ -50,24 +50,28 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {paragraph}{Speed/Ease of Setup}{14}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Google's Go Programming Language}{14}
+\contentsline {paragraph}{Streaming Metrics}{15}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Simple Install Process}{14}
+\contentsline {paragraph}{Simple Install Process}{15}
 \defcounter {refsection}{0}\relax 
 \contentsline {paragraph}{Automatic Service Detection}{15}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Security}{15}
+\contentsline {paragraph}{Security}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}System Architecture}{16}
+\contentsline {section}{\numberline {4.2}System Architecture}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.1}Tools and Methodologies}{17}
+\contentsline {subsection}{\numberline {4.2.1}Tools and Methodologies}{18}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}Components}{17}
+\contentsline {section}{\numberline {4.3}Components}{19}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.1}Application Core}{17}
+\contentsline {subsection}{\numberline {4.3.1}Core Management API}{19}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.2}Verification/Orchestration Service}{17}
+\contentsline {subsection}{\numberline {4.3.2}Streaming Metrics/Events Service}{19}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.3}Web UI}{17}
+\contentsline {subsection}{\numberline {4.3.3}Web UI}{19}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.4}Server Agent}{17}
+\contentsline {subsection}{\numberline {4.3.4}Monitoring Agent}{20}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.3.5}Data Model}{20}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.3.6}Monitoring Architecture}{21}

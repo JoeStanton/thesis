@@ -2,6 +2,8 @@
 
 \usepackage{url}
 \usepackage{minted}
+\usepackage{graphicx}
+\usepackage{pdflscape}
 \usepackage[style=alphabetic, sorting=nyt]{biblatex}
 \addbibresource{bibliography.bib}
 
@@ -16,18 +18,15 @@
 \maketitle
 
 \chapter*{Abstract}
-The complexity of software and the scale at which it is expected to be delivered is continuing to increase rapidly~\cite{SoftwareComplexity}.
-As a direct consequence of this, the supporting application infrastructure needed to keep these services running and providing a suitable quality of service must grow at a similar rate.
+The complexity of software and the scale at which services must operate is continuing to increase rapidly~\cite{SoftwareComplexity}.
+To support this rapid growth, the supporting application infrastructure needed to keep these services running and providing a suitable quality of service must grow proportionally.
 
 A typical stack for delivering scalable web based applications now consists of many interconnected parts, including database servers, application servers, caching layers, load balancers and network hardware.
-This growth in both application and infrastructure complexity presents significant engineering challenges in the design of fault-tolerant and performant distributed systems.
+This inevitable growth in both application and infrastructure complexity presents significant engineering challenges in the design of fault-tolerant and performant distributed systems.
 
-Over the past few years, the concept of cloud computing has lowered the barrier of entry for smaller companies/startups to rapidly launch and deliver applications at scale, significantly reducing the time-to-market and fixed costs of such a setup~\cite{CloudComputing}.
-In addition, hybrid or private clouds have enabled larger companies with privacy or regulatory constraints to reap some of the benefits of this movement.
+While the problems of delivering software at scale are significantly reduced by the cloud computing movement, the inherent complexities of distributed systems with many components and therefore points of failure continually prove to be problematic. Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either `high' or `out of control'~\cite{Gartner2013}. Managing this complexity, and therefore being able to efficiently identify and fix issues is the key to providing the reliable and performant services we expect, over time.
 
-While the problems of delivering software at scale are significantly reduced by the cloud computing movement, the inherent complexities of distributed systems with many components and therefore points of failure, continually prove to be problematic. Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either 'high' or 'out of control'~\cite{Gartner2013}. Managing this complexity, and therefore being able to efficiently identify and fix issues is the key to providing the reliable and performant services we expect, over time.
-
-In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage some of the inherent complexity in modern infrastructure.
+In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage some of the inherent complexity in modern infrastructure. The emphasis of this investigation is on small to medium size software deployments, rather than enterprises that typically have the resources to tackle these problems.
 
 \chapter*{Originality Avowal}
 I verify that I am the sole author of this report, except where explicitly stated to the contrary. 
@@ -239,9 +238,14 @@ After extensive background and literature review, and a number of discussions wi
 A tool that provides a simple installation process, follows ‘convention over configuration’ and provides a degree of auto-detection of installed services would be extremely valuable and increase chances of adoption significantly.
  As part of the prototyping phase, I have built a solution that partially satisfies these properties.
 
-\paragraph{Google's Go Programming Language} The tool is written in Go, a systems programing language which is compiled and statically-linked to bundle all dependencies. Cross-compilation to target different architectures with no runtime dependencies is a first-class feature of Go and is therefore very simple.
+\pagebreak
+\paragraph{Streaming Metrics} The vast majority of monitoring tools are based upon a polling mechanism. Configured checks are performed from a centralised server at pre-defined intervals. Reversing this mechanism so that servers stream their own metrics back to the monitoring server addresses a number of issues with polling such as the following:
 
-The build process produces binaries targeting Linux and Mac OS X (both 32 and 64-bit architectures). 
+\begin{itemize}
+  \item Firewall Reconfiguration - Typically firewalls do not allow inbound connections except where explicitly defined in a rule. This means that monitoring tools do not work until rules are explicitly added for them. Outbound connections usually do not suffer this constraint, and therefore do not require reconfiguration of existing infrastructure.
+  \item Poor Scalability - Performing checks from a single server does not scale to a large number of hosts, typically the solution for this is to increase polling intervals to reduce load. Streaming places the overhead on each server being monitored, where it can easily be tolerated.
+  \item Polling Latency - If checks are scheduled infrequently, there is a time delay in receiving notifications. Not only does this mean the issue is not highlighted quickly, but the slow feedback makes it hard to tell if the problem has been fixed.
+\end{itemize}
 
 \paragraph{Simple Install Process} The install process is a one-line bash command that downloads and executes the bootstrap shell script, that in turn detects system architecture and downloads the appropriate binary, copying it into the system path and configuring it to run as a service.
 
@@ -257,22 +261,23 @@ When the binary is first executed, it performs node registration by making a POS
 
 There are a number of issues that prevent this process from being accurate in every scenario, but in practice it is a flexible solution which can detect most services accurately enough to be a useful time saving feature.
 
-\paragraph{Security} Installation of any networked monitoring tool increases the attack surface-area on production systems that often host important services and contain sensitive user data. In order to partially mitigate this concern, communication between the monitoring system and the application server must be encrypted, and both the server and client must verify each other’s respective identity to ensure that no Man in the Middle (MiTM) or general spoofing/poisoning attacks can become effective.
+\paragraph{Security} Installation of any networked monitoring tool increases the attack surface-area on production systems that often host important services and contain sensitive user data. In order to partially mitigate this concern, communication between the monitoring system and the application server will be encrypted, and both the server and client must verify each other’s respective identities to ensure that no Man in the Middle (MiTM) or general spoofing/poisoning attacks can become effective.
 
-Public-Key cryptography can generally provide this functionality, if the agent installation is performed via HTTPS, the identity of the management server can be verified and a public key can be exchanged from this point forwards in all communication. Only the management server will be permitted to connect to the agent software.
+Public-Key cryptography can generally provide this functionality, if the agent installation is performed via HTTPS, the identity of the management server can be verified and a public key can be exchanged from this point forwards in all communication. In addition, communication between the nodes after initial setup is uni-directional, for the purposes of reporting metrics, so the monitoring agent does not need to listen on any network interfaces.
 
 This strategy needs to be carefully evaluated and tested, but should not present a major risk to the implementation. The difficulty will lie in expressing this capability to future users of the system so they can be confident in its security.
 
+\pagebreak
 \section{System Architecture}
 \label{section:architecture}
 
 \begin{description}
   \item [Application Core]\hfill \\
-    A graph database or in-memory representation of the modelled system, together with an orchestration layer for executing tests/collecting metrics. All exposed via a REST API written in Ruby, using the minimal Sinatra framework. I have chosen Ruby due to its conciseness, its excellent tooling for developing and testing web-based applications, and my own familiarity with the language.
+    A graph database or in-memory representation of the modelled system, together with an orchestration layer for executing tests/collecting metrics. All exposed via a REST API written in Ruby, using the Ruby on Rails framework for API's. I have chosen Ruby due to its conciseness, its excellent tooling for developing and testing web-based applications, and my own familiarity with the language.
   \item [Web UI]\hfill \\
-    A single page application written using a client side Javascript MVC framework such as Backbone, Angular.js or Ember.js. One of these frameworks will be chosen as the user interface needs to be rich and interactive, allowing for efficient visual exploration and modification of the system. A web based application was chosen as it requires no user installation or updates, it is cross-platform and can interact with the application core via the REST API.
+    A single page application written using a client side Javascript MVC framework such as Backbone, React.js or Angular.js. One of these frameworks will be chosen as the user interface needs to be rich and interactive, allowing for efficient visual exploration and modification of the system. A web based application was chosen as it requires no user installation or updates, it is inherently cross-platform and can interact with the application core via the REST API, providing a clean separation of concerns.
   \item [Server Agent]\hfill \\
-    A service which runs continuously on each node registering its role, executing tests and reporting metrics via the REST API\@. This is likely to be written in Ruby or Go (http://golang.org); a language recently developed by Google for systems programming.
+    A service which runs continuously on each node registering its role, executing tests and reporting metrics via the streaming service or events API\@. This is likely to be written in Ruby or Go (http://golang.org); a language recently developed by Google for systems programming.
 
     If written in Go, the agent could be compiled and statically-linked, producing a single binary compatible with all 32/64-bit UNIX systems without any install process or runtime components. This is especially important to reduce the attack surface-area of production systems. Updates could also be pushed out via the highly efficient BSDiff tool.
 \end{description}
@@ -290,15 +295,49 @@ This strategy needs to be carefully evaluated and tested, but should not present
     Where integration tests are required, I will use Vagrant~\cite{Vagrant}, a Ruby scripting tool which controls VirtualBox~\cite{VirtualBox} and automates the provisioning and setup of Virtual Machines according to a specification.
 
     I can use these provisioned virtual machines to test cross-compilation of the solution, test Linux compatibiltiy, simulate failures and verify the behaviour of the monitoring tool.
-   
-    For real world tests, Amazon AWS will be used to provision cloud based instances together with the API to alter the environment (such as security groups and hardware specifications) and initiate failures. 
+
+    For real world tests, Amazon AWS will be used to provision cloud based instances together with the API to alter the environment (such as security groups and hardware specifications) and initiate failures.
 \end{description}
 
+\pagebreak
 \section{Components}
-\subsection{Application Core}
-\subsection{Verification/Orchestration Service}
+\subsection{Core Management API}
+
+The application core is a REST API written with the Ruby on Rails framework. It consists of a relational or graph database containing all entities such as hosts, services and their respective dependencies. These entities are exposed via the REST API to other parts of the application. The application core provides the means for registering new hosts and generating appropriate agent configurations.
+
+\subsection{Streaming Metrics/Events Service}
+
+The streaming service manages the collection of test results, metrics and other events such as code deployments via event streams over TCP or UDP. Streams reporting errors or anomalous metrics will trigger status changes in the management API, as will streams that stop recieving messages, as this may indicate failure in the monitoring framework itself.
+
+Due to its highly parallel and asynchronous nature, this service is written in Clojure, as the functional programming style and asynchronous primitives within the language make it an ideal candidate for this type of processing. The Riemann event aggregation and stream processing library is used for stream buffering and filtering.
+
 \subsection{Web UI}
-\subsection{Server Agent}
+
+The web interface is the only user facing component of the system. It is a single page application written in JavaScript, and uses the Facebook React.js library for event handling and data binding, providing structure and testability to the frontend code. Where interactive visualisations are used, the D3.js library is used to draw these graphics as Scalable Vector Graphics (SVG).
+
+The Web UI will subscribe to a WebSocket connection to listen for changes in the system, this will ensure that any changes in the system are immediately visible to the end user, a feature which many other monitoring systems do not provide.
+
+\subsection{Monitoring Agent}
+
+The server agent is a lightweight component written in Ruby and is installed on each server. The installation process is initiated by a shell script, downloaded and executed from an installation endpoint on the Core API. The agent is responsible for the collection of metrics provided by the operating system and installed applications, as specified in the configuration file, this configuration file is synchronised with the core API at pre-defined intervals.
+
+The monitoring agent will manage forwarding of metrics to the correct endpoint, collection will be delegated to any number of bundled plugins, making data collection highly flexible.
+
+\subsection{Data Model}
+
+\begin{itemize}
+  \item Service - An application that provides functionality to an end-user or another service over a network. For example, a web interface for an internal search engine.
+  \item Component - Part of a service which performs a specific function, eg.\ an application server.
+  \item Host - A physical, virtual or otherwise isolated container responsible for running components in order to provide a service.
+  \item Metric - A measure of a characteristic at a given point in time, eg.\ CPU load or average request latency. Typically quantitative in nature.
+  \item Event - A discrete action performed upon the system, eg.\ a code deployment or service re-configuration. Events can be correlated with metrics.
+  \item Context - Additional data which aids root-cause analysis, eg.\ log files from a malfunctioning service.
+\end{itemize}
+
+\begin{landscape}
+  \subsection{Monitoring Architecture}
+  \includegraphics[scale=0.7]{architecture.pdf}
+\end{landscape}
 
 % \chapter{Implementation}
 % \chapter{Professional Issues}
