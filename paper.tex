@@ -323,12 +323,12 @@ The server agent is a lightweight component written in Ruby and is installed on 
 
 The monitoring agent will manage forwarding of metrics to the correct endpoint, collection will be delegated to any number of bundled plugins, making data collection highly flexible.
 
-\subsection{Data Model}
+\subsection{Domain Model}
 
 \begin{itemize}
   \item Service - An application that provides functionality to an end-user or another service over a network. For example, a web interface for an internal search engine.
   \item Component - Part of a service which performs a specific function, eg.\ an application server.
-  \item Host - A physical, virtual or otherwise isolated container responsible for running components in order to provide a service.
+  \item Host - A physical, virtual or otherwise isolated container responsible for running some or all of the components of a service.
   \item Metric - A measure of a characteristic at a given point in time, eg.\ CPU load or average request latency. Typically quantitative in nature.
   \item Event - A discrete action performed upon the system, eg.\ a code deployment or service re-configuration. Events can be correlated with metrics.
   \item Context - Additional data which aids root-cause analysis, eg.\ log files from a malfunctioning service.

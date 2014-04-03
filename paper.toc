@@ -72,6 +72,6 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3.4}Monitoring Agent}{20}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.5}Data Model}{20}
+\contentsline {subsection}{\numberline {4.3.5}Domain Model}{20}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3.6}Monitoring Architecture}{21}
