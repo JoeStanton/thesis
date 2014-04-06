@@ -46,23 +46,31 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {4}Design and Implementation}{14}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Prototyping \& Risk Mitigation}{14}
+\contentsline {section}{\numberline {4.1}Design Objectives}{14}
 \defcounter {refsection}{0}\relax 
 \contentsline {paragraph}{Speed/Ease of Setup}{14}
 \defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Simplicity and Pragmatism}{14}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Embracing Change}{14}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Dynamic Infrastructure}{15}
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Flexibility}{15}
+\defcounter {refsection}{0}\relax 
 \contentsline {paragraph}{Streaming Metrics}{15}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Simple Install Process}{15}
+\contentsline {paragraph}{Simple Install Process}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Automatic Service Detection}{15}
+\contentsline {paragraph}{Automatic Service Detection}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Security}{16}
+\contentsline {paragraph}{Hosted vs. On-Premise Solutions}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}System Architecture}{17}
+\contentsline {paragraph}{Security}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.1}Tools and Methodologies}{18}
+\contentsline {section}{\numberline {4.2}Domain Model and Concepts}{18}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}Components}{19}
+\contentsline {section}{\numberline {4.3}System Architecture}{19}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3.1}Core Management API}{19}
 \defcounter {refsection}{0}\relax 
@@ -72,6 +80,24 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3.4}Monitoring Agent}{20}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.5}Domain Model}{20}
+\contentsline {subsection}{\numberline {4.3.5}Monitoring Architecture Diagram}{21}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.6}Monitoring Architecture}{21}
+\contentsline {section}{\numberline {4.4}Domain-Specific Language}{22}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.4.1}Meta-Programming}{22}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.4.2}Features and Implementation}{23}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.5}Monitoring Agent}{25}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Installation}{25}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.5.1}Commands and Usage}{26}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.5.2}Service Discovery}{27}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.6}Streaming Event Service}{29}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.6.1}Interpreting Check Results}{30}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.7}Tools and Methodologies}{32}

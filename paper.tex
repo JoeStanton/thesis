@@ -18,6 +18,18 @@
 \maketitle
 
 \chapter*{Abstract}
+
+%Trends:
+
+%* Cloud Computing and Virtualization, LXC Containerization
+%* Dynamic, Elastic, Auto-Scaling
+%* Configuration Management
+%* Immutable Infrastructure
+%* Full Stack Monitoring
+%* High Level Visualisation of Application Architecture
+
+%Application architectures are more complex than ever,. The reliance on cloud computing offloads a large amount of complexity to the provider, but typically this is Infrastructure as a Service. It becomes harder to reason about the runtime behavior of the software.
+
 The complexity of software and the scale at which services must operate is continuing to increase rapidly~\cite{SoftwareComplexity}.
 To support this rapid growth, the supporting application infrastructure needed to keep these services running and providing a suitable quality of service must grow proportionally.
 
@@ -63,6 +75,7 @@ Better collaboration and knowledge transfer between these teams often provides t
 \end{description}
 
 \section{Solution Objectives}
+%Embracing change is a key tenet of the cloud computing architecture.
 
 The objective is to design and implement a tool which helps with the modelling of complex infrastructure within real-world systems. The application will provide application developers or operations staff the ability to model systems as a graph of nodes, which may have dependencies and fine grained tests used to verify their current state.
 
@@ -141,7 +154,7 @@ Modern configuration management tools can be considered a type of infrastructure
 
 Configuration management tools are especially interesting due to their mass adoption in recent years within the Agile software development community, as well as at enterprises such as Facebook and Amazon~\cite{Chef}.
 
-The real value of these DSL's is that they are directly executable.  They can be executed to drive infrastructure changes or ensure convergence with the model. Figure~\ref{fig:PuppetDSLSnippet} provides an example snippet of a Puppet recipe, which is declaratively specifying details of the SSH (secure shell) service which will be made available on a specific host.
+The real value of these DSL's is that they are directly executable.  They can be executed to drive infrastructure changes and ensure convergence with the model. Figure~\ref{fig:PuppetDSLSnippet} provides an example snippet of a Puppet recipe, declaratively specifying details of the SSH (secure shell) service which will be made available on a specific host.
 
 \begin{listing}[h]
 \begin{minted}[fontfamily=fi4]{ruby}
@@ -176,7 +189,7 @@ I have extensively researched existing monitoring tools ranging from very simple
 
 \subsubsection{Nagios}
 
-Nagios is an open source infrastructure and application monitoring framework. Often considered the `industry standard', it provides a vast array of features, from execution of fine-grained protocol specific tests to complex capacity planning techniques. It is also very extensible, which is perhaps the largest reason for its success within the industry.
+Nagios is an open source infrastructure and application monitoring framework. Often considered the `industry standard', it provides a vast array of features, from execution of fine-grained protocol specific tests to complex capacity planning forecasts. It is also very extensible, which is perhaps the largest reason for its success within the industry.
 
 Nagios is in active use by over 250,000 organisations worldwide, including Amazon, AT\&T and JP Morgan Chase~\cite{NagiosUsage}. It supports a number of common montitoring architectures, including both agent based and agentless (based on the Simple Network Management Protocol) which means it can run efficiently up to a very large number of hosts~\cite{NagiosArchitectures}.
 
@@ -209,7 +222,7 @@ An ideal solution would be an open source tool, incorporating the ease of setup 
 A list of concrete requirements will be established from user stories based on my own personal experiences developing software in industry, and conversations with the following typical users of the system.
 
 \begin{itemize}
-  \item A Technical Architect at Red Badger Consulting Ltd
+  \item A Technical Architect at Red Badger Consulting
   \item A System Adminstrator at HCL
 \end{itemize}
 
@@ -218,7 +231,7 @@ A list of concrete requirements will be established from user stories based on m
   \item As a developer, I would like a simple and expressive way to document my application's infrastructure requirements, so I can effectively communicate them to other developers and system administrators.
   \item As a developer, I would like to share these infrastructure requirements with non-developers via a web interface. 
   \item As a system administrator, I would like a clear overview of the system, detailing its dependencies, so I can understand it.
-  \item As a developer / system administrator, I would like to verify the state of the system automatically, so I can more quickly troubleshoot problems when they occur and make the system more amenable to change.
+  \item As a developer / system administrator, I would like to verify the state of the system continuously, so I can quickly troubleshoot problems when they occur and make the system more amenable to change.
   \item As a developer / system administrator, I would like to log whenever failures occur, so I can identify unreliable components or inappropriate change by other individuals. 
   \item As a developer / system administrator, I would like to be notified of changes in the state of the system via email, so I can respond to incidents quickly.
   \item As a system administrator, I would like to easily setup monitoring for applications I have already deployed.
@@ -229,78 +242,76 @@ A list of concrete requirements will be established from user stories based on m
 
 \chapter{Design and Implementation}
 
-\section{Prototyping \& Risk Mitigation}
-
-After extensive background and literature review, and a number of discussions with typical users of monitoring/modelling tools there were some common themes identified. Some of these themes are not satisfied by existing tools, therefore I have considered them as risks so that solutions can be identified early through the process of prototyping.
+\section{Design Objectives}
 
 \paragraph{Speed/Ease of Setup} Many comments from developers detailed the fact that most monitoring and modelling tools were too time consuming to set up, and clients did not see demonstrable value in investing time upfront in this process before services were launched and issues actually occurred. 
 
 A tool that provides a simple installation process, follows ‘convention over configuration’ and provides a degree of auto-detection of installed services would be extremely valuable and increase chances of adoption significantly.
- As part of the prototyping phase, I have built a solution that partially satisfies these properties.
 
-\pagebreak
+\paragraph{Simplicity and Pragmatism} Often the need for extensive application and infrastructure monitoring is not recognised until after the application has been deployed into a production environment. Introducing monitoring at an earlier stage, eg. in a staging environment, can highlight issues of reliability and performance before they are experienced in production. Monitoring key domain specific metrics can also aid in reasoning about the runtime behavior of the system. With these benefits in mind, the tool should be simple enough to introduce early in the development process with minimal effort on the part of the developer, it should provide pragmatic value from the start, and offer the flexibility to continue to deliver value as the system grows in complexity.
+
+\paragraph{Embracing Change}
+
+Maintaining agility while providing a suitable quality of service is challenging. Continuous Integration and Delivery are fundamental principles of the XP (Extreme Programming) movement and discuss solutions to this problem at great length, the most cited benefit is the reduction of risk. Small amounts of change applied frequently are easier to reason about and test, and of course provide the end user with value quicker. In conjunction with version control systems, CI/CD can be used to effectively identify the root cause of problems soon after they occur. The application of CI/CD is widespread within the industry, and a whole suite of tools such as Continuous Integration servers, automated code deployment tools and configuration management utilities all aid to facilitate the practice.
+
+The monitoring tool should fit within an agile workflow, where system architectures change frequently. It could even be used to verify that system reconfiguration was successful, as a form of test driven infrastructure change. The tool should provide the means to track changes such as code deployments and re-configuration and provide an interface to visualise this, similar to viewing changes in code under source control.
+
+\paragraph{Dynamic Infrastructure}
+
+The nature of modern infrastructure is no longer static. Cloud computing and virtualization provide the means to scale different parts of the system independently and automatically. For example, Amazon AWS provides `auto-scaling groups' that create new instances of an application according to pre-defined load thresholds. Capturing and visualising these changes is something that existing monitoring tools struggle with, as they are aimed at more traditional, static infrastructure. The tool should provide the means for tracking these changes.
+
+\paragraph{Flexibility}
+
+It is imperative that monitoring tools do not just focus on common areas that are easy to measure or verify. The monitoring needs of an application could be highly domain specific, and overly simplistic verification can cause misleading results. The tool must provide the means to encode and verify arbitrary properties of the system at varying granularity. It should do this in the same way as a good unit testing framework does, with the full capability of a programming language, leveraging a vast array of existing open source libraries.
+
 \paragraph{Streaming Metrics} The vast majority of monitoring tools are based upon a polling mechanism. Configured checks are performed from a centralised server at pre-defined intervals. Reversing this mechanism so that servers stream their own metrics back to the monitoring server addresses a number of issues with polling such as the following:
 
 \begin{itemize}
-  \item Firewall Reconfiguration - Typically firewalls do not allow inbound connections except where explicitly defined in a rule. This means that monitoring tools do not work until rules are explicitly added for them. Outbound connections usually do not suffer this constraint, and therefore do not require reconfiguration of existing infrastructure.
-  \item Poor Scalability - Performing checks from a single server does not scale to a large number of hosts, typically the solution for this is to increase polling intervals to reduce load. Streaming places the overhead on each server being monitored, where it can easily be tolerated.
-  \item Polling Latency - If checks are scheduled infrequently, there is a time delay in receiving notifications. Not only does this mean the issue is not highlighted quickly, but the slow feedback makes it hard to tell if the problem has been fixed.
+  \item Firewall Reconfiguration - Typically firewalls do not allow inbound connections except where explicitly defined by a rule. This means that monitoring tools will not work until rules are explicitly added for them. Outbound connections usually do not suffer from this constraint, and therefore do not require reconfiguration of existing infrastructure.
+  \item Poor Scalability - Performing checks from a single server does not scale to a large number of hosts, typically the solution for this is to increase polling intervals to reduce load. Streaming places the overhead on each server being monitored, where it can easily be tolerated. The management server should easily be able to process a stream of results from a very large number of hosts, and where this becomes less feasible, this could be load balanced.
+  \item Polling Latency - If checks are scheduled infrequently, there is an artificial time delay in receiving notifications. Not only does this mean that issues are not identified as quickly, but the slow feedback can be confusing when attempts are made to fix the underlying problem.
 \end{itemize}
 
 \paragraph{Simple Install Process} The install process is a one-line bash command that downloads and executes the bootstrap shell script, that in turn detects system architecture and downloads the appropriate binary, copying it into the system path and configuring it to run as a service.
 
-When the binary is first executed, it performs node registration by making a POST request to the monitoring tool’s REST API with the hostname of the server, and supplementary metadata.
+When the binary is first executed, it performs node registration by making a PUT request to the monitoring tool’s REST API with the hostname of the server, and supplementary metadata.
 
 \textbf{Example Install Command:}
 \begin{minted}[fontfamily=fi4]{bash}
-  curl https://management-server/agent/install | sh
+  curl -s https://management-server/agent/install | sh
 \end{minted}
 
-\paragraph{Automatic Service Detection} The tool builds in a basic service detection process that is executed during node registration and at rare periodic intervals after this point. 
- It detects the presence of known binaries such as apache2, nginx or mysql on the system path as defined in a service definition file retrieved from the management server. It then takes further steps to extract version numbers from installed services and includes this information in the node metadata.
+\paragraph{Automatic Service Detection} The tool builds in a basic service detection process that is executed during node registration and at rare periodic intervals after this point.
+ It detects the presence of known services such as apache2, nginx or mysql within the currently executing process table, these services are defined in a simple component definition list bundled with the agent software, making it easy to expand in future. It then takes further steps to extract version numbers from installed services and includes this information in the node metadata.
 
 There are a number of issues that prevent this process from being accurate in every scenario, but in practice it is a flexible solution which can detect most services accurately enough to be a useful time saving feature.
 
-\paragraph{Security} Installation of any networked monitoring tool increases the attack surface-area on production systems that often host important services and contain sensitive user data. In order to partially mitigate this concern, communication between the monitoring system and the application server will be encrypted, and both the server and client must verify each other’s respective identities to ensure that no Man in the Middle (MiTM) or general spoofing/poisoning attacks can become effective.
+\paragraph{Hosted vs. On-Premise Solutions} The system should be built and packaged so that it could run as a hosted service (typically more suitable for startups, and easier to experiment with) and as an on-premise solution where there are concerns over data security or scalability. This can be achieved by using a configuration management tool for setup and deployment, which also has the capability to produce, as build artifacts, pre-built system images such as VMWare packaged appliances or Amazon Machine Images (AMI's).
 
-Public-Key cryptography can generally provide this functionality, if the agent installation is performed via HTTPS, the identity of the management server can be verified and a public key can be exchanged from this point forwards in all communication. In addition, communication between the nodes after initial setup is uni-directional, for the purposes of reporting metrics, so the monitoring agent does not need to listen on any network interfaces.
+\paragraph{Security} The installation of any networked monitoring tool increases the attack surface-area on production systems that often host important services and contain sensitive user data. In order to partially mitigate this concern, communication between the each node and the monitoring system will be encrypted, and both the server and client must verify each other’s respective identities to ensure that no Man in the Middle (MiTM) or general spoofing/poisoning attacks can become effective.
+
+Public-Key cryptography can generally provide this functionality, if the agent installation is performed via HTTPS, the identity of the management server can be verified and a public key can be exchanged from this point forwards in all communication. In addition, communication between the nodes after initial setup is uni-directional, for the purposes of reporting metrics, so the monitoring agent does not need to listen on any network interfaces where it could be compromised.
 
 This strategy needs to be carefully evaluated and tested, but should not present a major risk to the implementation. The difficulty will lie in expressing this capability to future users of the system so they can be confident in its security.
+
+\pagebreak
+\section{Domain Model and Concepts}
+
+\begin{itemize}
+  \item Service - An application that provides functionality to an end-user or another service over a network. eg.\ a website or API.
+  \item Component - Part of a service which performs a specific function, eg.\ an application server or a load balancer.
+  \item Host - A physical, virtual or otherwise isolated container responsible for running some or all of the components of a service.
+  \item Metric - A measure of a characteristic at a given point in time, eg.\ CPU load or average request latency. Typically quantitative in nature.
+  \item Check - Validation that an arbitrary property holds at a given point in time, eg.\ A specific service is listening on port 80. Typically qualitative in nature.
+  \item Event - A discrete action performed upon the system, eg.\ a code deployment or service re-configuration. Events can be correlated with metrics.
+  \item Incident - A specific type of event which is automatically triggered by the failure of one or more checks, incidents correlate recent events with failed checks and can be related to previous incidents of a similar nature to aid in root-cause analysis.
+  \item Context - Additional data which aids root-cause analysis, eg.\ log files from a malfunctioning service.
+\end{itemize}
 
 \pagebreak
 \section{System Architecture}
 \label{section:architecture}
 
-\begin{description}
-  \item [Application Core]\hfill \\
-    A graph database or in-memory representation of the modelled system, together with an orchestration layer for executing tests/collecting metrics. All exposed via a REST API written in Ruby, using the Ruby on Rails framework for API's. I have chosen Ruby due to its conciseness, its excellent tooling for developing and testing web-based applications, and my own familiarity with the language.
-  \item [Web UI]\hfill \\
-    A single page application written using a client side Javascript MVC framework such as Backbone, React.js or Angular.js. One of these frameworks will be chosen as the user interface needs to be rich and interactive, allowing for efficient visual exploration and modification of the system. A web based application was chosen as it requires no user installation or updates, it is inherently cross-platform and can interact with the application core via the REST API, providing a clean separation of concerns.
-  \item [Server Agent]\hfill \\
-    A service which runs continuously on each node registering its role, executing tests and reporting metrics via the streaming service or events API\@. This is likely to be written in Ruby or Go (http://golang.org); a language recently developed by Google for systems programming.
-
-    If written in Go, the agent could be compiled and statically-linked, producing a single binary compatible with all 32/64-bit UNIX systems without any install process or runtime components. This is especially important to reduce the attack surface-area of production systems. Updates could also be pushed out via the highly efficient BSDiff tool.
-\end{description}
-
-\pagebreak
-\subsection{Tools and Methodologies}
-\begin{description}
-  \item [Version Control]\hfill \\
-    Due to the size of the project and significant development effort involved, I will be using \textbf{Git} to version control my codebase. This will be hosted in \textbf{GitHub} for redundancy and issue tracking features.
-  \item [Behavior Driven Development]\hfill \\
-    It is of utmost importance to ensure that the codebase of the monitoring tool is as free from defects as possible. An unreliable monitoring tool eliminates all of the safety and guarantees a stable tool would provide. Therefore I will be using Behaviour Driven Development to write tests and relate them to features as I develop the solution.
-
-    Where this is too difficult due to a large number of side effects or dependencies, I will use integration testing to provide some high-level guarantees and ensure that the system satisfies its requirements. A small amount of manual testing will also be required.
-  \item [Vagrant and Amazon AWS]\hfill \\
-    Where integration tests are required, I will use Vagrant~\cite{Vagrant}, a Ruby scripting tool which controls VirtualBox~\cite{VirtualBox} and automates the provisioning and setup of Virtual Machines according to a specification.
-
-    I can use these provisioned virtual machines to test cross-compilation of the solution, test Linux compatibiltiy, simulate failures and verify the behaviour of the monitoring tool.
-
-    For real world tests, Amazon AWS will be used to provision cloud based instances together with the API to alter the environment (such as security groups and hardware specifications) and initiate failures.
-\end{description}
-
-\pagebreak
-\section{Components}
 \subsection{Core Management API}
 
 The application core is a REST API written with the Ruby on Rails framework. It consists of a relational or graph database containing all entities such as hosts, services and their respective dependencies. These entities are exposed via the REST API to other parts of the application. The application core provides the means for registering new hosts and generating appropriate agent configurations.
@@ -323,26 +334,271 @@ The server agent is a lightweight component written in Ruby and is installed on 
 
 The monitoring agent will manage forwarding of metrics to the correct endpoint, collection will be delegated to any number of bundled plugins, making data collection highly flexible.
 
-\subsection{Domain Model}
-
-\begin{itemize}
-  \item Service - An application that provides functionality to an end-user or another service over a network. For example, a web interface for an internal search engine.
-  \item Component - Part of a service which performs a specific function, eg.\ an application server.
-  \item Host - A physical, virtual or otherwise isolated container responsible for running some or all of the components of a service.
-  \item Metric - A measure of a characteristic at a given point in time, eg.\ CPU load or average request latency. Typically quantitative in nature.
-  \item Event - A discrete action performed upon the system, eg.\ a code deployment or service re-configuration. Events can be correlated with metrics.
-  \item Context - Additional data which aids root-cause analysis, eg.\ log files from a malfunctioning service.
-\end{itemize}
-
 \begin{landscape}
-  \subsection{Monitoring Architecture}
+  \subsection{Monitoring Architecture Diagram}
   \includegraphics[scale=0.7]{architecture.pdf}
 \end{landscape}
 
-% \chapter{Implementation}
+\pagebreak
+\section{Domain-Specific Language}
+
+Providing the flexibility needed to encode arbitrary checks within the monitoring tool is difficult to achieve without a very large amount of static configuration. The full expressive power of a real programming language, leveraging a vast array of open source libraries is perhaps a better way to approach this problem.
+
+Due to its meta-programming features and flexibility in syntax, Ruby is somewhat uniquely amenable to creating domain specific languages within the language itself, so called `internal DSLs'.
+
+The DSL is heavily inspired by a similar DSL of the RSpec unit testing framework, RSpec is extremely popular within the Ruby community as it leads to highly-readable test cases. The similarities should provide a common medium for communicating the monitoring tool to those who have used RSpec or similar in the past.
+
+\subsection{Meta-Programming}
+
+Ruby features typically leveraged to create internal DSL's are among the following:
+
+\begin{itemize}
+  \item{Blocks} - A fairly common feature of most languages today, Ruby supports `blocks' as an implementation of first-class functions. First-class functions can be used as values, and therefore passed around and evaluated at will.
+
+  \item{instance\_eval} - This function executes a given block in the context of the recieving object. This means that lots of typical structural techniques such as defining classes and methods can be hidden as part of the implementation, and relied upon during execution. An example of this is included below:
+
+  \begin{minted}[fontfamily=fi4]{ruby}
+  # Internal DSL implementation
+  class Service
+    def description(value)
+      @description = value
+    end
+  end
+
+  def service(&block)
+    Service.new.instance_eval(&block)
+  end
+
+  # DSL interface
+  service do
+    description "An example service"
+  end
+  \end{minted}
+  \label{fig:MetaProgrammingSnippet}
+
+  \item{method\_missing} - As a dynamically typed language, function calls in Ruby are dynamically dispatched depending on the type of an object. The mechanism for dynamic dispatch also includes a fallback feature used when there are no matching methods with the given name. This means that DSL's can be expressed which pattern match on method names or provide transparent proxies to other objects. Both of these features can be used extensively to create concise, readable DSL's.
+\end{itemize}
+
+\subsection{Features and Implementation}
+
+The DSL supports the construction of \textbf{services} and \textbf{components}, they can also be nested, making the hierarchy easy to understand:
+
+\begin{minted}[fontfamily=fi4]{ruby}
+  service "Example Service" do
+    description "A website"
+
+    component "Nginx" do
+      description "The web server"
+    end
+  end
+\end{minted}
+\label{fig:MetaProgrammingSnippet}
+\pagebreak
+
+The most important feature of the DSL is the ability to encode checks as Ruby blocks. A block contains one or more assertions that throw exceptions with descriptive error messages if they fail. Below is a simple example of this. The health check will be executed every 30 seconds by the monitoring agent. The monitoring agent will catch any exceptions and return a descriptive error message which may be printed to the console or serialized and sent to the event stream.
+
+\begin{minted}[fontfamily=fi4]{ruby}
+  service "Example Service" do
+    health(interval: 30) do
+      running "example-service"
+      listening 80
+      success "http://example.com"
+    end
+  end
+\end{minted}
+
+Importantly, as the blocks executed are pure Ruby code that can throw exceptions, any arbitrary code that fits these criterion can be used within a block:
+
+\begin{minted}[fontfamily=fi4]{ruby}
+  service "Example Service" do
+    health(interval: 30) do
+      ssl_expiry_date < DateTime.now or fail "SSL certificate expired"
+
+      require "redis" # External RubyGem
+      Redis.new.ping == "PONG" or fail "Redis isn't responding"
+    end
+  end
+\end{minted}
+
+With these simple but powerful primitives, an accurate executable model of the system can be constructed and used for validation purposes. When constructing these service specifications, the agent software can execute all checks on demand so that they can be tested before deployment to a large number of hosts.
+
+This code as configuration approach to monitoring provides a very similar experience to writing unit tests. It can be placed under source control within the existing project repository and therefore fit easily with an existing development workflow, this was a core design goal of the project.
+
+\section{Monitoring Agent}
+
+The monitoring agent is written in Ruby, and is packaged as a RubyGem. As the monitoring agent is responsible for executing the Domain Specific Language outlined in the previous section, it must be written in Ruby itself or package the Ruby runtime. Despite the fact that Ruby is not typically pre-installed on servers, it is very simple to install and requires no configuration. The installation procedure manages the installation of Ruby if necessary.
+
+\subsubsection{Installation}
+
+Ease of installation was a core principle of this system, getting started is a one line bash command:
+
+\begin{minted}[fontfamily=fi4]{bash}
+  curl -s https://management-server/agent/install | sh
+\end{minted}
+
+Importantly, the installation of the management software occurs over HTTPS, this provides assurances of host identity. The management server must present a valid certificate, mitigating concerns against man-in-the-middle (MiTM) attacks. If this was not the case, it would create an attack vector whereby arbitrary code could be executed on the deployed servers at the point of installation.
+
+The installation script performs the following steps:
+
+\begin{enumerate}
+  \item{Detection of Operating System} - The tool initially supports Linux and Mac OS X only, it will distinguish between these operating systems or abort the installation if running on a different platform.
+  \item{Detection or Installation of Ruby} - If Ruby 2.0.1 is not installed, the script will use the standard package manager of the distribution to install it.
+  \item{Download of Agent Software} - The source code will be obtained directly from GitHub, dependencies will be resolved and installed.
+  \item{Host Registration} - Optionally, the host can be registed with the management server, the hostname and IP address as well as an optional service name and environment will be passed to the management server. This is appropriate on servers but not development workstations.
+\end{enumerate}
+
+\subsection{Commands and Usage}
+
+\begin{description}
+  \item[Check] - Run configured health checks on demand. This command is typically used on developer workstations as they iteratively build a service specification using the DSL\. It provides fast feedback similar to running a suite of unit tests and can be used to quicky validate assumptions, before pushing the specification to the management server.
+  \item[Discover] - Creates a service specification from detected system services. This feature can be used primarily to reverse-engineer existing infrastructure setups into a service specification. More details about the discovery mechanism are provided in the next subsection.
+  \item[Graph] - Render a graph of the current service - This can be primarly used on the developer workstation, it will use the GraphViz library to render a graph of the system and its dependenciesin image or PDF format. This can be used on its own as a form of documentation, but is typically intended to help visualise the service specification and its dependencies to ensure its correctness.
+  \item[Push] - Pushes the specified service to a management server - This command will parse the DSL and serialize each object to JSON, it is then sent as a PUT request to the management API\. Changes to the service specification take effect immediately and update any connected users in near real-time.
+  \item[Setup] - Register this host with the management server - This is used on the servers running the system under test, it will associate a host with a defined service, listing it in the Web UI and accepting events and check data from it.
+  \item[Start] - Starts a monitoring daemon process which runs in the background and executes checks according to their defined intervals. It will report all data back to the management server's event stream endpoint. Any errors occurring during this process will be logged to a file for later analysis.
+  \item[Stop] - Stop monitoring the specified service.
+  \item[Restart] - Restart monitoring of the specified service.
+  \item[Help] - Describes the function of all available commands.
+\end{description}
+
+\subsection{Service Discovery}
+
+Reverse-engineering a system configuration is a non-trivial task. As this is not the primary intention of the tool, a simple approach is used to detect commonly installed services and provide some common default health checks for them. It relies upon standard UNIX commands such as `ps', `lsof' and `netstat' to detect running services.
+
+The algorithm reads from a list of component definitions similar to the following:
+
+\begin{minted}[fontfamily=fi4]{yaml}
+database:
+  Postgres:
+    process: postgres
+    description: relational database
+    ports: 5432
+    version: postgres --version | cut -d ' ' -f3
+  MySQL:
+    process: mysqld
+    description: relational database
+    ports: 3306
+    version: mysql --version
+\end{minted}
+
+It then gets the table of currently executing processes, via the UNIX command `ps aux' and parses the output. It then matches this list with the processes in the service definitions list, and verifies the listening port via `lsof :port'. When a process has been detected, the tool will execute the specified `version' command to extract the current version number of the service.
+
+The discovery process will output a service specification similar to the following:
+
+\begin{minted}[fontfamily=fi4]{ruby}
+service "<Service Name>" do
+  component "Postgres" do
+    description "relational database"
+    type :database
+    version "9.3.3"
+
+    health do
+      running "postgres"
+      listening 5432
+    end
+  end
+  component "ElasticSearch" do
+    description "open source search and analytics engine"
+    type :database
+    version "1.0.1"
+
+    health do
+      running "elasticsearch"
+      listening 9200
+    end
+  end
+end
+\end{minted}
+
+This service specification not only lists the running services, but provides a suggested set of health checks for them, as appropriate. This can help new users of the tool become familiar with the syntax and features of the DSL.
+
+\pagebreak
+\section{Streaming Event Service}
+
+The streaming event service is based on the open source project Riemann~\cite{Riemann}. Riemann is a simple and scalable event processing framework written in Clojure~\cite{Clojure}. Riemann simply provides a powerful set of primitive operations to filter, throttle and detect changes in streams of data. Riemann provides a configuration file, itself written in Clojure which is used to specify the desired behaviour.
+
+Clojure is especially well suited to a problem like this as it has excellent support for asynchronous execution, it is hosted on top of the Java Virtual Machine (JVM) and therefore benefits from a mature ecosystem of tooling and performant networking libraries. It is a functional language, and therefore makes transforming and filtering event data very simple.
+
+Events are sent from the monitoring agent installed on each host via a TCP socket. They use the `Protocol Buffers' binary format developed at Google~\cite{ProtoBufs} to efficiently transport the data.
+
+A typical event payload can be arbitrarily defined, but is typically structured as follows:
+
+\begin{minted}[fontfamily=fi4]{yaml}
+  host: "example-production-1"
+  service: "example-service"
+  component: "nginx"
+  description: "Error: Process nginx not listening on port 80"
+  state: "error"
+  metric: 0
+  type: "component"
+  tags: ['check']
+  notify_endpoint: "/example-service/components/nginx"
+  ttl: 15
+\end{minted}
+
+The streaming event service provides one endpoint to send all types of event data, this includes results from status checks, application performance metrics and log file entries. These types of event can all be processed and routed to a number of locations. This agnosticism makes it easy to adapt the monitoring architecture in future, hosts can be configured to send data to a single endpoint which in turn can route the events to their appropriate location.
+
+Another important principle of Riemann is the notion of a time-to-live (TTL) sent with each event. After the number of seconds specified in the TTL field, specified by the sender, Riemann will change the event type to `expired'. This means that if the agent software stops sending events due to a loss of connectivity or a software defect, some error handling logic can be executed, such as updating the component's state to `unknown'. Without this feature, the streaming mechanism would not match the polling based mechanism for robustness.
+
+Checks and performance data are checked for state changes or anomalies before being forwarded to Graphite, a time series database for long term storage and queries. The introduction of Graphite integration means that the framework provides a gradual roadmap to scaling up monitoring granularity and metrics collection. Calculations such as service availability and total downtime can be queried from Graphite.
+
+\subsection{Interpreting Check Results}
+
+\begin{enumerate}
+  \item The main event stream is filtered down to events with the tag `check'.
+  \item The `metric' field of the event is forwarded to Graphite, under an appropriate path, e.g. `example-service.nginx.health'. In the case of health checks, the value is simply 0 or 1, signifying failure or success respectively.
+  \item If the most recent event has a different `state' field to the previous event of the same type, queue a notify task. This could happen when a check transitions state due to an error, or where another check packet was not recieved within the expected TTL interval.
+
+    The number of events matching these criteria is very low relative to the total number of events, and therefore most events never reach the management API\. This is a deliberate design decision, as the management API is significantly less capable of handling a high frequency of updates.
+  \item The notify task sends a HTTP PATCH request to the management API at the endpoint specified in `notify\_endpoint' signifying a partial update with the new component status. If the status is `error', the request will also contain a description of the error that occurred. This error is often specific enough to pinpoint exact problems within failed components, but this depends on the granularity of the checks involved.
+\end{enumerate}
+
+\pagebreak
+\begin{minted}[fontfamily=fi4]{clojure}
+; Forward all events to graphite, and check for state changes
+(streams
+  (tagged "check"
+    forward-graphite
+    (by [:host :service :component :type]
+            (changed :state notify-async))))
+
+; Adds events to an async queue
+(def notify-async (async-queue! :notify {:queue-size 1000} notify))
+
+; Send a PATCH request to the monitoring API updating the status
+(defn notify [event]
+  (client/patch (notify-url (:notify_endpoint event))
+     {
+       :body (json/generate-string {
+         (:type event) {:status (:state event) }
+     })
+     :content-type :json
+     :accept :json
+   }))
+\end{minted}
+
+\pagebreak
+\section{Tools and Methodologies}
+\begin{description}
+  \item [Version Control]\hfill \\
+    Due to the size of the project and significant development effort involved, I will be using \textbf{Git} to version control my codebase. This will be hosted in \textbf{GitHub} for redundancy and issue tracking features. The project will be split into a number of independent services as outlined above, which will likely exist as separate code repositories.
+  \item [Test Driven Development]\hfill \\
+    It is of utmost importance to ensure that the codebase of the monitoring tool is as free from defects as possible. An unreliable monitoring tool eliminates all of the safety guarantees a stable tool would provide. Therefore I will be using Test Driven Development to write tests and relate them to features as I develop the solution.
+
+    Where this is particularly difficult due to a large number of side effects or dependencies, I will use integration testing to provide some high-level guarantees and ensure that the system satisfies its requirements. A small amount of manual testing will also be required.
+  \item [Vagrant and Amazon AWS]\hfill \\
+    Where integration tests are required, I will use Vagrant~\cite{Vagrant}, a Ruby scripting tool which controls VirtualBox~\cite{VirtualBox} and automates the provisioning and setup of Virtual Machines according to a specification.
+
+    I can use these provisioned virtual machines to test cross-platform compatibility of the solution, and to simulate failures and verify the behaviour of the monitoring tool.
+
+    For real world tests, Amazon AWS will be used to provision cloud based instances together with the API to alter the environment (such as security groups and hardware specifications) and initiate failures.
+\end{description}
+
+\pagebreak
 % \chapter{Professional Issues}
 % \chapter{Evaluation}
-% \chapter{Conclusion}
+% \chapter{Conclusion & Future Work}
+% \chapter{Appendices}
 
 \printbibliography[title=References]
 % \include{appendix}
