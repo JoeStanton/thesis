@@ -110,7 +110,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.7.2}Incident Management}{32}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.3}Live Updates - SSE \& Websockets}{32}
+\contentsline {subsection}{\numberline {4.7.3}Live Updates - SSE \& WebSockets}{32}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.7.4}Email and SMS Notifications}{32}
 \defcounter {refsection}{0}\relax 
@@ -118,7 +118,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.8.1}React.js}{32}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.2}Data Visualization - D3.js}{32}
+\contentsline {subsection}{\numberline {4.8.2}Data Visualisation - D3.js}{32}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.8.3}Live Updates}{32}
 \defcounter {refsection}{0}\relax 
