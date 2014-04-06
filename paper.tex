@@ -59,7 +59,7 @@ I verify that I am the sole author of this report, except where explicitly state
 
 After taking part in the delivery of software in the highly regulated insurance industry, I noted some problems with the reliability of the software delivered. These reliability issues were generally unrelated to the application itself, but predominantly caused by the growth in complexity of the underlying application infrastructure, which was provided and managed within the company's own datacenter as a result of regulatory constraints. As the application grew in complexity over time, the number of dependent services and components needed to keep it running became unmanageable by the company's own IT staff.
 
-I discovered a real disparity between the knowledge application developers had of the specific requirements of their application (hardware specifications, dependencies on other services, likely points of failure) and the lack of awareness of this within the operations team. This phenomenon has been noted in other areas of the industry~\cite{DevOps} and has recently given rise to the term `DevOps' - an attempt to improve communication between the teams or build tools which help to do so.
+I discovered a real disparity between the knowledge application developers had of the specific requirements of their application (hardware specifications, dependencies on other services, likely points of failure) and the lack of awareness of this within the operations team. This phenomenon has been noted in other areas of the industry~\cite{DevOps} and has recently given rise to the term `DevOps' - an attempt to improve communication between the teams or build tools that help to do so.
 
 Better collaboration and knowledge transfer between these teams often provides the following benefits:
 
@@ -77,13 +77,13 @@ Better collaboration and knowledge transfer between these teams often provides t
 \section{Solution Objectives}
 %Embracing change is a key tenet of the cloud computing architecture.
 
-The objective is to design and implement a tool which helps with the modelling of complex infrastructure within real-world systems. The application will provide application developers or operations staff the ability to model systems as a graph of nodes, which may have dependencies and fine grained tests used to verify their current state.
+The objective is to design and implement a tool that helps with the modelling of complex infrastructure within real-world systems. The application will provide application developers or operations staff the ability to model systems as a graph of nodes, which may have dependencies and fine grained tests used to verify their current state.
 
 The tool will then execute this model as a means of system monitoring. It will verify the correctness of the live system continuously and warn of any divergence. It will also allow the attachment of meta-data and metrics to nodes. This model, meta-data and metrics will then serve as a useful diagnostic tool if the state of the system changes, e.g.\ a loss of connectivity between two nodes. This fine-grained and clear mechanism of communicating failure should reduce investigation and response times when issues arise, and provide the insight which prevents them from recurring.
 
-This model can serve as `living documentation' which is used by Ops teams and Developers to help manage and transfer knowledge, documenting their implicit knowledge. It should help to predict the impact of changes. It should improve collaboration between the teams and provide deeper insight into issues with the performance or reliability of the system.
+This model can serve as `living documentation' that is used by Ops teams and Developers to help manage and transfer knowledge, documenting their implicit knowledge. It should help to predict the impact of changes. It should improve collaboration between the teams and provide deeper insight into issues with the performance or reliability of the system.
 
-Languages and tools for the modelling of software architecture and infrastructure do exist, however they lack the simplicity and pragmatism in their implementation to see widespread adoption in industry~\cite{ModellingAdoption}. I propose a simple, pragmatic tool which may come with some modelling limitations, but will be quick and easy to set up and begin reaping the benefits.
+Languages and tools for the modelling of software architecture and infrastructure do exist, however they lack the simplicity and pragmatism in their implementation to see widespread adoption in industry~\cite{ModellingAdoption}. I propose a simple, pragmatic tool that may come with some modelling limitations, but will be quick and easy to set up and begin reaping the benefits.
 
 Given its role as the centralised location of knowledge for the system, this tool could become a platform to solve other distributed systems issues, such as service discovery etc.\ but these problems are not part of the initial scope.
 
@@ -101,7 +101,7 @@ In this chapter, we discuss the increase in infrastructure and software complexi
 
 \section{Managing Software Complexity}
 
-The problem of increasing software complexity is a well publicised and researched phenomenon. Software which is complex takes longer to develop, and is harder to maintain. As it affects the value proposition to the user so directly, it is often the dominant factor in determining the feasibility of implementing a given system.
+The problem of increasing software complexity is a well publicised and researched phenomenon. Software that is complex takes longer to develop, and is harder to maintain. As it affects the value proposition to the user so directly, it is often the dominant factor in determining the feasibility of implementing a given system.
 
 The rise in software complexity together with ever changing business demands during its development has given rise to a number of popular methodologies or techniques in research and industry, such as Model Driven Development~\cite{MDD}, Extreme Programming~\cite{BeckXP} and the Agile movement~\cite{AgileManifesto}.
 
@@ -154,7 +154,7 @@ Modern configuration management tools can be considered a type of infrastructure
 
 Configuration management tools are especially interesting due to their mass adoption in recent years within the Agile software development community, as well as at enterprises such as Facebook and Amazon~\cite{Chef}.
 
-The real value of these DSL's is that they are directly executable.  They can be executed to drive infrastructure changes and ensure convergence with the model. Figure~\ref{fig:PuppetDSLSnippet} provides an example snippet of a Puppet recipe, declaratively specifying details of the SSH (secure shell) service which will be made available on a specific host.
+The real value of these DSL's is that they are directly executable.  They can be executed to drive infrastructure changes and ensure convergence with the model. Figure~\ref{fig:PuppetDSLSnippet} provides an example snippet of a Puppet recipe, declaratively specifying details of the SSH (secure shell) service that will be made available on a specific host.
 
 \begin{listing}[h]
 \begin{minted}[fontfamily=fi4]{ruby}
@@ -185,24 +185,24 @@ As part of the runtime execution, each service’s conformance to this set of pr
 \clearpage
 \subsection{Existing Monitoring Tools}
 
-I have extensively researched existing monitoring tools ranging from very simple ping checks to complete enterprise solutions and evaluated their effectiveness. In the interest of brevity, I have included a small sample of popular monitoring tools I have evaluated which give an indication of the cross-section of the market:
+I have extensively researched existing monitoring tools ranging from very simple ping checks to complete enterprise solutions and evaluated their effectiveness. In the interest of brevity, I have included a small sample of popular monitoring tools I have evaluated that give an indication of the cross-section of the market:
 
 \subsubsection{Nagios}
 
 Nagios is an open source infrastructure and application monitoring framework. Often considered the `industry standard', it provides a vast array of features, from execution of fine-grained protocol specific tests to complex capacity planning forecasts. It is also very extensible, which is perhaps the largest reason for its success within the industry.
 
-Nagios is in active use by over 250,000 organisations worldwide, including Amazon, AT\&T and JP Morgan Chase~\cite{NagiosUsage}. It supports a number of common monitoring architectures, including both agent based and agent-less (based on the Simple Network Management Protocol) which means it can run efficiently up to a very large number of hosts~\cite{NagiosArchitectures}.
+Nagios is in active use by over 250,000 organisations worldwide, including Amazon, AT\&T and JP Morgan Chase~\cite{NagiosUsage}. It supports a number of common monitoring architectures, including both agent based and agent-less (based on the Simple Network Management Protocol) that means it can run efficiently up to a very large number of hosts~\cite{NagiosArchitectures}.
 
 Anecdotal feedback about Nagios typically suggests that it is a mature and flexible solution for basic monitoring of large numbers of hosts, but severely lacks some higher level concepts such as integration tests of system components. It is also considered extremely time consuming and counter-intuitive to set up and manage, which perhaps explains its lack of adoption within smaller businesses/startups.
 
 \subsubsection{StatsD, CollectD, Graphite}
 
 This collection of tools all work together in providing near real-time metrics tracking and graphing, they are used heavily at vastly successful startups such as 37signals, GitHub and Shopify. Metrics can be collected from the infrastructure and application layers. 
-CollectD is a system utility written in C which periodically makes system calls to extract performance fundamentals such as CPU, memory and network usage. 
+CollectD is a system utility written in C that periodically makes system calls to extract performance fundamentals such as CPU, memory and network usage. 
 
 Application level metrics can be collected using StatsD. Applications can send metrics to a local StatsD instance via UDP, which adds very little performance overhead. This means that it is possible to heavily instrument the critical paths of an application except in extremely performance sensitive scenarios. Both of these tools aggregate this data and flush it to a backend Graphite instance at configurable intervals. Graphite provides extremely flexible data visualisation techniques, but requires some up front investment in time to produce meaningful results.
 
-This collection of tools provides an extremely flexible and performant source of aggregate data which can be used to diagnose reliability and performance problems effectively. Its disadvantages however include a lack of any alerting mechanism, a number of independent components which are both non-trivial to deploy and difficult to monitor themselves, and a difficulty in actually interpreting aggregate data to draw conclusions without deep insight into both the application and the infrastructure it’s relying on.
+This collection of tools provides an extremely flexible and performant source of aggregate data that can be used to diagnose reliability and performance problems effectively. Its disadvantages however include a lack of any alerting mechanism, a number of independent components that are both non-trivial to deploy and difficult to monitor themselves, and a difficulty in actually interpreting aggregate data to draw conclusions without deep insight into both the application and the infrastructure it’s relying on.
 
 \subsubsection{New Relic - APM} 
 New Relic is a popular subscription-based, hosted Application Performance Monitoring (APM) service. It provides integration with popular languages, frameworks and platforms such as the Java Virtual Machine (JVM), Ruby/Ruby on Rails and Python with the Django web framework.
@@ -284,7 +284,7 @@ When the binary is first executed, it performs node registration by making a PUT
 \paragraph{Automatic Service Detection} The tool builds in a basic service detection process that is executed during node registration and at rare periodic intervals after this point.
  It detects the presence of known services such as Apache2, Nginx or MySQL within the currently executing process table, these services are defined in a simple component definition list bundled with the agent software, making it easy to expand in future. It then takes further steps to extract version numbers from installed services and includes this information in the node meta-data.
 
-There are a number of issues that prevent this process from being accurate in every scenario, but in practice it is a flexible solution which can detect most services accurately enough to be a useful time saving feature.
+There are a number of issues that prevent this process from being accurate in every scenario, but in practice it is a flexible solution that can detect most services accurately enough to be a useful time saving feature.
 
 \paragraph{Hosted vs. On-Premise Solutions} The system should be built and packaged so that it could run as a hosted service (typically more suitable for startups, and easier to experiment with) and as an on-premise solution where there are concerns over data security or scalability. This can be achieved by using a configuration management tool for setup and deployment, which also has the capability to produce, as build artifacts, pre-built system images such as VMWare packaged appliances or Amazon Machine Images (AMI's).
 
@@ -299,13 +299,13 @@ This strategy needs to be carefully evaluated and tested, but should not present
 
 \begin{itemize}
   \item Service - An application that provides functionality to an end-user or another service over a network\. e.g. a website or API.
-  \item Component - Part of a service which performs a specific function, e.g.\ an application server or a load balancer.
+  \item Component - Part of a service that performs a specific function, e.g.\ an application server or a load balancer.
   \item Host - A physical, virtual or otherwise isolated container responsible for running some or all of the components of a service.
   \item Metric - A measure of a characteristic at a given point in time, e.g.\ CPU load or average request latency. Typically quantitative in nature.
   \item Check - Validation that an arbitrary property holds at a given point in time, e.g.\ A specific service is listening on port 80. Typically qualitative in nature.
   \item Event - A discrete action performed upon the system, e.g.\ a code deployment or service re-configuration. Events can be correlated with metrics.
-  \item Incident - A specific type of event which is automatically triggered by the failure of one or more checks, incidents correlate recent events with failed checks and can be related to previous incidents of a similar nature to aid in root-cause analysis.
-  \item Context - Additional data which aids root-cause analysis, e.g.\ log files from a malfunctioning service.
+  \item Incident - A specific type of event that is automatically triggered by the failure of one or more checks, incidents correlate recent events with failed checks and can be related to previous incidents of a similar nature to aid in root-cause analysis.
+  \item Context - Additional data that aids in root-cause analysis, e.g.\ log files from a malfunctioning service.
 \end{itemize}
 
 \pagebreak
@@ -329,7 +329,7 @@ the language make it an ideal candidate for this type of processing. The Riemann
 
 The web interface is the only user facing component of the system. It is a single page application written in JavaScript, and uses the Facebook React.js library for event handling and data binding, providing structure and testability to the frontend code. Where interactive visualisations are used, the D3.js library is used to draw these graphics as Scalable Vector Graphics (SVG).
 
-The Web UI will subscribe to a WebSocket connection to listen for changes in the system, this will ensure that any changes in the system are immediately visible to the end user, a feature which many other monitoring systems do not provide.
+The Web UI will subscribe to a WebSocket connection to listen for changes in the system, this will ensure that any changes in the system are immediately visible to the end user, a feature that many other monitoring systems do not provide.
 
 \subsection{Monitoring Agent}
 
@@ -380,7 +380,7 @@ Ruby features typically leveraged to create internal DSL's are among the followi
   \end{minted}
   \label{fig:MetaProgrammingSnippet}
 
-  \item{method\_missing} - As a dynamically typed language, function calls in Ruby are dynamically dispatched depending on the type of an object. The mechanism for dynamic dispatch also includes a fallback feature used when there are no matching methods with the given name. This means that DSL's can be expressed which pattern match on method names or provide transparent proxies to other objects. Both of these features can be used extensively to create concise, readable DSL's.
+  \item{method\_missing} - As a dynamically typed language, function calls in Ruby are dynamically dispatched depending on the type of an object. The mechanism for dynamic dispatch also includes a fallback feature used when there are no matching methods with the given name. This means that DSL's can be expressed that pattern match on method names or provide transparent proxies to other objects. Both of these features can be used extensively to create concise, readable DSL's.
 \end{itemize}
 
 \subsection{Features and Implementation}
@@ -399,7 +399,7 @@ The DSL supports the construction of \textbf{services} and \textbf{components}, 
 \label{fig:MetaProgrammingSnippet}
 \pagebreak
 
-The most important feature of the DSL is the ability to encode checks as Ruby blocks. A block contains one or more assertions that throw exceptions with descriptive error messages if they fail. Below is a simple example of this. The health check will be executed every 30 seconds by the monitoring agent. The monitoring agent will catch any exceptions and return a descriptive error message which may be printed to the console or serialised and sent to the event stream.
+The most important feature of the DSL is the ability to encode checks as Ruby blocks. A block contains one or more assertions that throw exceptions with descriptive error messages if they fail. Below is a simple example of this. The health check will be executed every 30 seconds by the monitoring agent. The monitoring agent will catch any exceptions and return a descriptive error message, which may be printed to the console or serialised and sent to the event stream.
 
 \begin{minted}[fontfamily=fi4]{ruby}
   service "Example Service" do
@@ -459,7 +459,7 @@ The installation script performs the following steps:
   \item[Graph] - Render a graph of the current service - This can be primarily used on the developer workstation, it will use the GraphViz library to render a graph of the system and its dependencies image or PDF format. This can be used on its own as a form of documentation, but is typically intended to help visualise the service specification and its dependencies to ensure its correctness.
   \item[Push] - Pushes the specified service to a management server - This command will parse the DSL and serialise each object to JSON, it is then sent as a PUT request to the management API\. Changes to the service specification take effect immediately and update any connected users in near real-time.
   \item[Setup] - Register this host with the management server - This is used on the servers running the system under test, it will associate a host with a defined service, listing it in the Web UI and accepting events and check data from it.
-  \item[Start] - Starts a monitoring daemon process which runs in the background and executes checks according to their defined intervals. It will report all data back to the management server's event stream endpoint. Any errors occurring during this process will be logged to a file for later analysis.
+  \item[Start] - Starts a monitoring daemon process, which runs in the background and executes checks according to their defined intervals. It will report all data back to the management server's event stream endpoint. Any errors occurring during this process will be logged to a file for later analysis.
   \item[Stop] - Stop monitoring the specified service.
   \item[Restart] - Restart monitoring of the specified service.
   \item[Help] - Describes the function of all available commands.
@@ -521,7 +521,7 @@ This service specification not only lists the running services, but provides a s
 
 The streaming event service is based on the open source project
 Riemann\footnote{See http://riemann.io/concepts for an introduction to
-Riemann.}. Riemann is a simple and scalable event processing framework written in Clojure\footnote{See http://clojure.org for a full description of Clojure}. Riemann simply provides a powerful set of primitive operations to filter, throttle and detect changes in streams of data. Riemann provides a configuration file, itself written in Clojure which is used to specify the desired behaviour.
+Riemann.}. Riemann is a simple and scalable event processing framework written in Clojure\footnote{See http://clojure.org for a full description of Clojure}. Riemann simply provides a powerful set of primitive operations to filter, throttle and detect changes in streams of data. Riemann provides a configuration file, itself written in Clojure, which is used to specify the desired behaviour.
 
 Clojure is especially well suited to a problem like this as it has excellent support for asynchronous execution, it is hosted on top of the Java Virtual Machine and therefore benefits from a mature ecosystem of tooling and performant networking libraries. It is a functional language, and therefore makes transforming and filtering event data very simple.
 
@@ -545,7 +545,7 @@ A typical event payload can be arbitrarily defined, but is typically structured 
   ttl: 15
 \end{minted}
 
-The streaming event service provides one endpoint to send all types of event data, this includes results from status checks, application performance metrics and log file entries. These types of event can all be processed and routed to a number of locations. This agnosticism makes it easy to adapt the monitoring architecture in future, hosts can be configured to send data to a single endpoint which in turn can route the events to their appropriate location.
+The streaming event service provides one endpoint to send all types of event data, this includes results from status checks, application performance metrics and log file entries. These types of event can all be processed and routed to a number of locations. This agnosticism makes it easy to adapt the monitoring architecture in future, hosts can be configured to send data to a single endpoint, which in turn can route the events to their appropriate location.
 
 Another important principle of Riemann is the notion of a time-to-live (TTL) sent with each event. After the number of seconds specified in the TTL field, specified by the sender, Riemann will change the event type to `expired'. This means that if the agent software stops sending events due to a loss of connectivity or a software defect, some error handling logic can be executed, such as updating the component's state to `unknown'. Without this feature, the streaming mechanism would not match the polling based mechanism for robustness.
 
@@ -796,7 +796,7 @@ The Web UI is the primary method of interaction with the monitoring tool. After 
     Where this is particularly difficult due to a large number of side effects or dependencies, I will use integration testing to provide some high-level guarantees and ensure that the system satisfies its requirements. A small amount of manual testing will also be required.
   \item [Vagrant and Amazon AWS]\hfill \\
     Where integration tests are required, I will use Vagrant\footnote{See
-    https://docs.vagrantup.com/v2/why-vagrant/index.html - Benefits of using Vagrant}, a Ruby scripting tool which controls
+    https://docs.vagrantup.com/v2/why-vagrant/index.html - Benefits of using Vagrant}, a Ruby scripting tool that controls
     VirtualBox\footnote{See https://www.virtualbox.org/ for an overview of VirtualBox} and automates the provisioning and setup of Virtual Machines according to a specification.
 
     I can use these provisioned virtual machines to test cross-platform compatibility of the solution, and to simulate failures and verify the behaviour of the monitoring tool.
