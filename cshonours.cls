@@ -112,7 +112,7 @@ class report.cls by Cara MacNish August 1999/September 2000]
 \ExecuteOptions{a4paper,12pt,oneside,onecolumn,final,openany}  %ckm
 \ProcessOptions
 
-\def\@submityear{2013}              %ckm
+\def\@submityear{2014}              %ckm
 \def\keywords#1{\gdef\@keywords{#1}}		%ckm
 \def\categories#1{\gdef\@categories{#1}}	%ckm
 
