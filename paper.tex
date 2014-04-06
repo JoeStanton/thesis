@@ -320,7 +320,10 @@ The application core is a REST API written with the Ruby on Rails framework. It 
 
 The streaming service manages the collection of test results, metrics and other events such as code deployments via event streams over TCP or UDP. Streams reporting errors or anomalous metrics will trigger status changes in the management API, as will streams that stop receiving messages, as this may indicate failure in the monitoring framework itself.
 
-Due to its highly parallel and asynchronous nature, this service is written in Clojure, as the functional programming style and asynchronous primitives within the language make it an ideal candidate for this type of processing. The Riemann event aggregation and stream processing library is used for stream buffering and filtering.
+Due to its highly parallel and asynchronous nature, this service is written in
+Clojure, as the functional programming style and asynchronous primitives within
+the language make it an ideal candidate for this type of processing. The Riemann
+~\cite{Riemann} event aggregation and stream processing library is used for stream buffering and filtering.
 
 \subsection{Web UI}
 
@@ -346,7 +349,8 @@ Providing the flexibility needed to encode arbitrary checks within the monitorin
 
 Due to its meta-programming features and flexibility in syntax, Ruby is somewhat uniquely amenable to creating domain specific languages within the language itself, so called `internal DSLs'.
 
-The DSL is heavily inspired by a similar DSL of the RSpec unit testing framework, RSpec is extremely popular within the Ruby community as it leads to highly-readable test cases. The similarities should provide a common medium for communicating the monitoring tool to those who have used RSpec or similar in the past.
+The DSL is heavily inspired by a similar DSL of the RSpec unit testing framework
+~\cite{RSpec}, RSpec is extremely popular within the Ruby community as it leads to highly-readable test cases. The similarities should provide a common medium for communicating the monitoring tool to those who have used RSpec or similar in the past.
 
 \subsection{Meta-Programming}
 
@@ -515,11 +519,14 @@ This service specification not only lists the running services, but provides a s
 \pagebreak
 \section{Streaming Event Service}
 
-The streaming event service is based on the open source project Riemann~\cite{Riemann}. Riemann is a simple and scalable event processing framework written in Clojure~\cite{Clojure}. Riemann simply provides a powerful set of primitive operations to filter, throttle and detect changes in streams of data. Riemann provides a configuration file, itself written in Clojure which is used to specify the desired behaviour.
+The streaming event service is based on the open source project
+Riemann\footnote{See http://riemann.io/concepts for an introduction to
+Riemann.}. Riemann is a simple and scalable event processing framework written in Clojure\footnote{See http://clojure.org for a full description of Clojure}. Riemann simply provides a powerful set of primitive operations to filter, throttle and detect changes in streams of data. Riemann provides a configuration file, itself written in Clojure which is used to specify the desired behaviour.
 
-Clojure is especially well suited to a problem like this as it has excellent support for asynchronous execution, it is hosted on top of the Java Virtual Machine (JVM) and therefore benefits from a mature ecosystem of tooling and performant networking libraries. It is a functional language, and therefore makes transforming and filtering event data very simple.
+Clojure is especially well suited to a problem like this as it has excellent support for asynchronous execution, it is hosted on top of the Java Virtual Machine and therefore benefits from a mature ecosystem of tooling and performant networking libraries. It is a functional language, and therefore makes transforming and filtering event data very simple.
 
-Events are sent from the monitoring agent installed on each host via a TCP socket. They use the `Protocol Buffers' binary format developed at Google~\cite{ProtoBufs} to efficiently transport the data.
+Events are sent from the monitoring agent installed on each host via a TCP
+socket. They use the `Protocol Buffers'\footnote{See https://developers.google.com/protocol-buffers/docs/overview for an introduction} binary format developed at Google to efficiently transport the data.
 
 \subsection{Event Schema \& Routing}
 
@@ -582,6 +589,7 @@ Checks and performance data are checked for state changes or anomalies before be
 \section{Management API}
 \subsection{Ruby on Rails}
 \subsubsection{ActiveRecord}
+\cite{ActiveRecord}
 \subsection{Incident Management}
 \subsection{Live Updates - SSE \& WebSockets}
 \subsection{Email and SMS Notifications}
@@ -602,7 +610,9 @@ Checks and performance data are checked for state changes or anomalies before be
 
     Where this is particularly difficult due to a large number of side effects or dependencies, I will use integration testing to provide some high-level guarantees and ensure that the system satisfies its requirements. A small amount of manual testing will also be required.
   \item [Vagrant and Amazon AWS]\hfill \\
-    Where integration tests are required, I will use Vagrant~\cite{Vagrant}, a Ruby scripting tool which controls VirtualBox~\cite{VirtualBox} and automates the provisioning and setup of Virtual Machines according to a specification.
+    Where integration tests are required, I will use Vagrant\footnote{See
+    https://docs.vagrantup.com/v2/why-vagrant/index.html - Benefits of using Vagrant}, a Ruby scripting tool which controls
+    VirtualBox\footnote{See https://www.virtualbox.org/ for an overview of VirtualBox} and automates the provisioning and setup of Virtual Machines according to a specification.
 
     I can use these provisioned virtual machines to test cross-platform compatibility of the solution, and to simulate failures and verify the behaviour of the monitoring tool.
 
