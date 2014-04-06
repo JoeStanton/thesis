@@ -586,19 +586,204 @@ Checks and performance data are checked for state changes or anomalies before be
    }))
 \end{minted}
 
+\pagebreak
 \section{Management API}
+
+The Management API is provided as the interface to the core application logic and domain model. It is responsible for storage and retrieval of all entities such as hosts, services and their respective dependencies. These entities are exposed via the REST API to other parts of the application. The API accepts and responds with JSON\footnote{http://www.json.org/js.html} serialized data. The API is simple and discoverable, encouraging integration with other systems.
+
 \subsection{Ruby on Rails}
+
+Ruby on Rails is an extremely popular web framework written in Ruby. It provides a full suite of functionality from database access to view rendering. It has an extremely active community, over 3,400 contributors\cite{RailsContrib} and has been downloaded nearly 34 million times according to RubyGems.org~\cite{RailsPopularity}. It embraces common best practice patterns such as Model-View-Controller (MVC) and the ActiveRecord pattern~\cite{ActiveRecord}. Ruby on Rails was chosen for this project for the above reasons, as well as the excellent support for testing libraries such as RSpec.
+
+Whilst Rails is extremely popular, it is typically used for websites with a HTML interface, not pure REST API's. Many of the convenient features of Rails are not necessary or useful without a view layer. As Rails is a modular framework, a number of Rails core contributors released a subset of Rails functionality useful for API's. This project, known simply as `rails-api' is an excellent fit for the management API.
+
 \subsubsection{ActiveRecord}
-\cite{ActiveRecord}
-\subsection{Incident Management}
-\subsection{Live Updates - SSE \& WebSockets}
+
+The ActiveRecord\cite{ActiveRecord} pattern, and its Ruby implementation with the same name is the default object-relational mapper/persistence layer within Ruby on Rails.
+
+The pattern provides tight coupling between domain objects and the respective database tables that persist the data. ActiveRecord is a very convenient and low friction way of adding persistance to the application, but it has a few a disadvantages. It's main disadvantage is that it is very tightly coupled to the domain objects, this makes them harder to write isolated unit tests for, without extensive mocking of the database. There are, however, good solutions for the burden and fragility of database mocking within Ruby gems such as NullDB~\cite{NullDB}.
+
+Another popular alternative to the ActiveRecord pattern is DataMapper\cite{DataMapper}, this pattern involves manually mapping objects to their respective database rows and vice-versa, it is useful in applications with more complex data models, but ActiveRecord was chosen for the increased productivity and implicit framework support.
+
+\subsection{REST}
+
+The API generally conforms to the Representational State Transfer (REST) architectural style. Each domain entity is exposed as a REST resource, these resources provide mappings from HTTP verbs to controller actions similar to the following.
+
+\subsubsection{Semantic use of HTTP verbs}
+
+\begin{table}[h]
+  \centering
+\begin{tabular}{r|l|l|}
+  GET & /services & Retrieve all services \\
+  POST & /services & Add a new service \\
+  PUT & /services/:service & Add or overwrite a service \\
+  PATCH & /services/:service & Partially update the service \\
+  DELETE & /services/:service & Delete the service \\
+\end{tabular}
+\end{table}
+
+Each of these endpoints will return semantic and appropriate HTTP status codes as part of their response. For example, if a service fails validation, it will be rejected with a `422 - Unprocessable Entity' response, whereas an Internal Server Error would return a HTTP 500 status code.
+
+The adherance to these standards should mean that the API is simple and familiar to other developers, making it easy to integrate with.
+
+\subsubsection{Content Negotiation}
+
+The API will typically be used via JSON serialized requests and responses, but other formats such as XML and YAML are also possible to use by default with standard Ruby on Rails features. The API supports the `Accept' and `Content-Type' HTTP headers, where the client can provide details of their desired request and response formats.
+
+\subsection{Root}
+
+The root of the API contains an index of available resources, this is a weak form of the Hypermedia as the `Engine of Application State (HATEOS)' unified interface, which states that API's should be discoverable without prior knowledge. The discoverability also theoretically means that URI's can change in future and not break integrations, although this benefit is not typically realised. The JSON response from the root endpoint looks similar to the following:
+
+\begin{listing}[h]
+\begin{minted}[fontfamily=fi4]{json}
+  {
+    "services": "https://management-server/services",
+    "hosts": "https://management-server/hosts",
+    "events": "https://management-server/events",
+    "incidents": "https://management-server/incidents"
+  }
+\end{minted}
+\end{listing}
+
+\subsection{Services \& Components}
+
+Services are the top-level domain concept, they contain some meta-data, reliability calculations, a status such as `error' or `ok' which can be updated via the streaming events service, and a set of components and hosts. The management API will keep track of each service, it's components and hosts, and trigger notifications whenever any of their properties change. This data is normally manipulated via the management agent DSL, which will make a PATCH request to each service when the `push' command is used, updating it if necessary.
+
+\begin{listing}[h]
+\begin{minted}[fontfamily=fi4]{json}
+  {
+    "name": "Example Service",
+    "status": "ok",
+    "description": "Intranet site for Example Company",
+    "dependencies": [],
+    "components": [],
+    "url": "https://management-server/services/example-service",
+    "graphite_path": "services.example-service",
+    "mean_time_between_failure": 64800,
+    "mean_time_to_recovery": 603,
+    "hosts":[]
+  }
+\end{minted}
+\end{listing}
+
+Standard measures of system reliability are calculated at the service level, for example `Mean Time Between Failure" (MTBF) and `Mean Time To Recovery" (MTTR), these measures give a good indication of how often and how serious any issues are. These measures can be supplemented at the UI level with other measures from Graphite, such as service uptime/availability.
+
+\begin{equation}
+  \mbox{Mean Time Before Failure (MTBF)}= \frac{\sum{(\mbox{start of downtime} - \mbox{start of uptime})}}{\mbox{total failures}}
+\end{equation}
+
+\begin{equation}
+  \mbox{Mean Time To Recovery (MTTR)}= \frac{\sum{(\mbox{end time of incident} - \mbox{start time of incident})}}{\mbox{total incidents}}
+\end{equation}
+
+\begin{equation}
+  \mbox{Service Availability}= \frac{\mbox{MTBF}}{\mbox{MTBF + MTTR}}
+\end{equation}
+
+\pagebreak
+\subsection{Hosts}
+Hosts are a simple structure, they are conceptually just an instance of the management agent running on a physical or virtual server. When the management software is installed, the user can specify an environment, e.g.\ development, staging or production. Hosts are added and removed based upon the `setup' and `remove' functions of the management agent.
+
+\begin{listing}[h]
+\begin{minted}[fontfamily=fi4]{json}
+  {
+    "hostname": "db-1.local",
+    "ip": "192.168.1.100",
+    "environment": "development",
+    "service_id": 3,
+    "status": "ok"
+  }
+\end{minted}
+\end{listing}
+
+\subsection{Events}
+Events are intended to capture every possible change within the system, so that they can be used for root-cause analysis when issues occur. Keeping track of infrastructure changes is similar in nature to viewing a list of code changes over time in version control software, and can be very valuable in narrowing down the real cause of an issue.
+
+Events originate from two sources, the application itself or an external integration. Internal events are raised as the result of failed checks, new host registrations etc. It is encouraged for developers to integrate their own deployment or configuration management processes into the events API so that those changes can also be tracked. For example, a code deployment could be tracked as follows:
+
+\begin{listing}[h]
+  POST request to /events:
+\begin{minted}[fontfamily=fi4]{json}
+  {
+    "type": "deployment",
+    "host": "rb-production-01",
+    "service": "example-service",
+    "component": "application",
+    "url": "https://github.com/joestanton/example-service/commits/0c4f3dd",
+    "branch": "master",
+    "build": "0c4f3dd",
+    "committer": "Joe Stanton"
+  }
+\end{minted}
+\end{listing}
+
+Events provide the context needed to identify the cause of an issue, and discuss that issue with the relevant collaborator on the project.
+
+\pagebreak
+\subsection{Incidents}
+
+Incident detection is a layer of logic above events. It will detect events of a given type, e.g. a component check failure, and open an incident for the service involved. Any subsequent failures from the same service will be grouped under one incident. Incidents trigger Email and SMS notifications where configured, alerting the system administrators and developers to the problem. When all components of the service return to a normal state, the incident will automatically be marked as resolved.
+
+\begin{listing}[h]
+\begin{minted}[fontfamily=fi4]{json}
+  {
+    "name": "Incident #435",
+    "status": "resolved",
+    "created_at": "2014-04-01T16:57:44.898Z",
+    "resolved_at": "2014-04-01T17:58:14.924Z",
+    "resolved_by": "Joe Stanton",
+    "root_cause": "The file descriptor limit was exceeded by Nginx.",
+    "service": {
+      "id": 3,
+      "name": "Example Service",
+    },
+    "components": [ "Nginx" ],
+    "hosts": [ "rb-production-1" ]
+  }
+\end{minted}
+\end{listing}
+
+Incidents are designed to group all of the required context such as component failures, recent events such as deployments, and past incidents of a similar nature. When an incident has been resolved, the system will trigger an email requesting that the investigator of the problem provides a short summary of the root cause of the issue. The API will also track statistics such as the time taken for recovery to occur, which is then used in reliability calculations at the service level. This information is then stored and can be used to help solve similar issues in future, especially where the same infrastructure problems keep recurring.
+
+\subsection{Live Updates - Server Sent Events}
+
+As well as the typical API resources previously discussed, a single endpoint is provided for clients to subscribe to a streem of changes. Where appropriate, all domain entities will be published to the changes stream as they are created, updated or deleted. Clients such as the Web UI can subscribe to these changes and update the user interface accordingly.
+
+The changes feed is implemented as a Server Sent Events (SSE) stream, SSE is a HTML5 standard for uni-directional, long running HTTP responses. Alternatives to Server Sent Events are WebSockets and standard long polling techniques. SSE was chosen over WebSockets for the following reasons:
+
+\begin{description}
+  \item[Uni-Directional] There is only a need to send messages from the server to the client.
+  \item[Pure HTTP] As a higher level, text-based protocol, HTTP incurs more overhead than TCP sockets (the level at which WebSockets operate), but is far more compatible with typical network infrastructure such as corporate web proxies etc. If WebSockets was used, it is likely that the TCP connection could be denied by proxies or firewalls.
+  \item[Good Browser Compatibility] Although SSE is only natively supported in modern browsers, it is possible to effectively polyfill this functionality in older browsers using JavaScript. This is not required for this project, but could be a consideration if the tool increased in popularity.
+\end{description}
+
+Both SSE and WebSockets were deemed to be better implementations than a long-polling mechanism as they are more efficient, and require less custom logic on the receiving client.
+
+\pagebreak
 \subsection{Email and SMS Notifications}
 
+The management API implements two methods of notification, Email and SMS. Both of these types of notification are intended to alert developers or system administrators of new incidents opened on services they are responsible for.
+
+The email notifications are triggered when incidents open or are subsequently resolved. They provide an at-a-glance summary of the issue, together with a link to the Web UI for viewing in more detail. The emails are created via the ActionMailer functionality in Ruby on Rails and sent via the third party service SendGrid via SMTP. SendGrid ensures the reliable delivery of these emails.
+
+\begin{figure}[h]
+\includegraphics[scale=0.6]{email.png}
+\caption{An example email notification, triggered when an incident has been detected.}
+\end{figure}
+
+SMS notifications can convey a more limited quantity of information than emails, but can be useful when the user in question does not have access to the internet. SMS messages are sent via the third party service Twilio. Twilio provide a REST API and can deliver messages to the provided phone numbers internationally.
+
+\pagebreak
 \section{Web UI}
+
+The Web UI is the primary method of interaction with the monitoring tool. After the initial setup process and any subsequent maintenance of service specifications via the monitoring agent, the only exposure developers and system administrators will have to the monitoring tool is via the Web UI.
 
 \subsection{React.js}
 \subsection{Data Visualisation - D3.js}
 \subsection{Live Updates}
+
+\pagebreak
+\section{Deployment \& Provisioning}
 
 \pagebreak
 \section{Tools and Methodologies}

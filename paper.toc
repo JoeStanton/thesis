@@ -102,24 +102,40 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.6.2}Interpreting Check Results}{30}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.7}Management API}{31}
+\contentsline {section}{\numberline {4.7}Management API}{32}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.1}Ruby on Rails}{31}
+\contentsline {subsection}{\numberline {4.7.1}Ruby on Rails}{32}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{ActiveRecord}{31}
+\contentsline {subsubsection}{ActiveRecord}{32}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.2}Incident Management}{32}
+\contentsline {subsection}{\numberline {4.7.2}REST}{33}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.3}Live Updates - SSE \& WebSockets}{32}
+\contentsline {subsubsection}{Semantic use of HTTP verbs}{33}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.4}Email and SMS Notifications}{32}
+\contentsline {subsubsection}{Content Negotiation}{33}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.8}Web UI}{32}
+\contentsline {subsection}{\numberline {4.7.3}Root}{34}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.1}React.js}{32}
+\contentsline {subsection}{\numberline {4.7.4}Services \& Components}{34}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.2}Data Visualisation - D3.js}{32}
+\contentsline {subsection}{\numberline {4.7.5}Hosts}{36}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.3}Live Updates}{32}
+\contentsline {subsection}{\numberline {4.7.6}Events}{36}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.9}Tools and Methodologies}{33}
+\contentsline {subsection}{\numberline {4.7.7}Incidents}{37}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.7.8}Live Updates - Server Sent Events}{38}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.7.9}Email and SMS Notifications}{39}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.8}Web UI}{40}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.8.1}React.js}{40}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.8.2}Data Visualisation - D3.js}{40}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.8.3}Live Updates}{40}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{41}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.10}Tools and Methodologies}{42}
