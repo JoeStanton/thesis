@@ -428,7 +428,7 @@ This code as configuration approach to monitoring provides a very similar experi
 
 The monitoring agent is written in Ruby, and is packaged as a RubyGem. As the monitoring agent is responsible for executing the Domain Specific Language outlined in the previous section, it must be written in Ruby itself or package the Ruby runtime. Despite the fact that Ruby is not typically pre-installed on servers, it is very simple to install and requires no configuration. The installation procedure manages the installation of Ruby if necessary.
 
-\subsubsection{Installation}
+\subsection{Installation}
 
 Ease of installation was a core principle of this system, getting started is a one line bash command:
 
@@ -521,6 +521,8 @@ Clojure is especially well suited to a problem like this as it has excellent sup
 
 Events are sent from the monitoring agent installed on each host via a TCP socket. They use the `Protocol Buffers' binary format developed at Google~\cite{ProtoBufs} to efficiently transport the data.
 
+\subsection{Event Schema \& Routing}
+
 A typical event payload can be arbitrarily defined, but is typically structured as follows:
 
 \begin{minted}[fontfamily=fi4]{yaml}
@@ -576,6 +578,19 @@ Checks and performance data are checked for state changes or anomalies before be
      :accept :json
    }))
 \end{minted}
+
+\section{Management API}
+\subsection{Ruby on Rails}
+\subsubsection{ActiveRecord}
+\subsection{Incident Management}
+\subsection{Live Updates - SSE \& Websockets}
+\subsection{Email and SMS Notifications}
+
+\section{Web UI}
+
+\subsection{React.js}
+\subsection{Data Visualization - D3.js}
+\subsection{Live Updates}
 
 \pagebreak
 \section{Tools and Methodologies}
