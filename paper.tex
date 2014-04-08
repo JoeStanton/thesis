@@ -549,7 +549,7 @@ The streaming event service provides one endpoint to send all types of event dat
 
 Another important principle of Riemann is the notion of a time-to-live (TTL) sent with each event. After the number of seconds specified in the TTL field, specified by the sender, Riemann will change the event type to `expired'. This means that if the agent software stops sending events due to a loss of connectivity or a software defect, some error handling logic can be executed, such as updating the component's state to `unknown'. Without this feature, the streaming mechanism would not match the polling based mechanism for robustness.
 
-Checks and performance data are checked for state changes or anomalies before being forwarded to Graphite, a time series database for long term storage and queries. The introduction of Graphite integration means that the framework provides a gradual roadmap to scaling up monitoring granularity and metrics collection. Calculations such as service availability and total downtime can be queried from Graphite.
+Checks and performance data are checked for state changes or anomalies before being forwarded to Graphite, a time series database for long term storage and queries. The introduction of Graphite integration means that the framework provides a gradual roadmap to scaling up monitoring granularity and metrics collection. More complex metrics such as median and percentile based performance data can be queried from Graphite and used for anomaly detection.
 
 \subsection{Interpreting Check Results}
 
@@ -775,8 +775,53 @@ SMS notifications can convey a more limited quantity of information than emails,
 
 \pagebreak
 \section{Web UI}
+\subsection{Implementation Choices}
 
-The Web UI is the primary method of interaction with the monitoring tool. After the initial setup process and any subsequent maintenance of service specifications via the monitoring agent, the only exposure developers and system administrators will have to the monitoring tool is via the Web UI.
+\subsubsection{Single Page Application}
+
+%The Web UI is implemented as a single page web application, written in JavaScript. Single page applications have recently increased significantly in popularity, due to the improved capabilities of modern browsers. A single page application differs from a traditional website in the following ways:
+
+%\begin{description}
+  %\item[Rendering]
+    %Most web applications are executed exclusively on the server-side, this is an obvious choice as it provides many benefits such as: low-latency database access, the standard execution environment of a server under the developers control and effective security. With a single page application, the server side components are usually exposed via an API which takes advantage of these benefits, and the client-side JavaScript fetches data from this API via AJAX requests. When data is recieved, it is rendered into HTML elements by JavaScript executing in the browser.
+  %\item[Interactivity and Responsiveness]
+    %The user experience of a single page application can be significantly better than a traditional website, when used in an appropriate situation. Websites can feel much more like a desktop application, with multiple views, background data synchronization, data filtering etc. The main increase in responsiveness comes from eliminating jarring page reloads, thereby increasing percieved performance.
+%\end{description}
+
+%Abstraction and Maintainability
+
+    %Single page application frameworks often apply standard architectural patterns such as Model-View-Controller. These patterns can help to raise the level of abstraction when creating highly interactive applications beyond manually binding event listeners to DOM elements in order to update and present data. Applications that are abstracted from the imperative nature of programming with the DOM (Document Object Model) can find benefits in a more delcarative approach. This can help improve testability, code reuse and can reduce the number of defects.
+
+%\subsection{Features}
+
+%The Web UI is the primary method of interaction for users of the system. It provides the following main features:
+
+%\subsubsection{A Service Overview}
+
+%The service overview provides the information necessary to understand the high-level architecture a service. It gives an overview of the service itself, with its description if specified, a number of reliability metrics and the current service status.
+
+%All individual components and hosts are listed, together with their respective statuses. If there are any issues within the service, they will be highlighted and enhanced with extra detail to aid in the troubleshooting process.
+
+%\subsubsection{Incident Tracking}
+
+%As previously discussed, Incidents are a consolidated view of relevant context that users can use to identify the root cause of issues. Users will be directed to the incident page via notifications recieved via Email or SMS\. The interface surfaces relevant events occurring before or during an incident, as well as similar incidents that have occurred in the past.
+
+%After an incident has been resolved, the user is encouraged to provide a brief note detailing the root cause, as well as any remedial action taken. This will be surfaced when other relevant incidents occur in future.
+
+%\subsubsection{Event Logging}
+
+%The monitoring system is designed to accomodate and track changes in underlying infrastructure. The event log provides a chronological view of these changes together with supplementary information provided via each integration. For example, a deployment event will normally include meta-data such as the hosts affected, the branch deployed as well as the specific build or version number if available. The interface provides the means to filter these events, so users can easily identify changes in relevant parts of the system if issues occur.
+
+%* At a glance status of all monitored services and components.
+%* Detailed error messages in the case of failed services, nodes or components.
+%* Reliability metrics calculated and augmented with Graphite stats.
+%* Incident tracking
+%* Access to the full event log
+
+Tech
+* 'Single page' application - What does this mean?
+* D3.js
+* SSE/WebSockets
 
 \subsection{React.js}
 \subsection{Data Visualisation - D3.js}
@@ -806,7 +851,9 @@ The Web UI is the primary method of interaction with the monitoring tool. After 
 
 \pagebreak
 % \chapter{Professional Issues}
-% \chapter{Evaluation}
+%\chapter{Evaluation}
+% DSL
+% Streaming Performance
 % \chapter{Conclusion & Future Work}
 % \chapter{Appendices}
 

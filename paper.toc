@@ -130,11 +130,15 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.8}Web UI}{40}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.1}React.js}{40}
+\contentsline {subsection}{\numberline {4.8.1}Implementation Choices}{40}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.2}Data Visualisation - D3.js}{40}
+\contentsline {subsubsection}{Single Page Application}{40}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.3}Live Updates}{40}
+\contentsline {subsection}{\numberline {4.8.2}React.js}{40}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.8.3}Data Visualisation - D3.js}{40}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.8.4}Live Updates}{40}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{41}
 \defcounter {refsection}{0}\relax 
