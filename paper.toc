@@ -46,6 +46,8 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.0.5}Non-Functional Requirements}{14}
 \defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.0.6}Additional Aims}{15}
+\defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {4}Design and Implementation}{16}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.1}Design Objectives}{16}
