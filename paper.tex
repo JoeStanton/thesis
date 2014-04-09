@@ -93,8 +93,6 @@ The system will be developed in multiple parts and distributed across hosts, whe
 
 All user interaction will be web based, due to the ease in distributing and updating the system and the lack of an installation step. Latest browsers with HTML5 and CSS3 support will be targeted as these are common amongst IT professionals. More details on the chosen system architecture are presented in section~\ref{section:architecture}
 
-\textbf{Scope Limitations:} Due to the significant differences between Windows and UNIX based servers, including compatibility of tools, remote command execution strategies and scriptability, I have decided to target only UNIX based (specifically Linux) servers initially. This decision is based upon the dominance of UNIX within the server market, at 66.8\% in a 2013 study~\cite{UnixMarketShare}.
-
 \chapter{Background Research \& Literature Review}
 
 In this chapter, we discuss the increase in infrastructure and software complexity, and how the industry has adapted to deal with it. We also review some literature from related research fields and evaluate the effectiveness of the proposed solutions.
@@ -283,6 +281,12 @@ I will open source the project on GitHub, using a flexible and open license, as 
 
 If the project is open sourced, it could still be made available commercially in a hosted and supported form at a later date.
 
+\subsection{Limitations}
+
+Due to the significant differences between Windows and UNIX based servers, including compatibility of tools, remote command execution strategies and scriptability, I have decided to target only UNIX based (specifically Linux) servers initially. This decision is based upon the dominance of UNIX within the server market, at 66.8\% in a 2013 study~\cite{UnixMarketShare}.
+
+The platform limitation will apply to the first version of the tool, but it will be possible to implement a layer of Windows compatibility for verification using a scripting interface such as PowerShell, given extra development time. This enhancement is potentially a good candidate for an open source contribution.
+
 \chapter{Design and Implementation}
 
 \section{Design Objectives}
@@ -357,7 +361,7 @@ This strategy needs to be carefully evaluated and tested, but should not present
 
 \subsection{Core Management API}
 
-The application core is a REST API written with the Ruby on Rails framework. It consists of a relational or graph database containing all entities such as hosts, services and their respective dependencies. These entities are exposed via the REST API to other parts of the application. The application core provides the means for registering new hosts and generating appropriate agent configurations.
+The application core is a REST API written with the Ruby on Rails framework. It consists of a database containing all entities such as hosts, services and their respective dependencies. These entities are exposed via the REST API to other parts of the application. The application core provides the means for registering new hosts and generating appropriate agent configurations.
 
 \subsection{Streaming Metrics/Events Service}
 
