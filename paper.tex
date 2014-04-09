@@ -219,26 +219,56 @@ An ideal solution would be an open source tool, incorporating the ease of setup 
 
 \chapter{Requirements Specification}
 
-A list of concrete requirements will be established from user stories based on my own personal experiences developing software in industry, and conversations with the following typical users of the system.
+A set of functional and non-functional requirements will be established from user stories based on my own personal experiences developing software in industry, and conversations with the following typical target users of the system:
 
 \begin{itemize}
   \item A Technical Architect at Red Badger Consulting
   \item A System Administrator at HCL
 \end{itemize}
 
-\subsection{User Stories}
-\begin{itemize}
+\subsection{Functional Requirements - User Stories}
+\begin{enumerate}
   \item As a developer, I would like a simple and expressive way to document my application's infrastructure requirements, so I can effectively communicate them to other developers and system administrators.
-  \item As a developer, I would like to share these infrastructure requirements with non-developers via a web interface. 
-  \item As a system administrator, I would like a clear overview of the system, detailing its dependencies, so I can understand it.
-  \item As a developer / system administrator, I would like to verify the state of the system continuously, so I can quickly troubleshoot problems when they occur and make the system more amenable to change.
-  \item As a developer / system administrator, I would like to log whenever failures occur, so I can identify unreliable components or inappropriate change by other individuals. 
-  \item As a developer / system administrator, I would like to be notified of changes in the state of the system via email, so I can respond to incidents quickly.
-  \item As a system administrator, I would like to easily setup monitoring for applications I have already deployed.
-  \item As a developer / system administrator, I would like the ability to track custom events such as code deployments or configuration management executions, so I can correlate these events with possible failures they may cause.
-  \item As a developer / system administrator, I would like the system to perform basic root cause analysis so I can identify the problem quickly even I lack knowledge or experience with the monitored application.
-  \item As a developer, I would like the monitoring system to have a pluggable architecture, so I can track/monitor any part of the system. 
-\end{itemize}
+  \item As a developer, I have the ability to execute my documented infrastructure specifications to automatically validate the correctness of the system under test.
+  \item As a developer, I can express arbitrary properties that the system under test must satisfy, while making use of open source libraries. So I can quickly produce accurate and practically useful specifications.
+  \item As a system administrator, I can see a clear overview of the system, detailing its architecture and dependencies, so I can understand and effectively support it.
+  \item As a developer / system administrator, I would like to verify the state of the system under test continuously, so I can quickly identify and resolve problems when they occur and make the system more amenable to change.
+  \item As a developer / system administrator, I would like to capture changes within the system as they occur, such as code deployments or re-configuration, so I can relate these events to issues that may occur, making root cause analysis easier.
+  \item As a developer / system administrator, I would like to be notified of changes in the state of the system via email and SMS, so I can respond to incidents quickly.
+  \item As a system administrator, I would like to easily create specifications for applications I have already deployed.
+  \item As a developer / system administrator, I would like to measure the reliability of a service and its components over time.
+\end{enumerate}
+
+\pagebreak
+\subsection{Non-Functional Requirements}
+\begin{enumerate}
+  \item Reliability - The system and all of its components should provide a reliable platform for monitoring live systems.
+  \item Usability - It should be easy to start using the system and understand how it fits within the users existing organisation. Understanding of the implementation details should not be necessary for basic use cases.
+  \item Performance
+    \begin{enumerate}
+      \item The system should efficiently validate system correctness.
+      \item Alerts or warnings should be delivered in a reliable and timely fashion.
+      \item Validation of the system should scale above a trivial number of hosts. (Over 20)
+      \item The impact of validating correctness on the system under test should be minimal.\ i.e. no significant degradation in performance of the monitored applications or resource exhaustion of the hosts under test.
+    \end{enumerate}
+  \item Security - The system is intended for use in production environments, therefore it should not unnecessarily expose the target system to threats such as the following:
+    \begin{enumerate}
+      \item Open network ports
+      \item Insecure transmission of sensitive data
+      \item Remote code execution
+    \end{enumerate}
+  \item Maintainability - The system should be maintainable so that new features are easier to implement and the implementation is easier to understand for any open source contributors.
+    \begin{enumerate}
+      \item Separation of Concerns - The system should be decomposed into a number of separate components which can be built and tested in isolation. They may use different languages and frameworks as appropriate for the specific task.
+      \item Architectural Patterns - The system should make good use of appropriate design patterns and architectural techniques provided in the implementation language, such as encapsulation and composition in an object orientated language.
+      \item Unit Testing - Wherever possible, the code should be tested by a suite of unit tests that achieve a high coverage of the total codebase.
+    \end{enumerate}
+  \item Interoperability - The system should integrate with existing systems in order to provide maximum flexibility/utility to the users. It should therefore:
+    \begin{enumerate}
+      \item Provide a simple interface such as a HTTP API to read and write data
+      \item Expose data in a standard format such as XML or JSON
+    \end{enumerate}
+\end{enumerate}
 
 \chapter{Design and Implementation}
 
