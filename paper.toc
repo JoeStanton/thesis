@@ -82,9 +82,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3.2}Streaming Metrics/Events Service}{21}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.3}Web UI}{21}
+\contentsline {subsection}{\numberline {4.3.3}Monitoring Agent}{22}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.4}Monitoring Agent}{22}
+\contentsline {subsection}{\numberline {4.3.4}Web UI}{22}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3.5}Monitoring Architecture Diagram}{23}
 \defcounter {refsection}{0}\relax 
@@ -149,3 +149,19 @@
 \contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{43}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.10}Tools and Methodologies}{44}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}Professional Issues}{45}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {6}Testing}{46}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.1}Unit Testing}{46}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.2}Functional Testing}{47}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.3}Performance Benchmarking}{48}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.4}Real World Usage}{48}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {7}Evaluation}{50}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{51}

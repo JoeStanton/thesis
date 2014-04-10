@@ -359,30 +359,33 @@ This strategy needs to be carefully evaluated and tested, but should not present
 \section{System Architecture}
 \label{section:architecture}
 
+The nature of the system is inherently distributed. Service specifications are written by a developer on their personal machines, must be executed on any number of target servers and have results returned to a centralised location. The following decomposition of components is suggested:
+
 \subsection{Core Management API}
 
-The application core is a REST API written with the Ruby on Rails framework. It consists of a database containing all entities such as hosts, services and their respective dependencies. These entities are exposed via the REST API to other parts of the application. The application core provides the means for registering new hosts and generating appropriate agent configurations.
+The API is considered to be the central component of the system, it consists of a database containing all entities such as hosts, services and their respective dependencies. It contains the fundamental business logic for calculating reliability metrics, and triggering events or alerts. It acts as the point of integration for all other components, as well as for external services. It is exposed as a HTTP REST API, which will accept and return data in a standard format such as JSON or XML.
+
+The Management API should support a mechanism of real-time updates, such as a WebSocket or Server Sent Event connection which broadcasts significant changes in the system so they can be displayed by any connected clients.
 
 \subsection{Streaming Metrics/Events Service}
 
-The streaming service manages the collection of test results, metrics and other events such as code deployments via event streams over TCP or UDP. Streams reporting errors or anomalous metrics will trigger status changes in the management API, as will streams that stop receiving messages, as this may indicate failure in the monitoring framework itself.
+The streaming service manages the collection of check results, metrics or logs via event streams over TCP or UDP. Streams reporting errors or anomalous metrics will trigger status changes in the management API, as will streams that stop receiving messages, as this may indicate failure in the monitoring framework itself. The streaming service should be the most scalable component, as it will likely be the limiting factor in the total number of checks/hosts supported by the system.
 
-Due to its highly parallel and asynchronous nature, this service is written in
-Clojure, as the functional programming style and asynchronous primitives within
-the language make it an ideal candidate for this type of processing. The Riemann
-~\cite{Riemann} event aggregation and stream processing library is used for stream buffering and filtering.
+The API itself could assume this role, but the number of events recieved could become very high and overwhelm the API. When considering that a very large percentage of events will be identical to previous events, it makes sense only for the significant events to be forwarded to the API.
 
-\subsection{Web UI}
-
-The web interface is the only user facing component of the system. It is a single page application written in JavaScript, and uses the Facebook React.js library for event handling and data binding, providing structure and testability to the frontend code. Where interactive visualisations are used, the D3.js library is used to draw these graphics as Scalable Vector Graphics (SVG).
-
-The Web UI will subscribe to a WebSocket connection to listen for changes in the system, this will ensure that any changes in the system are immediately visible to the end user, a feature that many other monitoring systems do not provide.
+Due to its highly parallel and asynchronous nature, this service will be written in Clojure, as the functional programming style and asynchronous primitives within the language make it an ideal candidate for this type of processing. The Riemann ~\cite{Riemann} event aggregation and stream processing library has been chosen for stream buffering and filtering.
 
 \subsection{Monitoring Agent}
 
-The server agent is a lightweight component written in Ruby and is installed on each server. The installation process is initiated by a shell script, downloaded and executed from an installation endpoint on the Core API. The agent is responsible for the collection of metrics provided by the operating system and installed applications, as specified in the configuration file, this configuration file is synchronised with the core API at pre-defined intervals.
+The server agent is a lightweight component written in Ruby and installed on each server and developer machine. The agent will provide the functionality needed for a developer to create or generate service specifications, expressing arbitrary properties of the system under test that can be automatically verified.
 
-The monitoring agent will manage forwarding of metrics to the correct endpoint, collection will be delegated to any number of bundled plugins, making data collection highly flexible.
+The agent software will be responsible for the execution of checks and the collection of their results. It will forward these results on to the streaming service continuously. The monitoring agent will delegate the execution of checks to any number of bundled plugins, making data collection highly flexible.
+
+\subsection{Web UI}
+
+The web interface is the only user facing component of the system. It is a single page application written in JavaScript, and uses the Facebook React.js library for event handling and data binding, providing structure and testability to the frontend code. It will fetch required data from the management API via AJAX. Where interactive visualisations are used, the D3.js library is used to draw these graphics as Scalable Vector Graphics (SVG).
+
+The Web UI will subscribe to a real-time connection (via WebSockets or Server Sent Events) to listen for changes in the system, this will ensure that any changes in the system are immediately visible to the end user, a feature that many other monitoring systems do not provide.
 
 \begin{landscape}
   \subsection{Monitoring Architecture Diagram}
@@ -897,11 +900,85 @@ Tech
 \end{description}
 
 \pagebreak
-% \chapter{Professional Issues}
-%\chapter{Evaluation}
+\chapter{Professional Issues}
+\chapter{Testing}
+
+Testing is an extremely important part of the software development lifecycle, and is key to delivering a quality product. The system I have developed comprises of a number of interconnected components, each of which must be tested in isolation and as a whole to ensure correctness.
+
+A number of strategies were chosen to test the application, detailed below.
+
+\section{Unit Testing}
+
+Unit Testing is a simple and effective way of ensuring units of functionality such as classes and methods behave correctly. Unit testing can be used to pinpoint the exact cause of a problem, as the code tested is isolated as well as possible from other interacting components such as databases. Running tests frequently during development provides a fast feedback loop in which correctness of new code can be verified, as well as detecting regressions in other areas of the code.
+
+Both the API and Management Agent were developed using Test Driven Development, this is a development methodology which involves writing failing test cases before the implementation code. By writing tests as a natural part of the development process, a high amount of code coverage can be achieved without significant extra effort. Both of these components have strong unit test suites which were invaluable during the development process and beyond.
+
+The management agent in particular benefitted from this form of testing. The DSL uses a number of meta-programming capabilities of Ruby, discussed in a previous section. The meta-programming features can, in some cases, make it harder to reason about the implementation code. A suite of unit tests specifically for the parsing of the DSL were both simple to write and extremely valuable in improving its quality and correctness.
+
+The small amount of configuration within the event streaming service was unit tested. As Riemann itself is a well tested event processing library, there was no need to test its functionality too. Therefore there are only a couple of test cases needed for this component.
+
+The Web UI was not unit tested. The Web UI primarily fetches and presents data to the user and the layout of this data changed significantly during the course of development. Unit testing the UI would have lead to very brittle test cases, which would break with any minor change. A combination of functional and manual testing were deemed to be a better fit for this component.
+
+The ability to verify the approximate correctness of each component in isolation is essential for a distributed system such as the monitoring tool. Distributed systems can suffer from a whole class of defects.
+\section{Functional Testing}
+
+While unit testing can be very beneficial in improving the quality of individual components, it does not expose any defects relating to the integration of these components into the whole system. Functional, or integration tests can vary from the combination of two components to testing the entire system end-to-end. They can typically be automated in the same way as unit tests, but it is generally more challenging and time consuming to do so. They can expose a large number of more subtle defects which are much more difficult to find after the software has been deployed.
+
+The end-to-end monitoring process, from parsing a service specification to displaying its results on the Web UI, requires the orchestration of a number of components, some of which are distributed over the network.
+
+The following functional tests were carried out, as they correspond to an important piece of functionality that is not possible to verify via unit tests:
+
+\begin{itemize}
+  \item When a host is setup via the installation script, it should appear on the admin interface with the correct hostname, port and service.
+  \item When agent service discovery is executed, each service listed within the agent service definitions should be detected.
+  \item When a service specification is pushed to the management server, it should appear on the web interface with the correct name, description and set of components.
+  \item When the monitoring agent is running, it should send events of the correct format back to the event stream at the configured polling interval.
+  \item When the state of a service, component or host changes, an incident email alert should be received by all appropriate users. (Automated \& Manual Verification)
+  \item When a host stops sending events due to connectivity problems or a management agent defect, an incident email alert should be triggered.
+  \item Subsequent failures for the same service should be grouped into a single incident. (Automated \& Manual Verification)
+  \item Third party services should be able to add events to the API. (Automated \& Manual Verification)
+\end{itemize}
+
+\section{Performance Benchmarking}
+\section{Real World Usage}
+
+Since approximately half way through the development process, a prototype of the system has been running on a number of production servers. These servers were supporting real services and the system was acting as the primary mechanism of detecting failure. This form of testing has been the most valuable. A number of minor issues could only be highlighted when the tool had been fully distributed across the internet, and others emerged after many days of continuous operation. Where problems were identified, they were reproduced with a unit test and subsequently fixed.
+
+Positive findings of real world usage testing:
+
+\begin{itemize}
+  \item It was simple to write a basic set of tests for an existing service.
+  \item The service discovery feature was simple and effective, and provided a usable service specification template to build upon.
+  \item After the initial setup, it became obvious that the tool could be used to detect some subtle problems, such as missing nightly database backups.
+\end{itemize}
+
+Results of this testing highlighted the following issues:
+
+\begin{itemize}
+  \item A large number of events accumulated within the system, causing a signficiant delay when loading the Web UI. Some problematic checks were fixed, and the amount of data returned from the API signficantly reduced, fixing the problem completely.
+  \item Connectivity issues between the host and the management API are quite common, often only lasting for a few seconds. The main solution to this was to increase the time window before a previous event had been declared `expired". Setting the event validity period to approximately 3 times the check interval allows for up to three consecutive lost packets, more indicative of a real problem.
+  \item The number of alerts produced is inversely proportional to their value. If alerts are triggered with zero tolerance for failures, the system administrator is unreasonably burdened with issues which will resolve themselves in a few minutes. This results in failures being ignored, or the disabling of checks completely. Incidents now trigger after a short delay, increasing the confidence in a real problem and collecting extra information before alerting the system administrator.
+\end{itemize}
+
+\chapter{Evaluation}
 % DSL
 % Streaming Performance
-% \chapter{Conclusion & Future Work}
+ \chapter{Conclusion \& Future Work}
+
+The project began by researching and understanding the benefits and limitations of many commonly used monitoring tools. After discussions with many developers, there seemed to be sufficient room for improvement, especially in bringing already successful ideas in related disciplines into the field, such as unit testing.
+
+Developers commonly see infrastructure issues as being a problem for system administrators, when in reality they are well placed to help with its prevention. Providing a tool that developers are comfortable using was a key goal of the project and one that I feel was achieved.
+
+After implementing the concept, I remain convinced that it is a solid approach to practically managing complex applications. A suite of tests could range from very low level port checks to high level integration checks testing real application features, making it suitable for all kinds of application. Providing the primitive tools needed to test abitrary properties of a system remains a powerful idea. The disadvantage to this flexibility is that the burden of writing good test cases is placed upon the user, something which could be improved with a more sophisticated service discovery mechanism and more bundled plugins. This is an area which could be expected to improve through open source contributions. Additionally, I expect that test suites would evolve over time, as more edge cases and problems in production are experienced and therefore identified quickly in future.
+
+As well as the monitoring of live systems, I have also discovered a number of other unintended use cases for the tool, a popular idea is to run the test suites on a continuous integration server to verify to verify the correctness of configuration management recipes. A machine could be prepared with the configuration management tool, and a suite of tests used to verify its validity.
+
+Conceptually, one of the main concerns I have is the duplication of knowledge between actual application configuration and the test suite needed to verify it. The same could be argued for software unit testing, but it seems that with the rise in popularity of tools of a declarative nature such as Chef and Puppet, there should be a way to remove some of this duplication.
+
+One of the only concerns around the use of the tool stem from its requirement for a Ruby installation on production servers. This was difficult to work around, as Ruby is particularly well suited to the implementation of a DSL and has a huge amount of open source libraries which developers can use to write specifications. It is also very familiar to a number of my target test users. However, it may be useful to look into other tools such as Google's Go language, which is statically linked and has no runtime dependencies.
+
+I hope that the concepts and implementation of this tool can be directly re-used and expanded upon in future by open source contributions or competing projects, I feel that there is still lots of room for improvement but believe that it will be realised in time with this approach.
+
 % \chapter{Appendices}
 
 \printbibliography[title=References]
