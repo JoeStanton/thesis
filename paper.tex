@@ -409,7 +409,7 @@ Ruby features typically leveraged to create internal DSL's are among the followi
 \begin{itemize}
   \item{Blocks} - A fairly common feature of most languages today, Ruby supports `blocks' as an implementation of first-class functions. First-class functions can be used as values, and therefore passed around and evaluated at will.
 
-  \item{instance\_eval} - This function executes a given block in the context of the receiving object. This means that lots of typical structural techniques such as defining classes and methods can be hidden as part of the implementation, and relied upon during execution. An example of this is included below:
+  \item{instance\_eval} - This function executes a given block in the context of the receiving object. This means that lots of typical structural techniques such as defining classes and methods can be hidden as part of the implementation, and relied upon during execution. This results in readibility improvements when used correctly. It is quite similar to the `fluent interfaces" style~\cite{FluentInterfaces}. An example of this is included below:
 
   \begin{minted}[fontfamily=fi4]{ruby}
   # Internal DSL implementation
@@ -503,11 +503,14 @@ The installation script performs the following steps:
 
 \subsection{Commands and Usage}
 
+The following commands can be executed from the command-line of a development workstation or server where the management agent has been installed. An example command invocation would be structured as follows: `baseline-agent $<$command$>$"
+
 \begin{description}
-  \item[Check] - Run configured health checks on demand. This command is typically used on developer workstations as they iteratively build a service specification using the DSL\. It provides fast feedback similar to running a suite of unit tests and can be used to quickly validate assumptions, before pushing the specification to the management server.
+  \item[Check] - Run configured health checks on demand. This command is typically used on developer workstations as they iteratively build a service specification using the DSL. It provides fast feedback similar to running a suite of unit tests and can be used to quickly validate assumptions, before pushing the specification to the management server.
   \item[Discover] - Creates a service specification from detected system services. This feature can be used primarily to reverse-engineer existing infrastructure setups into a service specification. More details about the discovery mechanism are provided in the next subsection.
-  \item[Graph] - Render a graph of the current service - This can be primarily used on the developer workstation, it will use the GraphViz library to render a graph of the system and its dependencies image or PDF format. This can be used on its own as a form of documentation, but is typically intended to help visualise the service specification and its dependencies to ensure its correctness.
+  \item[Graph] - Render a graph of the current service - This can be primarily used on the developer workstation, it will use the GraphViz library to render a graph of the system and its dependencies in PDF format. This can be used on its own as a form of documentation, but is typically intended to help visualise the service specification and its dependencies to ensure its correctness.
   \item[Push] - Pushes the specified service to a management server - This command will parse the DSL and serialise each object to JSON, it is then sent as a PUT request to the management API\. Changes to the service specification take effect immediately and update any connected users in near real-time.
+  \item[Pull] - Pulls an existing service from the management server - This command will download the original service specification file from a previous `push" command. This can be used to conveniently add new hosts to existing services.
   \item[Setup] - Register this host with the management server - This is used on the servers running the system under test, it will associate a host with a defined service, listing it in the Web UI and accepting events and check data from it.
   \item[Start] - Starts a monitoring daemon process, which runs in the background and executes checks according to their defined intervals. It will report all data back to the management server's event stream endpoint. Any errors occurring during this process will be logged to a file for later analysis.
   \item[Stop] - Stop monitoring the specified service.
@@ -608,7 +611,7 @@ Checks and performance data are checked for state changes or anomalies before be
   \item The `metric' field of the event is forwarded to Graphite, under an appropriate path, e.g. `example-service.nginx.health'. In the case of health checks, the value is simply 0 or 1, signifying failure or success respectively.
   \item If the most recent event has a different `state' field to the previous event of the same type, queue a notify task. This could happen when a check transitions state due to an error, or where another check packet was not received within the expected TTL interval.
 
-    The number of events matching these criteria is very low relative to the total number of events, and therefore most events never reach the management API\. This is a deliberate design decision, as the management API is significantly less capable of handling a high frequency of updates.
+    The number of events matching these criteria is very low relative to the total number of events, and therefore most events never reach the management API. This is a deliberate design decision, as the management API is significantly less capable of handling a high frequency of updates.
   \item The notify task sends a HTTP PATCH request to the management API at the endpoint specified in `notify\_endpoint' signifying a partial update with the new component status. If the status is `error', the request will also contain a description of the error that occurred. This error is often specific enough to pinpoint exact problems within failed components, but this depends on the granularity of the checks involved.
 \end{enumerate}
 
@@ -804,7 +807,7 @@ The changes feed is implemented as a Server Sent Events (SSE) stream, SSE is a H
 \begin{description}
   \item[Uni-Directional] There is only a need to send messages from the server to the client.
   \item[Pure HTTP] As a higher level, text-based protocol, HTTP incurs more overhead than TCP sockets (the level at which WebSockets operate), but is far more compatible with typical network infrastructure such as corporate web proxies etc. If WebSockets was used, it is likely that the TCP connection could be denied by proxies or firewalls.
-  \item[Good Browser Compatibility] Although SSE is only natively supported in modern browsers, it is possible to effectively polyfill this functionality in older browsers using JavaScript. This is not required for this project, but could be a consideration if the tool increased in popularity.
+  \item[Good Browser Compatibility] Although SSE is only natively supported in modern browsers, it is possible to effectively emulate this functionality in older browsers using JavaScript. This is not required for this project, but could be a consideration if the tool increased in popularity.
 \end{description}
 
 Both SSE and WebSockets were deemed to be better implementations than a long-polling mechanism as they are more efficient, and require less custom logic on the receiving client.
