@@ -140,28 +140,42 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Single Page Application}{42}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.2}React.js}{42}
+\contentsline {subsection}{\numberline {4.8.2}Features}{42}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.3}Data Visualisation - D3.js}{42}
+\contentsline {subsubsection}{A Service Overview}{43}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.4}Live Updates}{42}
+\contentsline {subsubsection}{Incident Tracking}{43}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{43}
+\contentsline {subsubsection}{Event Logging}{43}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.10}Tools and Methodologies}{44}
+\contentsline {subsection}{\numberline {4.8.3}React.js}{44}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Professional Issues}{45}
+\contentsline {subsection}{\numberline {4.8.4}Data Visualisation - D3.js}{44}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Testing}{46}
+\contentsline {subsection}{\numberline {4.8.5}Live Updates}{44}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.1}Unit Testing}{46}
+\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{45}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.2}Functional Testing}{47}
+\contentsline {subsection}{\numberline {4.9.1}Configuration Management Tools}{45}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.3}Performance Benchmarking}{48}
+\contentsline {subsubsection}{Ansible}{45}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.4}Real World Usage}{48}
+\contentsline {subsection}{\numberline {4.9.2}Virtual Appliances - Packer}{47}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Evaluation}{50}
+\contentsline {section}{\numberline {4.10}Tools and Methodologies}{48}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{51}
+\contentsline {chapter}{\numberline {5}Professional Issues}{49}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {6}Testing}{50}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.1}Unit Testing}{50}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.2}Functional Testing}{51}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.3}Performance Benchmarking}{52}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.4}Real World Usage}{52}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {7}Evaluation}{54}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{55}

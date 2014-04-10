@@ -829,44 +829,44 @@ SMS notifications can convey a more limited quantity of information than emails,
 
 \subsubsection{Single Page Application}
 
-%The Web UI is implemented as a single page web application, written in JavaScript. Single page applications have recently increased significantly in popularity, due to the improved capabilities of modern browsers. A single page application differs from a traditional website in the following ways:
+The Web UI is implemented as a single page web application, written in JavaScript. Single page applications have recently increased significantly in popularity, due to the improved capabilities of modern browsers. A single page application differs from a traditional website in the following ways:
 
-%\begin{description}
-  %\item[Rendering]
-    %Most web applications are executed exclusively on the server-side, this is an obvious choice as it provides many benefits such as: low-latency database access, the standard execution environment of a server under the developers control and effective security. With a single page application, the server side components are usually exposed via an API which takes advantage of these benefits, and the client-side JavaScript fetches data from this API via AJAX requests. When data is recieved, it is rendered into HTML elements by JavaScript executing in the browser.
-  %\item[Interactivity and Responsiveness]
-    %The user experience of a single page application can be significantly better than a traditional website, when used in an appropriate situation. Websites can feel much more like a desktop application, with multiple views, background data synchronization, data filtering etc. The main increase in responsiveness comes from eliminating jarring page reloads, thereby increasing percieved performance.
-%\end{description}
+\begin{description}
+  \item[Rendering]
+    Most web applications are executed exclusively on the server-side, this is an obvious choice as it provides many benefits such as: low-latency database access, the standard execution environment of a server under the developers control and effective security. With a single page application, the server side components are usually exposed via an API which takes advantage of these benefits, and the client-side JavaScript fetches data from this API via AJAX requests. When data is recieved, it is rendered into HTML elements by JavaScript executing in the browser.
+  \item[Interactivity and Responsiveness]
+    The user experience of a single page application can be significantly better than a traditional website, when used in an appropriate situation. Websites can feel much more like a desktop application, with multiple views, background data synchronization, data filtering etc. The main increase in responsiveness comes from eliminating jarring page reloads, thereby increasing percieved performance.
+\end{description}
 
-%Abstraction and Maintainability
+Abstraction and Maintainability
 
-    %Single page application frameworks often apply standard architectural patterns such as Model-View-Controller. These patterns can help to raise the level of abstraction when creating highly interactive applications beyond manually binding event listeners to DOM elements in order to update and present data. Applications that are abstracted from the imperative nature of programming with the DOM (Document Object Model) can find benefits in a more delcarative approach. This can help improve testability, code reuse and can reduce the number of defects.
+    Single page application frameworks often apply standard architectural patterns such as Model-View-Controller. These patterns can help to raise the level of abstraction when creating highly interactive applications beyond manually binding event listeners to DOM elements in order to update and present data. Applications that are abstracted from the imperative nature of programming with the DOM (Document Object Model) can find benefits in a more delcarative approach. This can help improve testability, code reuse and can reduce the number of defects.
 
-%\subsection{Features}
+\subsection{Features}
 
-%The Web UI is the primary method of interaction for users of the system. It provides the following main features:
+The Web UI is the primary method of interaction for users of the system. It provides the following main features:
 
-%\subsubsection{A Service Overview}
+\subsubsection{A Service Overview}
 
-%The service overview provides the information necessary to understand the high-level architecture a service. It gives an overview of the service itself, with its description if specified, a number of reliability metrics and the current service status.
+The service overview provides the information necessary to understand the high-level architecture a service. It gives an overview of the service itself, with its description if specified, a number of reliability metrics and the current service status.
 
-%All individual components and hosts are listed, together with their respective statuses. If there are any issues within the service, they will be highlighted and enhanced with extra detail to aid in the troubleshooting process.
+All individual components and hosts are listed, together with their respective statuses. If there are any issues within the service, they will be highlighted and enhanced with extra detail to aid in the troubleshooting process.
 
-%\subsubsection{Incident Tracking}
+\subsubsection{Incident Tracking}
 
-%As previously discussed, Incidents are a consolidated view of relevant context that users can use to identify the root cause of issues. Users will be directed to the incident page via notifications recieved via Email or SMS\. The interface surfaces relevant events occurring before or during an incident, as well as similar incidents that have occurred in the past.
+As previously discussed, Incidents are a consolidated view of relevant context that users can use to identify the root cause of issues. Users will be directed to the incident page via notifications recieved via Email or SMS\. The interface surfaces relevant events occurring before or during an incident, as well as similar incidents that have occurred in the past.
 
-%After an incident has been resolved, the user is encouraged to provide a brief note detailing the root cause, as well as any remedial action taken. This will be surfaced when other relevant incidents occur in future.
+After an incident has been resolved, the user is encouraged to provide a brief note detailing the root cause, as well as any remedial action taken. This will be surfaced when other relevant incidents occur in future.
 
-%\subsubsection{Event Logging}
+\subsubsection{Event Logging}
 
-%The monitoring system is designed to accomodate and track changes in underlying infrastructure. The event log provides a chronological view of these changes together with supplementary information provided via each integration. For example, a deployment event will normally include meta-data such as the hosts affected, the branch deployed as well as the specific build or version number if available. The interface provides the means to filter these events, so users can easily identify changes in relevant parts of the system if issues occur.
+The monitoring system is designed to accomodate and track changes in underlying infrastructure. The event log provides a chronological view of these changes together with supplementary information provided via each integration. For example, a deployment event will normally include meta-data such as the hosts affected, the branch deployed as well as the specific build or version number if available. The interface provides the means to filter these events, so users can easily identify changes in relevant parts of the system if issues occur.
 
-%* At a glance status of all monitored services and components.
-%* Detailed error messages in the case of failed services, nodes or components.
-%* Reliability metrics calculated and augmented with Graphite stats.
-%* Incident tracking
-%* Access to the full event log
+* At a glance status of all monitored services and components.
+* Detailed error messages in the case of failed services, nodes or components.
+* Reliability metrics calculated and augmented with Graphite stats.
+* Incident tracking
+* Access to the full event log
 
 Tech
 * 'Single page' application - What does this mean?
@@ -879,6 +879,69 @@ Tech
 
 \pagebreak
 \section{Deployment \& Provisioning}
+
+The management server should have an automated, repeatable provisioning and deployment process. This involves the setup and configuration of all supporting software packages on a given host via a configuration management tool.
+
+Automation of this process has a number of benefits: it reduces the chance of defects caused by configuration inconsistencies and can make it significantly quicker to adapt the infrastructure in future. Most significantly, it will make it simple to package the tool as a virtual appliance or provision a bare-metal machine that can be deployed on a user's private network. This will become the `on-premise' version of the tool, more suitable where there are a large number of checks or the system under test stores sensitive data. A hosted version of the tool may also be provided.
+
+\subsection{Configuration Management Tools}
+
+As discussed in the background research section, configuration management tools allow the specification and configuration of software packages on any number of hosts. They are most useful when dealing with a large number of nodes or where there is a need to generate whole machine images as part of a build process. A configuration management tool normally executes a set of scripts idempotently to check and enforce convergence with the specification.
+
+\subsubsection{Ansible}
+
+Ansible is one of the simplest configuration management tools around. Its competitors, Chef and Puppet, provide significantly more functionality that is not required for this project. Many of the features of Chef and Puppet allow them to efficiently orchestrate changes on large numbers of hosts, and offer more features for platform agnosticism, this carries some extra complexity. Ansible is a simpler variant more suitable for a small number of nodes, and its simplicity makes writing `playbooks" quick and painless.
+
+Ansible `playbooks" are declared in YAML format. Ansible contains specific modules for most types of configuration task, usually implemented as thin wrappers around UNIX commands. It builds in checks to ensure that commands are idempotent. This allows the user to repeatedly use a playbook with no negative effects on the host. The playbooks look similar to the following:
+
+\begin{listing}[p]
+\begin{minted}[fontfamily=fi4]{yaml}
+- name: Install Dependencies
+  apt: pkg={{item}}
+  with_items:
+    - python-software-properties
+    - software-properties-common
+    - python-pycurl
+  sudo: yes
+  tags: nginx
+
+- name: Add Nginx Repository
+  apt_repository: repo=ppa:nginx/stable
+  sudo: yes
+  tags: nginx
+
+- name: Install Nginx
+  apt: pkg=nginx-full
+  sudo: yes
+  tags: nginx
+
+- name: Configure Nginx
+  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/default.conf
+  sudo: yes
+  tags: nginx
+
+- name: Set /var/www/ permissions
+  file: path=/var/www/ mode=0644 state=directory
+  sudo: yes
+  tags: nginx
+
+- name: Start Nginx
+  action: service name=nginx state=restarted
+  sudo: yes
+  tags: nginx
+\end{minted}
+\end{listing}
+
+\subsection{Virtual Appliances - Packer}
+
+Packer is a tool that creates machine images from a given hardware specification from scratch. It integrates directly with configuration management tools such as Ansible to prepare the machine image after it has been created. Packer builds the following machine image formats:
+
+\begin{itemize}
+  \item Amazon Machine Images - Used widely on Amazon AWS, these images specify the hardware specifications of a virtual instance, together with a pre-prepared filesystem. These images can be used directly to boot a virtual instance into an existing AWS account with a single click.
+  \item Open Virtualization Format (OVF) - Supporting VMWare and VirtualBox, this format can be used to directly import an appliance to VMWare ESXi or other enterprise virtualization platform. Test instances can also be booted on a development workstation.
+\end{itemize}
+
+A configuration file controls the setup of a base Ubuntu Linux v13.04 image, Packer then executes the Ansible playbooks before exporting the image to the specified formats. The convenient packaging of the software should increase the chances of adoption significantly.
 
 \pagebreak
 \section{Tools and Methodologies}
@@ -919,10 +982,11 @@ The small amount of configuration within the event streaming service was unit te
 
 The Web UI was not unit tested. The Web UI primarily fetches and presents data to the user and the layout of this data changed significantly during the course of development. Unit testing the UI would have lead to very brittle test cases, which would break with any minor change. A combination of functional and manual testing were deemed to be a better fit for this component.
 
-The ability to verify the approximate correctness of each component in isolation is essential for a distributed system such as the monitoring tool. Distributed systems can suffer from a whole class of defects.
 \section{Functional Testing}
 
-While unit testing can be very beneficial in improving the quality of individual components, it does not expose any defects relating to the integration of these components into the whole system. Functional, or integration tests can vary from the combination of two components to testing the entire system end-to-end. They can typically be automated in the same way as unit tests, but it is generally more challenging and time consuming to do so. They can expose a large number of more subtle defects which are much more difficult to find after the software has been deployed.
+While unit testing can be very beneficial in improving the quality of individual components, it does not expose any defects relating to the integration of these components into the whole system. Functional, or integration tests can vary from the combination of two components to testing the entire system end-to-end.
+
+They can typically be automated in the same way as unit tests, but it is generally more challenging and time consuming to do so. They can expose a large number of more subtle defects which are much more difficult to find after the software has been deployed.
 
 The end-to-end monitoring process, from parsing a service specification to displaying its results on the Web UI, requires the orchestration of a number of components, some of which are distributed over the network.
 
