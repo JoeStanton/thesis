@@ -497,7 +497,7 @@ The installation script performs the following steps:
 \begin{enumerate}
   \item{Detection of Operating System} - The tool initially supports Linux and Mac OS X only, it will distinguish between these operating systems or abort the installation if running on a different platform.
   \item{Detection or Installation of Ruby} - If Ruby 2.0.1 is not installed, the script will use the standard package manager of the distribution to install it.
-  \item{Download of Agent Software} - The source code will be obtained directly from GitHub, dependencies will be resolved and installed.
+  \item{Download of Agent Software} - The source code will be obtained directly from GitHub over a secure connection protecting against spoofing attacks, dependencies will be resolved and installed.
   \item{Host Registration} - Optionally, the host can be registered with the management server, the hostname and IP address as well as an optional service name and environment will be passed to the management server. This is appropriate on servers but not development workstations.
 \end{enumerate}
 
