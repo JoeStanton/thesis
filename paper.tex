@@ -41,7 +41,7 @@ While the problems of delivering software at scale are significantly reduced by 
 In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage some of the inherent complexity in modern infrastructure. The emphasis of this investigation is on small to medium size software deployments, rather than enterprises that typically have the resources to tackle these problems.
 
 \chapter*{Originality Avowal}
-I verify that I am the sole author of this report, except where explicitly stated to the contrary. 
+I verify that I am the sole author of this report, except where explicitly stated to the contrary. I grant the right to King’s College London to make paper and electronic copies of the submitted work for purposes of marking, plagiarism detection and archival, and to upload a copy of the work to Turnitin or another trusted plagiarism detection service. I confirm this report does not exceed 25,000 words.
 
 \textbf{Signed:} Joe Stanton 
 
@@ -538,8 +538,9 @@ database:
     version: mysql --version
 \end{minted}
 
-It then gets the table of currently executing processes, via the UNIX command `ps aux' and parses the output. It then matches this list with the processes in the service definitions list, and verifies the listening port via `lsof :port'. When a process has been detected, the tool will execute the specified `version' command to extract the current version number of the service.
+It then gets the table of currently executing processes, via the UNIX command `ps aux' and parses the output. It then matches this list with the processes in the service definitions list, and verifies the listening port via `lsof -i :$<$port$>$'. When a process has been detected, the tool will execute the specified `version' command to extract the current version number of the service.
 
+\pagebreak
 The discovery process will output a service specification similar to the following:
 
 \begin{minted}[fontfamily=fi4]{ruby}
