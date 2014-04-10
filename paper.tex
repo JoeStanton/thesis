@@ -124,11 +124,12 @@ Studies into increased quality, maintainability and developer productivity when 
 
 The XP and Agile movements focus on improving software quality and increased responsiveness to changing customer requirements~\cite{WikiXP}. These are both process management and technological issues. XP focuses mostly on the technical aspect, there is a very strong focus on testing, and Test Driven Development (TDD) in particular which helps to realise these goals.
 
-There are many types of testing, but they can generally be grouped into three main categories:
+There are many types of testing, but they can generally be grouped into two main categories:
 
 \begin{description}
   \item[Unit Testing] The main role of unit testing is as a design tool, developers can write unit tests to specify the intended behaviour of a component and then implement it to match. They provide fast and specific feedback on the correctness of implementation.
   \item[Integration Testing] verification that each separate component of the system functions correctly when it has been integrated with other components. This could range from testing the composition of two small components or an entire order processing pipeline. They are used to improve confidence in overall system correctness, and they are often use to guard against regressions in functionality over time.
+  \item[Acceptance Testing] verification that the system as a whole fulfils the functional requirements of the end user. These tests are often carried out manually, but can be automated using a black box browser testing tool such as Selenium.
 \end{description}
 
 Testing is often used as a means of managing complexity, especially as systems become larger. A suite of tests is often used as a means to provide quick feedback when changes break other areas of the system. We can see many similarities between the complexity of software and the complexity of its underlying infrastructure, therefore these techniques could have value in this area too.
@@ -136,7 +137,7 @@ Testing is often used as a means of managing complexity, especially as systems b
 \pagebreak
 \section{Managing Infrastructure Complexity}
 
-There is clearly a large amount of research and analysis into managing software complexity, in this section, we will review the techniques used to manage the infrastructure side of this complexity.
+There is clearly a large amount of research and analysis into managing software complexity. In this section, we will review the techniques used to manage the infrastructure side of this complexity.
 
 \subsection{General Modelling Tools}
 
@@ -144,7 +145,7 @@ A number of modelling standards are extremely flexible and allow the expression 
 
 It is relatively difficult to find practical examples of infrastructure modelling in CIM, making it difficult to get started with unless the user already has experience with MDSE techniques.
 
-Such generic modelling tools are useful for communicating ideas or states of a system, but it could be argued that they lack pragmatic value. They are generally not  executable like their software modelling counterparts, which limits their value significantly.
+Such generic modelling tools are useful for communicating ideas or states of a system, but it could be argued that they lack pragmatic value. It is often not possible to execute the produced models in order to derive an implementation, as a set of transformations from any arbitrary model would prove too complex to implement. The inability to execute these models limits their value significantly.
 
 \subsection{Infrastructure Modelling Tools \& Configuration Management}
 
@@ -153,6 +154,8 @@ Modern configuration management tools can be considered a type of infrastructure
 Configuration management tools are especially interesting due to their mass adoption in recent years within the Agile software development community, as well as at enterprises such as Facebook and Amazon~\cite{Chef}.
 
 The real value of these DSL's is that they are directly executable.  They can be executed to drive infrastructure changes and ensure convergence with the model. Figure~\ref{fig:PuppetDSLSnippet} provides an example snippet of a Puppet recipe, declaratively specifying details of the SSH (secure shell) service that will be made available on a specific host.
+
+As part of the runtime execution, each service's conformance to this set of properties is verified and if there is any divergence, the tool will orchestrate a set of imperative actions, for example installing the service or altering its configuration file and then restarting it.
 
 \begin{listing}[h]
 \begin{minted}[fontfamily=fi4]{ruby}
@@ -177,8 +180,6 @@ class sshd {
 \caption{A puppet recipe snippet, declaratively configuring the SSH service on a host. The execution of this description is idempotent, so can be repeated safely to ensure convergence.}
 \label{fig:PuppetDSLSnippet}
 \end{listing}
-
-As part of the runtime execution, each service’s conformance to this set of properties is verified and if there is any divergence, the tool will orchestrate a set of imperative actions, for example installing the service or altering its configuration file and then restarting it.
 
 \clearpage
 \subsection{Existing Monitoring Tools}
@@ -299,7 +300,7 @@ A tool that provides a simple installation process, follows ‘convention over c
 
 \paragraph{Embracing Change}
 
-Maintaining agility while providing a suitable quality of service is challenging. Continuous Integration and Delivery are fundamental principles of the XP (Extreme Programming) movement and discuss solutions to this problem at great length, the most cited benefit is the reduction of risk. Small amounts of change applied frequently are easier to reason about and test, and of course provide the end user with value quicker. In conjunction with version control systems, CI/CD can be used to effectively identify the root cause of problems soon after they occur. The application of CI/CD is widespread within the industry, and a whole suite of tools such as Continuous Integration servers, automated code deployment tools and configuration management utilities all aid to facilitate the practice.
+Maintaining agility while providing a suitable quality of service is challenging. Continuous Integration (CI) and Delivery (CD) are fundamental principles of the Extreme Programming (XP) movement and discuss solutions to this problem at great length, the most cited benefit is the reduction of risk. Small amounts of change applied frequently are easier to reason about and test, and of course provide the end user with value quicker. In conjunction with version control systems, CI/CD can be used to effectively identify the root cause of problems soon after they occur. The application of CI/CD is widespread within the industry, and a whole suite of tools such as CI servers, automated code deployment tools and configuration management utilities all aid to facilitate the practice.
 
 The monitoring tool should fit within an agile workflow, where system architectures change frequently. It could even be used to verify that system reconfiguration was successful, as a form of test driven infrastructure change. The tool should provide the means to track changes such as code deployments and re-configuration and provide an interface to visualise this, similar to viewing changes in code under source control.
 
@@ -345,7 +346,7 @@ This strategy needs to be carefully evaluated and tested, but should not present
 \section{Domain Model and Concepts}
 
 \begin{itemize}
-  \item Service - An application that provides functionality to an end-user or another service over a network\. e.g. a website or API.
+  \item Service - An application that provides functionality to an end-user or another service over a network. e.g. a website or API.
   \item Component - Part of a service that performs a specific function, e.g.\ an application server or a load balancer.
   \item Host - A physical, virtual or otherwise isolated container responsible for running some or all of the components of a service.
   \item Metric - A measure of a characteristic at a given point in time, e.g.\ CPU load or average request latency. Typically quantitative in nature.
@@ -360,6 +361,10 @@ This strategy needs to be carefully evaluated and tested, but should not present
 \label{section:architecture}
 
 The nature of the system is inherently distributed. Service specifications are written by a developer on their personal machines, must be executed on any number of target servers and have results returned to a centralised location. The following decomposition of components is suggested:
+
+\begin{listing}[h]
+\includegraphics[scale=0.6]{architecture.pdf}
+\end{listing}
 
 \subsection{Core Management API}
 
@@ -386,11 +391,6 @@ The agent software will be responsible for the execution of checks and the colle
 The web interface is the only user facing component of the system. It is a single page application written in JavaScript, and uses the Facebook React.js library for event handling and data binding, providing structure and testability to the frontend code. It will fetch required data from the management API via AJAX. Where interactive visualisations are used, the D3.js library is used to draw these graphics as Scalable Vector Graphics (SVG).
 
 The Web UI will subscribe to a real-time connection (via WebSockets or Server Sent Events) to listen for changes in the system, this will ensure that any changes in the system are immediately visible to the end user, a feature that many other monitoring systems do not provide.
-
-\begin{landscape}
-  \subsection{Monitoring Architecture Diagram}
-  \includegraphics[scale=0.7]{architecture.pdf}
-\end{landscape}
 
 \pagebreak
 \section{Domain-Specific Language}
