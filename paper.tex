@@ -820,7 +820,7 @@ Incidents are designed to group all of the required context such as component fa
 
 \subsection{Live Updates - Server Sent Events}
 
-As well as the typical API resources previously discussed, a single endpoint is provided for clients to subscribe to a streem of changes. Where appropriate, all domain entities will be published to the changes stream as they are created, updated or deleted. Clients such as the Web UI can subscribe to these changes and update the user interface accordingly.
+As well as the typical API resources previously discussed, a single endpoint is provided for clients to subscribe to a stream of changes. Where appropriate, all domain entities will be published to the changes stream as they are created, updated or deleted. Clients such as the Web UI can subscribe to these changes and update the user interface accordingly.
 
 The changes feed is implemented as a Server Sent Events (SSE) stream, SSE is a HTML5 standard for uni-directional, long running HTTP responses. Alternatives to Server Sent Events are WebSockets and standard long polling techniques. SSE was chosen over WebSockets for the following reasons:
 
