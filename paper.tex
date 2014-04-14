@@ -758,7 +758,7 @@ Standard measures of system reliability are calculated at the service level, for
 
 \pagebreak
 \subsection{Hosts}
-Hosts are a simple structure, they are conceptually just an instance of the management agent running on a physical or virtual server. When the management software is installed, the user can specify an environment, e.g.\ development, staging or production. Hosts are initially registered via the `setup' command of the management agent, and are associated/dissociated with services when the `start' and `stop' monitoring commands are used. Hosts are considered transient, they will be removed or shown depending on their current monitoring state, as they could be part of dynamic infrastructure such as auto-scaling groups, which change significantly over time.
+Hosts are a simple structure, they are conceptually just an instance of the management agent running on a physical or virtual server. When the management software is installed, the user can specify an environment, e.g.\ development, staging or production. Hosts are initially registered via the `setup' command of the management agent, and are associated/dissociated with services when the `start' and `stop' monitoring commands are used, specifying a particular service specification. Hosts are considered transient, they are instances of an application running at a particular time. This is particularly true of more dynamic infrastructure such as auto-scaling groups.
 
 \begin{listing}[h]
 \begin{minted}[fontfamily=fi4]{json}
@@ -766,7 +766,7 @@ Hosts are a simple structure, they are conceptually just an instance of the mana
     "hostname": "db-1.local",
     "ip": "192.168.1.100",
     "environment": "development",
-    "service_id": 3,
+    "service": "example-service",
     "status": "ok"
   }
 \end{minted}
