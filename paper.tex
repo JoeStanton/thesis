@@ -363,7 +363,9 @@ This strategy needs to be carefully evaluated and tested, but should not present
 The nature of the system is inherently distributed. Service specifications are written by a developer on their personal machines, must be executed on any number of target servers and have results returned to a centralised location. The following decomposition of components is suggested:
 
 \begin{listing}[h]
-\includegraphics[scale=0.6]{architecture.pdf}
+  \centerline{
+    \includegraphics[scale=0.6]{architecture.pdf}
+  }
 \end{listing}
 
 \subsection{Core Management API}
@@ -409,7 +411,7 @@ Ruby features typically leveraged to create internal DSL's are among the followi
 \begin{itemize}
   \item{Blocks} - A fairly common feature of most languages today, Ruby supports `blocks' as an implementation of first-class functions. First-class functions can be used as values, and therefore passed around and evaluated at will.
 
-  \item{instance\_eval} - This function executes a given block in the context of the receiving object. This means that lots of typical structural techniques such as defining classes and methods can be hidden as part of the implementation, and relied upon during execution. This results in readibility improvements when used correctly. It is quite similar to the `fluent interfaces" style~\cite{FluentInterfaces}. An example of this is included below:
+  \item{instance\_eval} - This function executes a given block in the context of the receiving object. This means that lots of typical structural techniques such as defining classes and methods can be hidden as part of the implementation, and relied upon during execution. This results in readibility improvements when used correctly. It is quite similar to the ``fluent interfaces" style~\cite{FluentInterfaces}. An example of this is included below:
 
   \begin{minted}[fontfamily=fi4]{ruby}
   # Internal DSL implementation
@@ -506,7 +508,7 @@ The installation script performs the following steps:
 The following commands can be executed from the command-line of a development workstation or server where the management agent has been installed. An example command invocation would be structured as follows: `baseline-agent $<$command$>$"
 
 \begin{description}
-  \item[Check] - Run configured health checks on demand. This command is typically used on developer workstations as they iteratively build a service specification using the DSL. It provides fast feedback similar to running a suite of unit tests and can be used to quickly validate assumptions, before pushing the specification to the management server.
+  \item[Check] - Run configured health checks on demand. This command is typically used on developer workstations as they iteratively build a service specification using the DSL\@. It provides fast feedback similar to running a suite of unit tests and can be used to quickly validate assumptions, before pushing the specification to the management server.
   \item[Discover] - Creates a service specification from detected system services. This feature can be used primarily to reverse-engineer existing infrastructure setups into a service specification. More details about the discovery mechanism are provided in the next subsection.
   \item[Graph] - Render a graph of the current service - This can be primarily used on the developer workstation, it will use the GraphViz library to render a graph of the system and its dependencies in PDF format. This can be used on its own as a form of documentation, but is typically intended to help visualise the service specification and its dependencies to ensure its correctness.
   \item[Push] - Pushes the specified service to a management server - This command will parse the DSL and serialise each object to JSON, it is then sent as a PUT request to the management API\. Changes to the service specification take effect immediately and update any connected users in near real-time.
@@ -573,16 +575,15 @@ This service specification not only lists the running services, but provides a s
 \pagebreak
 \section{Streaming Event Service}
 
-The streaming event service is based on the open source project
-Riemann\footnote{See http://riemann.io/concepts for an introduction to
-Riemann.}. Riemann is a simple and scalable event processing framework written in Clojure\footnote{See http://clojure.org for a full description of Clojure}. Riemann simply provides a powerful set of primitive operations to filter, throttle and detect changes in streams of data. Riemann provides a configuration file, itself written in Clojure, which is used to specify the desired behaviour.
+The streaming event service is designed to collect metrics from a large number of monitored hosts and report any significant changes back to the management API\@. A language with strong support for concurrency and high throughput networking would be ideal for this problem. Ruby has relatively poor support for the above features, as it generally lacks support for non-blocking operations, and has a number of flaws with multi-threading, such as the `Global Interpreter Lock" problem~\cite{RubyGIL}. In contrast, languages such Java and Clojure\footnote{See http://clojure.org for a full description of Clojure} have far better support for this type of application.
 
-Clojure is especially well suited to a problem like this as it has excellent support for asynchronous execution, it is hosted on top of the Java Virtual Machine and therefore benefits from a mature ecosystem of tooling and performant networking libraries. It is a functional language, and therefore makes transforming and filtering event data very simple.
+Both Java itself and Clojure have a number of similarities, they both use the Java Virtual Machine (JVM) as the host platform and therefore benefit from a mature ecosystem of tooling and open source libraries. The main difference is that Clojure is a functional language, bringing benefits of improved testability, immutability of data, and higher level concurrency features such as Software Transactional Memory, this makes it a natural fit the problem of transforming and filtering event data concurrently. As Clojure is a good fit for this type of problem, there are a couple of popular libraries suiting this task already. One of these libraries is Riemann\footnote{See http://riemann.io/concepts for an introduction to Riemann.}.
 
-Events are sent from the monitoring agent installed on each host via a TCP
-socket. They use the `Protocol Buffers'\footnote{See https://developers.google.com/protocol-buffers/docs/overview for an introduction} binary format developed at Google to efficiently transport the data.
+Riemann is a simple and scalable event processing framework written in Clojure, benchmarks suggest that it can process over 200,000 events/sec~\cite{Aphyr200k}. Riemann simply provides a powerful set of primitive operations to filter, throttle and detect changes in streams of data. Custom handling of events is provided via a configuration file, itself interpreted as Clojure. As Riemann provides a vast library of event procesing functions, it significantly reduces the amount of functionality needing to be implemented. Both Clojure and Riemann were selected as appropriate implementation choices for this service.
 
 \subsection{Event Schema \& Routing}
+
+Events are sent from the monitoring agent installed on each host via a TCP socket. They use the `Protocol Buffers'\footnote{See https://developers.google.com/protocol-buffers/docs/overview for an introduction} binary format developed at Google to efficiently transport the data.
 
 A typical event payload can be arbitrarily defined, but is typically structured as follows:
 
