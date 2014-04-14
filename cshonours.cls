@@ -384,7 +384,7 @@ class report.cls by Cara MacNish August 1999/September 2000]
 %ckm    \Huge \bfseries #1\par\nobreak
     \Huge #1\par\nobreak
 %ckm    \vskip 40\p@
-    \vskip 80\p@
+    \vskip 30\p@
   }}
 \def\@schapter#1{\if@twocolumn
                    \@topnewpage[\@makeschapterhead{#1}]%

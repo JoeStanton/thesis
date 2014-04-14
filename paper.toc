@@ -16,7 +16,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1.1}Modelling and Model Driven Software Engineering (MDSE)}{4}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Diagrams vs.\ Models}{5}
+\contentsline {paragraph}{Diagrams vs.\ Models}{4}
 \defcounter {refsection}{0}\relax 
 \contentsline {paragraph}{Modelling Techniques}{5}
 \defcounter {refsection}{0}\relax 
@@ -42,138 +42,140 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {3}Requirements Specification}{12}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.0.4}Functional Requirements - User Stories}{12}
+\contentsline {subsection}{\numberline {3.0.4}User Stories}{12}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.0.5}Non-Functional Requirements}{14}
+\contentsline {subsection}{\numberline {3.0.5}Functional Requirements}{13}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.0.6}Additional Aims}{15}
+\contentsline {subsection}{\numberline {3.0.6}Non-Functional Requirements}{15}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.0.7}Limitations}{15}
+\contentsline {subsection}{\numberline {3.0.7}Additional Aims}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Design and Implementation}{16}
+\contentsline {subsection}{\numberline {3.0.8}Limitations}{16}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Design Objectives}{16}
+\contentsline {chapter}{\numberline {4}Design and Implementation}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Speed/Ease of Setup}{16}
+\contentsline {section}{\numberline {4.1}Design Objectives}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Simplicity and Pragmatism}{16}
+\contentsline {paragraph}{Speed/Ease of Setup}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Embracing Change}{16}
+\contentsline {paragraph}{Simplicity and Pragmatism}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Dynamic Infrastructure}{17}
+\contentsline {paragraph}{Embracing Change}{17}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Flexibility}{17}
+\contentsline {paragraph}{Dynamic Infrastructure}{18}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Streaming Metrics}{17}
+\contentsline {paragraph}{Flexibility}{18}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Hosted vs. On-Premise Solutions}{18}
+\contentsline {paragraph}{Streaming Metrics}{18}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Security}{18}
+\contentsline {paragraph}{Hosted vs. On-Premise Solutions}{19}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Domain Model and Concepts}{19}
+\contentsline {paragraph}{Security}{19}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}System Architecture}{20}
+\contentsline {section}{\numberline {4.2}Domain Model and Concepts}{20}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.1}Core Management API}{20}
+\contentsline {section}{\numberline {4.3}System Architecture}{21}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.2}Streaming Metrics/Events Service}{21}
+\contentsline {subsection}{\numberline {4.3.1}Core Management API}{21}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.3}Monitoring Agent}{21}
+\contentsline {subsection}{\numberline {4.3.2}Streaming Metrics/Events Service}{22}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.4}Web UI}{22}
+\contentsline {subsection}{\numberline {4.3.3}Monitoring Agent}{22}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.4}Domain-Specific Language}{23}
+\contentsline {subsection}{\numberline {4.3.4}Web UI}{23}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4.1}Meta-Programming}{23}
+\contentsline {section}{\numberline {4.4}Domain-Specific Language}{24}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4.2}Features and Implementation}{24}
+\contentsline {subsection}{\numberline {4.4.1}Meta-Programming}{24}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.5}Monitoring Agent}{26}
+\contentsline {subsection}{\numberline {4.4.2}Features and Implementation}{25}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.1}Installation}{26}
+\contentsline {section}{\numberline {4.5}Monitoring Agent}{27}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.2}Workflow}{27}
+\contentsline {subsection}{\numberline {4.5.1}Installation}{27}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.3}Commands and Usage}{27}
+\contentsline {subsection}{\numberline {4.5.2}Workflow}{28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.4}Service Discovery}{29}
+\contentsline {subsection}{\numberline {4.5.3}Commands and Usage}{28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.5}Bundled Checks \& Extensibility}{30}
+\contentsline {subsection}{\numberline {4.5.4}Service Discovery}{30}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.6}Streaming Event Service}{32}
+\contentsline {subsection}{\numberline {4.5.5}Bundled Checks \& Extensibility}{31}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.6.1}Event Schema \& Routing}{32}
+\contentsline {section}{\numberline {4.6}Streaming Event Service}{33}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.6.2}Interpreting Check Results}{33}
+\contentsline {subsection}{\numberline {4.6.1}Event Schema \& Routing}{33}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.7}Management API}{35}
+\contentsline {subsection}{\numberline {4.6.2}Interpreting Check Results}{34}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.1}Ruby on Rails}{35}
+\contentsline {section}{\numberline {4.7}Management API}{36}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{ActiveRecord}{35}
+\contentsline {subsection}{\numberline {4.7.1}Ruby on Rails}{36}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.2}REST}{36}
+\contentsline {subsubsection}{ActiveRecord}{36}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Semantic use of HTTP verbs}{36}
+\contentsline {subsection}{\numberline {4.7.2}REST}{37}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Content Negotiation}{36}
+\contentsline {subsubsection}{Semantic use of HTTP verbs}{37}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.3}Root}{37}
+\contentsline {subsubsection}{Content Negotiation}{37}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.4}Services \& Components}{37}
+\contentsline {subsection}{\numberline {4.7.3}Root}{38}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.5}Hosts}{39}
+\contentsline {subsection}{\numberline {4.7.4}Services \& Components}{38}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.6}Events}{39}
+\contentsline {subsection}{\numberline {4.7.5}Hosts}{40}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.7}Incidents}{40}
+\contentsline {subsection}{\numberline {4.7.6}Events}{40}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.8}Live Updates - Server Sent Events}{41}
+\contentsline {subsection}{\numberline {4.7.7}Incidents}{41}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.9}Email and SMS Notifications}{42}
+\contentsline {subsection}{\numberline {4.7.8}Live Updates - Server Sent Events}{42}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.8}Web UI}{43}
+\contentsline {subsection}{\numberline {4.7.9}Email and SMS Notifications}{43}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.1}Implementation Choices}{43}
+\contentsline {section}{\numberline {4.8}Web UI}{44}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Single Page Application}{43}
+\contentsline {subsection}{\numberline {4.8.1}Implementation Choices}{44}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.2}Features}{43}
+\contentsline {subsubsection}{Single Page Application}{44}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{A Service Overview}{44}
+\contentsline {subsection}{\numberline {4.8.2}Features}{44}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Incident Tracking}{44}
+\contentsline {subsubsection}{A Service Overview}{45}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Event Logging}{44}
+\contentsline {subsubsection}{Incident Tracking}{45}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.3}React.js}{45}
+\contentsline {subsubsection}{Event Logging}{45}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.4}Data Visualisation - D3.js}{45}
+\contentsline {subsection}{\numberline {4.8.3}React.js}{46}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.5}Live Updates}{45}
+\contentsline {subsection}{\numberline {4.8.4}Data Visualisation - D3.js}{46}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{46}
+\contentsline {subsection}{\numberline {4.8.5}Live Updates}{46}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.9.1}Configuration Management Tools}{46}
+\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{47}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Ansible}{46}
+\contentsline {subsection}{\numberline {4.9.1}Configuration Management Tools}{47}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.9.2}Virtual Appliances - Packer}{48}
+\contentsline {subsubsection}{Ansible}{47}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.10}Tools and Methodologies}{49}
+\contentsline {subsection}{\numberline {4.9.2}Virtual Appliances - Packer}{49}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Professional Issues}{50}
+\contentsline {section}{\numberline {4.10}Tools and Methodologies}{50}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Testing}{51}
+\contentsline {chapter}{\numberline {5}Professional Issues}{51}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.1}Unit Testing}{51}
+\contentsline {chapter}{\numberline {6}Testing}{52}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.2}Functional Testing}{52}
+\contentsline {section}{\numberline {6.1}Unit Testing}{52}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.3}Performance Benchmarking}{53}
+\contentsline {section}{\numberline {6.2}Functional Testing}{53}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.4}Real World Usage}{53}
+\contentsline {section}{\numberline {6.3}Performance Benchmarking}{54}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Evaluation}{55}
+\contentsline {section}{\numberline {6.4}Real World Usage}{54}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{56}
+\contentsline {chapter}{\numberline {7}Evaluation}{56}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{57}

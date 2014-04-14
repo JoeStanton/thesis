@@ -47,7 +47,9 @@ I verify that I am the sole author of this report, except where explicitly state
 
 \textbf{Date:} \today
 
-% \chapter*{Acknowledgements}
+%\chapter*{Acknowledgements}
+
+%I would like to express my gratitude to Dr. Steffen Zschaler, for agreeing to supervise this project when it was just an abstract idea and his subsequent advice throughout the year.
 
 \tableofcontents
 
@@ -225,7 +227,7 @@ A set of functional and non-functional requirements will be established from use
   \item A System Administrator at HCL
 \end{itemize}
 
-\subsection{Functional Requirements - User Stories}
+\subsection{User Stories}
 \begin{enumerate}
   \item As a developer, I would like a simple and expressive way to document my application's infrastructure requirements, so I can effectively communicate them to other developers and system administrators.
   \item As a developer, I have the ability to execute my documented infrastructure specifications to automatically validate the correctness of the system under test.
@@ -236,6 +238,29 @@ A set of functional and non-functional requirements will be established from use
   \item As a developer / system administrator, I would like to be notified of changes in the state of the system via email and SMS, so I can respond to incidents quickly.
   \item As a system administrator, I would like to easily create specifications for applications I have already deployed.
   \item As a developer / system administrator, I would like to measure the reliability of a service and its components over time.
+\end{enumerate}
+
+\subsection{Functional Requirements}
+\begin{enumerate}
+  \item Testing Framework
+    \begin{enumerate}
+      \item The developer should be able to install the tool on their development workstation and servers.
+      \item The developer should be able to use to the tool to describe a system accurately and concisely.
+      \item The developer should be able to execute this description to validate the correctness of a system, verifying any arbitrary property as required.
+      \item The tool should provide built in checks so the developer does not have to write them all from scratch.
+      \item The developer should be able to use external libraries to add additional functionality to health checks.
+      \item The developer should be able to deploy this tool on a production server, and monitor the system continuously.
+      \item The tool should report results back to a central location where they can be viewed.
+    \end{enumerate}
+  \item System Visualisation and Monitoring
+    \begin{enumerate}
+      \item The tool should effectively visualise the state of a system under test, including services, components and hosts.
+      \item The tool should provide a way to view results of the health checks.
+      \item The tool should provide a way to visualise changes happening within the system.
+      \item The tool should calculate the degree of reliability of each host, service and component.
+      \item The tool should send Email notifications to users.
+      \item The tool should send SMS notifications to users.
+    \end{enumerate}
 \end{enumerate}
 
 \pagebreak
