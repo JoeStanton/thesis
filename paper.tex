@@ -1075,9 +1075,159 @@ Results of this testing highlighted the following issues:
 \end{itemize}
 
 \chapter{Evaluation}
-% DSL
-% Streaming Performance
- \chapter{Conclusion \& Future Work}
+
+The following chapter will provide a critical analysis into the delivered solution. The function and non-functional requirements specified at the start of the project will be used as the basis for this evaluation.
+
+\section{Functional Requirements}
+\begin{enumerate}
+  \item Testing Framework
+    \begin{enumerate}
+      \item The developer should be able to install the tool on their development workstation and servers.
+
+        This requirement was satisfied. The installation process was tested on each target platform, Linux (Both Ubuntu 13.04 and Red Hat Enterprise Linux 6) and Mac OS X. A single command as documented earlier provides this functionality on all target platforms.
+
+      \item The developer should be able to use to the tool to describe a system accurately and concisely.
+
+        Three production systems were described using the service specification DSL, they could all be represented appropriately.
+
+      \item The developer should be able to execute this description to validate the correctness of a system, verifying any arbitrary property as required.
+
+        Service specifications can be executed using the `check' and `start' commands.
+
+      \item The tool should provide an auto-detection process to detect existing services and assist in describing them.
+
+        The service discovery functionality was implemented and tested on a Linux virtual machine, it correctly identified the components specified in the component definitions file. Clearly, this functionality will not work with previously un-documented services.
+
+      \item The tool should provide built in checks so the developer does not have to write them all from scratch.
+
+        The bundled set of checks are documented in~\ref{}, they have been tested using the suite of unit tests in the management agent.
+
+      \item The developer should be able to use external libraries to add additional functionality to health checks.
+
+        The example service specification shows the usage of the tool with an external RubyGem to interface with Redis, assertions can be made on the results using the built in methods and standard Ruby functionality as demonstrated. This pattern can be followed with any external RubyGem.
+
+      \item The developer should be able to deploy this tool on a production server, and monitor the system continuously.
+
+        The installation procedure, followed by the `setup', `pull' and `start' commands will start monitoring on any Linux server. The checks will run continuously according to the intervals specified.
+
+      \item The tool should report results back to a central location where they can be viewed.
+
+        The management agent reports its check results back to the streaming event service according to the schema specified in~\ref{EventSchema}. The results of this can be verified by observing that the correct success/failure messages and description are displayed on the Web UI.
+
+      \item The tool should work in an environment where inbound connections to the system under test are prohibited by a firewall.
+
+        The tool has been tested on Amazon AWS with a security group allowing outbound traffic only, except a single rule for the management server itself. The system performed as expected.
+
+    \end{enumerate}
+  \item Data Collection and Monitoring
+    \begin{enumerate}
+      \item The tool should effectively visualise the state of a system under test, including services, components and hosts.
+
+        The web interface effectively presents the state of the system, including all of the above details. Screenshots of this functionality can be found in \ref{}
+
+      \item The tool should provide a way to view results of the health checks.
+
+        The web interface effectively presents the results of health checks, including specific error messages to aid debugging efforts. Screenshots of this functionality can be found in \ref{}
+
+      \item The tool should provide a way to track and visualise changes happening within the system.
+
+        The management API tracks a number of different event types, including: `deployment', `configuration', `host-registration', `host-deregistration', `check-result'. The web interface presents these events in chronological order as seen in \ref{}.
+
+      \item The tool should calculate the degree of reliability of each host, service and component.
+
+        The management API uses event and incident data to calculate ``Mean Time Between Failure (MBTF)", ``Mean Time Before Recovery (MTBR)" and the derived ``Service Availability". The web interface presents these events in chronological order as seen in \ref{}.
+
+      \item The tool should send Email notifications to users when incidents occur.
+
+        As displayed in \ref{}, the tool sends emails when incidents are triggered and resolved.
+
+      \item The tool should send SMS notifications to users when incidents occur.
+
+        As displayed in \ref{}, the tool sends SMS messages when incidents are triggered and resolved.
+
+      \item The data collection and monitoring should be deployable on a private network.
+
+        The Ansible playbooks discussed in \ref{}, together with the Packer build process explained in the same section make this possible. Example build artifacts are linked in \ref{}.
+
+    \end{enumerate}
+\end{enumerate}
+
+\subsection{Non-Functional Requirements}
+\begin{enumerate}
+  \item Reliability - The system and all of its components should provide a reliable platform for monitoring live systems.
+    
+    The reliability of the tool has steadily improved due to the iterative, generally test driven development process. A number of issues were fixed in the actual testing phase, but these were generally minor issues which didn't affect the reliability of the tool directly. \ref{}
+
+  \item Usability - It should be easy to start using the system and understand how it fits within the users existing organisation. Understanding of the implementation details should not be necessary for basic use cases.
+
+    Justification.
+
+  \item Performance
+    \begin{enumerate}
+      \item The system should efficiently validate system correctness.
+
+        During testing, checks generally executed quickly. The system adds a negligible overhead compared to executing the checks directly, they are necessarily I/O bound and therefore difficult to optimize any further.
+
+      \item Alerts or warnings should be delivered in a reliable and timely fashion.
+
+        In the event of an error, the system takes no longer than the check TTL (+ 3 seconds) to recognise it, and dispatch an incident email. Delivery of emails and SMS messages is subject to the performance of third party services but is generally very quick. During testing, no incidents were missed and all alerts were recieved successfully.
+
+      \item Validation of the system should scale above a trivial number of hosts. (Over 20)
+
+        Discussed further in \ref{}
+
+      \item The impact of validating correctness on the system under test should be minimal.\ i.e. no significant degradation in performance of the monitored applications or resource exhaustion of the hosts under test.
+
+        Running the monitoring agent (with a typical set of 5-8 checks) consumes the following resources: CPU: 0.1\% RAM: 31.5 MB Disk: $<$ 5MB
+
+        As the impact of running the agent itself is negligible, this requirement is generally satisfied. However, real world resource usage is entirely dependent on the implemented tests. the bundled tests do not cause undue stress on the system, and the TTL is generally set to a conservative level so as to not cause unnecessary processing. However, custom checks could have a larger impact. This should be obvious to the implementer and will be communicated clearly in the user guide.
+
+    \end{enumerate}
+  \item Security - The system is intended for use in production environments, therefore it should not unnecessarily expose the target system to threats such as the following:
+    \begin{enumerate}
+      \item Open network ports
+
+        No network ports are exposed via the usage of this tool, except on the management server itself. The management agent does not listen on a networked interface at all.
+
+      \item Insecure transmission of sensitive data
+
+        \ref{}
+
+      \item Remote code execution
+
+        As there are no opened network ports, the only way to execute code is by explicitly connecting to the server via existing methods such as Secure Shell (SSH), pulling a service definition and executing it. As this is equivalent to shell access anyway, and thus only attainable by authorized users, the tool does not expose the possibility for remote code execution.
+
+    \end{enumerate}
+  \item Maintainability - The system should be maintainable so that new features are easier to implement and the implementation is easier to understand for any open source contributors.
+
+    \begin{enumerate}
+      \item Separation of Concerns - The system should be decomposed into a number of separate components which can be built and tested in isolation. They may use different languages and frameworks as appropriate for the specific task.
+
+        The architectural components implemented were developed and tested in isolation. Two components use Ruby, one Clojure and one JS/HTML, the decision to decompose the system into these components is extensively discussed in \ref{}.
+
+      \item Architectural Patterns - The system should make good use of appropriate design patterns and architectural techniques provided in the implementation language, such as encapsulation and composition in an object orientated language.
+
+        Best practices such as effective object decomposition, inheritance and composition are used where appropriate. The management API adheres to the typical MVC structure of a Ruby on Rails project. The evidence of this should be apparent from the code listing. \ref{}
+
+      \item Unit Testing - Wherever possible, the code should be tested by a suite of unit tests that achieve a high coverage of the total codebase.
+
+        Details of the testing strategy appear in the testing section. Evidence of unit testing as well as achieved test coverage reports are available here \ref{}.
+
+    \end{enumerate}
+  \item Interoperability - The system should integrate with existing systems in order to provide maximum flexibility/utility to the users. It should therefore:
+    \begin{enumerate}
+      \item Provide a simple interface such as a HTTP API to read and write data
+
+        As detailed in the \ref{} section, the management API provides an API conforming to REST principles, facilitating simple integration with other services or tools.
+
+      \item Expose data in a standard format such as XML or JSON
+
+        As detailed in the \ref{} section, the management API returns data in JSON format, a popular encoding format.
+
+    \end{enumerate}
+\end{enumerate}
+
+\chapter{Conclusion \& Future Work}
 
 The project began by researching and understanding the benefits and limitations of many commonly used monitoring tools. After discussions with many developers, there seemed to be sufficient room for improvement, especially in bringing already successful ideas in related disciplines into the field, such as unit testing.
 
