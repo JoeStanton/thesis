@@ -777,8 +777,7 @@ Events are intended to capture every possible change within the system, so that 
 
 Events originate from two sources, the application itself or an external integration. Internal events are raised as the result of failed checks, new host registrations etc. It is encouraged for developers to integrate their own deployment or configuration management processes into the events API so that those changes can also be tracked. For example, a code deployment could be tracked as follows:
 
-\begin{listing}[h]
-  POST request to /events:
+\begin{listing}[htbp]
 \begin{minted}[fontfamily=fi4]{json}
   {
     "type": "deployment",
@@ -792,8 +791,6 @@ Events originate from two sources, the application itself or an external integra
   }
 \end{minted}
 \end{listing}
-
-Events provide the context needed to identify the cause of an issue, and discuss that issue with the relevant collaborator on the project.
 
 \pagebreak
 \subsection{Incidents}
