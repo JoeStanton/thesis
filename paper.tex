@@ -247,19 +247,22 @@ A set of functional and non-functional requirements will be established from use
       \item The developer should be able to install the tool on their development workstation and servers.
       \item The developer should be able to use to the tool to describe a system accurately and concisely.
       \item The developer should be able to execute this description to validate the correctness of a system, verifying any arbitrary property as required.
+      \item The tool should provide an auto-detection process to detect existing services and assist in describing them.
       \item The tool should provide built in checks so the developer does not have to write them all from scratch.
       \item The developer should be able to use external libraries to add additional functionality to health checks.
       \item The developer should be able to deploy this tool on a production server, and monitor the system continuously.
       \item The tool should report results back to a central location where they can be viewed.
+      \item The tool should work in an environment where inbound connections to the system under test are prohibited by a firewall.
     \end{enumerate}
-  \item System Visualisation and Monitoring
+  \item Data Collection and Monitoring
     \begin{enumerate}
       \item The tool should effectively visualise the state of a system under test, including services, components and hosts.
       \item The tool should provide a way to view results of the health checks.
-      \item The tool should provide a way to visualise changes happening within the system.
+      \item The tool should provide a way to track and visualise changes happening within the system.
       \item The tool should calculate the degree of reliability of each host, service and component.
-      \item The tool should send Email notifications to users.
-      \item The tool should send SMS notifications to users.
+      \item The tool should send Email notifications to users when incidents occur.
+      \item The tool should send SMS notifications to users when incidents occur.
+      \item The data collection and monitoring should be deployable on a private network.
     \end{enumerate}
 \end{enumerate}
 
