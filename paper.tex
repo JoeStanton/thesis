@@ -349,7 +349,7 @@ Based on decomposition of the problem, the following concepts are deemed to be r
 
 \label{section:architecture}
 
-The nature of the system is inherently distributed. Service specifications are written by a developer on their personal machines, must be executed on any number of target servers and have results returned to a centralised location. The following decomposition of components is suggested, with futher explanation provided below:
+The nature of the system is inherently distributed. Service specifications are written by a developer on their personal machines, must be executed on any number of target servers and have results returned to a centralised location. The following decomposition of components is suggested, with further explanation provided below:
 
 \begin{listing}[h]
   \centerline{
@@ -367,7 +367,7 @@ The Management API should support a mechanism of real-time updates, such as a We
 
 The streaming service manages the collection of check results, metrics or logs via event streams over TCP or UDP. Streams reporting errors or anomalous metrics will trigger status changes in the management API, as will streams that stop receiving messages, as this may indicate failure in the monitoring framework itself. The streaming service should be the most scalable component, as it will likely be the limiting factor in the total number of checks/hosts supported by the system.
 
-The API itself could assume this role, but the number of events recieved could become very high and overwhelm it. When considering that a very large percentage of events will be identical to previous events, it makes sense only for the significant events to be forwarded to the API.
+The API itself could assume this role, but the number of events received could become very high and overwhelm it. When considering that a very large percentage of events will be identical to previous events, it makes sense only for the significant events to be forwarded to the API.
 
 Due to its highly parallel and asynchronous nature, this service will be written in Clojure, as the functional programming style and asynchronous primitives within the language make it an ideal candidate for this type of processing. The Riemann ~\cite{Riemann} event aggregation and stream processing library has been chosen for stream buffering and filtering, the rationale for this choice is expanded upon in the next section.
 
@@ -399,7 +399,7 @@ Ruby features typically leveraged to create internal DSL's are among the followi
 \begin{itemize}
   \item{Blocks} - A fairly common feature of most languages today, Ruby supports `blocks' as an implementation of first-class functions. First-class functions can be used as values, and therefore passed around and evaluated at will.
 
-  \item{instance\_eval} - This function executes a given block in the context of the receiving object. This means that lots of typical structural techniques such as defining classes and methods can be hidden as part of the implementation, and relied upon during execution. This results in readibility improvements when used correctly. It is quite similar to the ``fluent interfaces" style~\cite{FluentInterfaces}. An example of this is included below:
+  \item{instance\_eval} - This function executes a given block in the context of the receiving object. This means that lots of typical structural techniques such as defining classes and methods can be hidden as part of the implementation, and relied upon during execution. This results in readability improvements when used correctly. It is quite similar to the ``fluent interfaces" style~\cite{FluentInterfaces}. An example of this is included below:
 
   \begin{minted}[fontfamily=fi4]{ruby}
   # Internal DSL implementation
@@ -502,7 +502,7 @@ After installation, a service can be specified and monitored in the following wa
   \item[Local Testing] The specification is checked for validity on the local machine, ensuring that checks are valid and test for the desired properties. Iterative improvements can be made.
   \item[Pushing] The service definition is pushed to the configured management server, where it is used to update the data model and therefore the user interface. The file is interpreted and posted to the API as a series of partial updates. The original file is also sent, so comments and formatting are maintained for future reference.
   \item[Pulling] Where other hosts provide the same service, they can ``pull" the service configuration from the management server, taking a copy of the original file. They will then be notified of subsequent pushes, ensuring the specifications stay in sync. If this is not appropriate, this role can be fulfilled by an application deployment or configuration management process.
-  \item[Starting] Monitoring is started on the host, from this point onwards, checks will be executed as appropriate and reported back to the management server. Unexpectedly terminating this process will lead to incident alerts.
+  \item[Starting] Monitoring is started on the host, from this point onward, checks will be executed as appropriate and reported back to the management server. Unexpectedly terminating this process will lead to incident alerts.
 \end{description}
 
 \subsection{Commands and Usage}
@@ -583,11 +583,11 @@ The tool bundles a number of built in checks for common use cases, they can be u
   \item {Running} - Confirms that a process is running. A process can quit unexpectedly for a number of reasons including misconfiguration, resource constraints, and application errors.
   \item {Listening} - Confirms that a process is listening on the specified network port.
   \item {HTTP Success} - Confirms that a HTTP endpoint responds with a successful status code, that is, one that falls within the 200-300 range when redirects are followed.
-  \item {CPU Load} - Uses the systems 5 minute load average to determine CPU utilization, scaled to the number of CPUs. A high figure can suggest that the current CPU specification is insufficient to support the application.
-  \item {Process CPU Load} - Returns the current CPU utilization for a particular process, useful in identifying processes that are behaving incorrectly.
-  \item {Memory Usage} - Returns the total amount of free memory, this metric is sometimes less informative due to aggressive caching and memory management behavior of modern Linux kernels.
+  \item {CPU Load} - Uses the systems 5 minute load average to determine CPU utilisation, scaled to the number of CPU's. A high figure can suggest that the current CPU specification is insufficient to support the application.
+  \item {Process CPU Load} - Returns the current CPU utilisation for a particular process, useful in identifying processes that are behaving incorrectly.
+  \item {Memory Usage} - Returns the total amount of free memory, this metric is sometimes less informative due to aggressive caching and memory management behaviour of modern Linux kernels.
   \item {Process Memory Usage} - Returns the total amount of memory used by a particular process, useful in identifying processes that are behaving incorrectly.
-  \item {Disk Usage} - Returns the disk usage specifics for a given mount point. Useful for identifying overflowing log files or underspecified hardware resources.
+  \item {Disk Usage} - Returns the disk usage specifics for a given mount point. Useful for identifying overflowing log files or under specified hardware resources.
 \end{itemize}
 
 \pagebreak
@@ -597,7 +597,7 @@ The streaming event service is designed to collect metrics from a large number o
 
 Both Java itself and Clojure have a number of similarities, they both use the Java Virtual Machine (JVM) as the host platform and therefore benefit from a mature ecosystem of tooling and open source libraries. The main difference is that Clojure is a functional language, bringing benefits of improved testability, immutability of data, and higher level concurrency features such as Software Transactional Memory, this makes it a natural fit the problem of transforming and filtering event data concurrently. As Clojure is a good fit for this type of problem, there are a couple of popular libraries suiting this task already. One of these libraries is Riemann\footnote{See http://riemann.io/concepts for an introduction to Riemann.}.
 
-Riemann is a simple and scalable event processing framework written in Clojure, benchmarks suggest that it can process over 200,000 events/sec~\cite{Aphyr200k}. Riemann simply provides a powerful set of primitive operations to filter, throttle and detect changes in streams of data. Custom handling of events is provided via a configuration file, itself interpreted as Clojure. As Riemann provides a vast library of event procesing functions, it significantly reduces the amount of functionality needing to be implemented. Both Clojure and Riemann were selected as appropriate implementation choices for this service.
+Riemann is a simple and scalable event processing framework written in Clojure, benchmarks suggest that it can process over 200,000 events/sec~\cite{Aphyr200k}. Riemann simply provides a powerful set of primitive operations to filter, throttle and detect changes in streams of data. Custom handling of events is provided via a configuration file, itself interpreted as Clojure. As Riemann provides a vast library of event processing functions, it significantly reduces the amount of functionality needing to be implemented. Both Clojure and Riemann were selected as appropriate implementation choices for this service.
 
 \subsection{Event Schema \& Routing}
 
@@ -665,7 +665,7 @@ Check results are interpreted in the following way:
 \pagebreak
 \section{Management API}
 
-The Management API is provided as the interface to the core application logic and domain model. It is responsible for storage and retrieval of all entities such as hosts, services and their respective dependencies. These entities are exposed via the REST API to other parts of the application. The API accepts and responds with JSON\footnote{http://www.json.org/js.html} serialized data. The API is simple and discoverable, encouraging integration with other systems.
+The Management API is provided as the interface to the core application logic and domain model. It is responsible for storage and retrieval of all entities such as hosts, services and their respective dependencies. These entities are exposed via the REST API to other parts of the application. The API accepts and responds with JSON\footnote{http://www.json.org/js.html} serialised data. The API is simple and discoverable, encouraging integration with other systems.
 
 \subsection{Ruby on Rails}
 
@@ -677,7 +677,7 @@ Whilst Rails is extremely popular, it is typically used for websites with a HTML
 
 The ActiveRecord\cite{ActiveRecord} pattern, and its Ruby implementation with the same name is the default object-relational mapper/persistence layer within Ruby on Rails.
 
-The pattern provides tight coupling between domain objects and the respective database tables that persist the data. ActiveRecord is a very convenient and low friction way of adding persistance to the application, but it has a few a disadvantages. It's main disadvantage is that it is very tightly coupled to the domain objects, this makes them harder to write isolated unit tests for, without extensive mocking of the database. There are, however, good solutions for the burden and fragility of database mocking within Ruby gems such as NullDB~\cite{NullDB}.
+The pattern provides tight coupling between domain objects and the respective database tables that persist the data. ActiveRecord is a very convenient and low friction way of adding persistence to the application, but it has a few a disadvantages. It's main disadvantage is that it is very tightly coupled to the domain objects, this makes them harder to write isolated unit tests for, without extensive mocking of the database. There are, however, good solutions for the burden and fragility of database mocking within Ruby gems such as NullDB~\cite{NullDB}.
 
 Another popular alternative to the ActiveRecord pattern is DataMapper\cite{DataMapper}, this pattern involves manually mapping objects to their respective database rows and vice-versa, it is useful in applications with more complex data models, but ActiveRecord was chosen for the increased productivity and implicit framework support.
 
@@ -700,15 +700,15 @@ The API generally conforms to the Representational State Transfer (REST) archite
 
 Each of these endpoints will return semantic and appropriate HTTP status codes as part of their response. For example, if a service fails validation, it will be rejected with a `422 - Unprocessable Entity' response, whereas an Internal Server Error would return a HTTP 500 status code.
 
-The adherance to these standards should mean that the API is simple and familiar to other developers, making it easy to integrate with.
+The adherence to these standards should mean that the API is simple and familiar to other developers, making it easy to integrate with.
 
 \subsubsection{Content Negotiation}
 
-The API will typically be used via JSON serialized requests and responses, but other formats such as XML and YAML are also possible to use by default with standard Ruby on Rails features. The API supports the `Accept' and `Content-Type' HTTP headers, where the client can provide details of their desired request and response formats.
+The API will typically be used via JSON serialised requests and responses, but other formats such as XML and YAML are also possible to use by default with standard Ruby on Rails features. The API supports the `Accept' and `Content-Type' HTTP headers, where the client can provide details of their desired request and response formats.
 
 \subsection{Root}
 
-The root of the API contains an index of available resources, this is a weak form of the Hypermedia as the `Engine of Application State (HATEOS)' unified interface, which states that API's should be discoverable without prior knowledge. The discoverability also theoretically means that URI's can change in future and not break integrations, although this benefit is not typically realised. The JSON response from the root endpoint looks similar to the following:
+The root of the API contains an index of available resources, this is a weak form of the Hypermedia as the `Engine of Application State (HATEOS)' unified interface, which states that API's should be discoverable without prior knowledge. The discoverability also theoretically means that URI's can change in future and not break integration's, although this benefit is not typically realised. The JSON response from the root endpoint looks similar to the following:
 
 \begin{listing}[h]
 \begin{minted}[fontfamily=fi4]{json}
@@ -856,14 +856,14 @@ The Web UI is implemented as a single page web application, written in JavaScrip
 
 \begin{description}
   \item[Rendering]
-    Most web applications are executed exclusively on the server-side, this is an obvious choice as it provides many benefits such as: low-latency database access, the standard execution environment of a server under the developers control and effective security. With a single page application, the server side components are usually exposed via an API which takes advantage of these benefits, and the client-side JavaScript fetches data from this API via AJAX requests. When data is recieved, it is rendered into HTML elements by JavaScript executing in the browser.
+    Most web applications are executed exclusively on the server-side, this is an obvious choice as it provides many benefits such as: low-latency database access, the standard execution environment of a server under the developers control and effective security. With a single page application, the server side components are usually exposed via an API which takes advantage of these benefits, and the client-side JavaScript fetches data from this API via AJAX requests. When data is received, it is rendered into HTML elements by JavaScript executing in the browser.
   \item[Interactivity and Responsiveness]
-    The user experience of a single page application can be significantly better than a traditional website, when used in an appropriate situation. Websites can feel much more like a desktop application, with multiple views, background data synchronization, data filtering etc. The main increase in responsiveness comes from eliminating jarring page reloads, thereby increasing percieved performance.
+    The user experience of a single page application can be significantly better than a traditional website, when used in an appropriate situation. Websites can feel much more like a desktop application, with multiple views, background data synchronisation, data filtering etc. The main increase in responsiveness comes from eliminating jarring page reloads, thereby increasing perceived performance.
 \end{description}
 
 Abstraction and Maintainability
 
-    Single page application frameworks often apply standard architectural patterns such as Model-View-Controller. These patterns can help to raise the level of abstraction when creating highly interactive applications beyond manually binding event listeners to DOM elements in order to update and present data. Applications that are abstracted from the imperative nature of programming with the DOM (Document Object Model) can find benefits in a more delcarative approach. This can help improve testability, code reuse and can reduce the number of defects.
+    Single page application frameworks often apply standard architectural patterns such as Model-View-Controller. These patterns can help to raise the level of abstraction when creating highly interactive applications beyond manually binding event listeners to DOM elements in order to update and present data. Applications that are abstracted from the imperative nature of programming with the DOM (Document Object Model) can find benefits in a more declarative approach. This can help improve testability, code reuse and can reduce the number of defects.
 
 \subsection{Features}
 
@@ -877,13 +877,13 @@ All individual components and hosts are listed, together with their respective s
 
 \subsubsection{Incident Tracking}
 
-As previously discussed, Incidents are a consolidated view of relevant context that users can use to identify the root cause of issues. Users will be directed to the incident page via notifications recieved via Email or SMS\. The interface surfaces relevant events occurring before or during an incident, as well as similar incidents that have occurred in the past.
+As previously discussed, Incidents are a consolidated view of relevant context that users can use to identify the root cause of issues. Users will be directed to the incident page via notifications received via Email or SMS\. The interface surfaces relevant events occurring before or during an incident, as well as similar incidents that have occurred in the past.
 
 After an incident has been resolved, the user is encouraged to provide a brief note detailing the root cause, as well as any remedial action taken. This will be surfaced when other relevant incidents occur in future.
 
 \subsubsection{Event Logging}
 
-The monitoring system is designed to accomodate and track changes in underlying infrastructure. The event log provides a chronological view of these changes together with supplementary information provided via each integration. For example, a deployment event will normally include meta-data such as the hosts affected, the branch deployed as well as the specific build or version number if available. The interface provides the means to filter these events, so users can easily identify changes in relevant parts of the system if issues occur.
+The monitoring system is designed to accommodate and track changes in underlying infrastructure. The event log provides a chronological view of these changes together with supplementary information provided via each integration. For example, a deployment event will normally include meta-data such as the hosts affected, the branch deployed as well as the specific build or version number if available. The interface provides the means to filter these events, so users can easily identify changes in relevant parts of the system if issues occur.
 
 * At a glance status of all monitored services and components.
 * Detailed error messages in the case of failed services, nodes or components.
@@ -999,7 +999,7 @@ Unit Testing is a simple and effective way of ensuring units of functionality su
 
 Both the API and Management Agent were developed using Test Driven Development, this is a development methodology which involves writing failing test cases before the implementation code. By writing tests as a natural part of the development process, a high amount of code coverage can be achieved without significant extra effort. Both of these components have strong unit test suites which were invaluable during the development process and beyond.
 
-The management agent in particular benefitted from this form of testing. The DSL uses a number of meta-programming capabilities of Ruby, discussed in a previous section. The meta-programming features can, in some cases, make it harder to reason about the implementation code. A suite of unit tests specifically for the parsing of the DSL were both simple to write and extremely valuable in improving its quality and correctness.
+The management agent in particular benefited from this form of testing. The DSL uses a number of meta-programming capabilities of Ruby, discussed in a previous section. The meta-programming features can, in some cases, make it harder to reason about the implementation code. A suite of unit tests specifically for the parsing of the DSL were both simple to write and extremely valuable in improving its quality and correctness.
 
 The small amount of configuration within the event streaming service was unit tested. As Riemann itself is a well tested event processing library, there was no need to test its functionality too. Therefore there are only a couple of test cases needed for this component.
 
@@ -1042,7 +1042,7 @@ Positive findings of real world usage testing:
 Results of this testing highlighted the following issues:
 
 \begin{itemize}
-  \item A large number of events accumulated within the system, causing a signficiant delay when loading the Web UI. Some problematic checks were fixed, and the amount of data returned from the API signficantly reduced, fixing the problem completely.
+  \item A large number of events accumulated within the system, causing a significant delay when loading the Web UI. Some problematic checks were fixed, and the amount of data returned from the API significantly reduced, fixing the problem completely.
   \item Connectivity issues between the host and the management API are quite common, often only lasting for a few seconds. The main solution to this was to increase the time window before a previous event had been declared `expired". Setting the event validity period to approximately 3 times the check interval allows for up to three consecutive lost packets, more indicative of a real problem.
   \item The number of alerts produced is inversely proportional to their value. If alerts are triggered with zero tolerance for failures, the system administrator is unreasonably burdened with issues which will resolve themselves in a few minutes. This results in failures being ignored, or the disabling of checks completely. Incidents now trigger after a short delay, increasing the confidence in a real problem and collecting extra information before alerting the system administrator.
 \end{itemize}
@@ -1056,7 +1056,7 @@ The project began by researching and understanding the benefits and limitations 
 
 Developers commonly see infrastructure issues as being a problem for system administrators, when in reality they are well placed to help with its prevention. Providing a tool that developers are comfortable using was a key goal of the project and one that I feel was achieved.
 
-After implementing the concept, I remain convinced that it is a solid approach to practically managing complex applications. A suite of tests could range from very low level port checks to high level integration checks testing real application features, making it suitable for all kinds of application. Providing the primitive tools needed to test abitrary properties of a system remains a powerful idea. The disadvantage to this flexibility is that the burden of writing good test cases is placed upon the user, something which could be improved with a more sophisticated service discovery mechanism and more bundled plugins. This is an area which could be expected to improve through open source contributions. Additionally, I expect that test suites would evolve over time, as more edge cases and problems in production are experienced and therefore identified quickly in future.
+After implementing the concept, I remain convinced that it is a solid approach to practically managing complex applications. A suite of tests could range from very low level port checks to high level integration checks testing real application features, making it suitable for all kinds of application. Providing the primitive tools needed to test arbitrary properties of a system remains a powerful idea. The disadvantage to this flexibility is that the burden of writing good test cases is placed upon the user, something which could be improved with a more sophisticated service discovery mechanism and more bundled plugins. This is an area which could be expected to improve through open source contributions. Additionally, I expect that test suites would evolve over time, as more edge cases and problems in production are experienced and therefore identified quickly in future.
 
 As well as the monitoring of live systems, I have also discovered a number of other unintended use cases for the tool, a popular idea is to run the test suites on a continuous integration server to verify to verify the correctness of configuration management recipes. A machine could be prepared with the configuration management tool, and a suite of tests used to verify its validity.
 
