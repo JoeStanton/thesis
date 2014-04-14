@@ -106,74 +106,74 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.6.2}Interpreting Check Results}{33}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.7}Management API}{36}
+\contentsline {section}{\numberline {4.7}Management API}{35}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.1}Ruby on Rails}{36}
+\contentsline {subsection}{\numberline {4.7.1}Ruby on Rails}{35}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{ActiveRecord}{36}
+\contentsline {subsubsection}{ActiveRecord}{35}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.2}REST}{37}
+\contentsline {subsection}{\numberline {4.7.2}REST}{36}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Semantic use of HTTP verbs}{37}
+\contentsline {subsubsection}{Semantic use of HTTP verbs}{36}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Content Negotiation}{37}
+\contentsline {subsubsection}{Content Negotiation}{36}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.3}Root}{38}
+\contentsline {subsection}{\numberline {4.7.3}Root}{37}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.4}Services \& Components}{38}
+\contentsline {subsection}{\numberline {4.7.4}Services \& Components}{37}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.5}Hosts}{40}
+\contentsline {subsection}{\numberline {4.7.5}Hosts}{39}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.6}Events}{40}
+\contentsline {subsection}{\numberline {4.7.6}Events}{39}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.7}Incidents}{41}
+\contentsline {subsection}{\numberline {4.7.7}Incidents}{40}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.8}Live Updates - Server Sent Events}{42}
+\contentsline {subsection}{\numberline {4.7.8}Live Updates - Server Sent Events}{41}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.9}Email and SMS Notifications}{43}
+\contentsline {subsection}{\numberline {4.7.9}Email and SMS Notifications}{42}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.8}Web UI}{44}
+\contentsline {section}{\numberline {4.8}Web UI}{43}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.1}Implementation Choices}{44}
+\contentsline {subsection}{\numberline {4.8.1}Implementation Choices}{43}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Single Page Application}{44}
+\contentsline {subsubsection}{Single Page Application}{43}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.2}Features}{44}
+\contentsline {subsection}{\numberline {4.8.2}Features}{43}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{A Service Overview}{45}
+\contentsline {subsubsection}{A Service Overview}{44}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Incident Tracking}{45}
+\contentsline {subsubsection}{Incident Tracking}{44}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Event Logging}{45}
+\contentsline {subsubsection}{Event Logging}{44}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.3}React.js}{46}
+\contentsline {subsection}{\numberline {4.8.3}React.js}{45}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.4}Data Visualisation - D3.js}{46}
+\contentsline {subsection}{\numberline {4.8.4}Data Visualisation - D3.js}{45}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.5}Live Updates}{46}
+\contentsline {subsection}{\numberline {4.8.5}Live Updates}{45}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{47}
+\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{46}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.9.1}Configuration Management Tools}{47}
+\contentsline {subsection}{\numberline {4.9.1}Configuration Management Tools}{46}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Ansible}{47}
+\contentsline {subsubsection}{Ansible}{46}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.9.2}Virtual Appliances - Packer}{49}
+\contentsline {subsection}{\numberline {4.9.2}Virtual Appliances - Packer}{48}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.10}Tools and Methodologies}{50}
+\contentsline {section}{\numberline {4.10}Tools and Methodologies}{49}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Professional Issues}{51}
+\contentsline {chapter}{\numberline {5}Professional Issues}{50}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Testing}{52}
+\contentsline {chapter}{\numberline {6}Testing}{51}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.1}Unit Testing}{52}
+\contentsline {section}{\numberline {6.1}Unit Testing}{51}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.2}Functional Testing}{53}
+\contentsline {section}{\numberline {6.2}Functional Testing}{52}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.3}Performance Benchmarking}{54}
+\contentsline {section}{\numberline {6.3}Performance Benchmarking}{53}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.4}Real World Usage}{54}
+\contentsline {section}{\numberline {6.4}Real World Usage}{53}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Evaluation}{56}
+\contentsline {chapter}{\numberline {7}Evaluation}{55}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{57}
+\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{56}
