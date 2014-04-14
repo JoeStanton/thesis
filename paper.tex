@@ -320,20 +320,6 @@ It is imperative that monitoring tools do not just focus on common areas that ar
   \item Polling Latency - If checks are scheduled infrequently, there is an artificial time delay in receiving notifications. Not only does this mean that issues are not identified as quickly, but the slow feedback can be confusing when attempts are made to fix the underlying problem.
 \end{itemize}
 
-\paragraph{Simple Install Process} The install process is a one-line bash command that downloads and executes the bootstrap shell script, that in turn detects system architecture and downloads the appropriate binary, copying it into the system path and configuring it to run as a service.
-
-When the binary is first executed, it performs node registration by making a PUT request to the monitoring tool’s REST API with the hostname of the server, and supplementary meta-data.
-
-\textbf{Example Install Command:}
-\begin{minted}[fontfamily=fi4]{bash}
-  curl -s https://management-server/agent/install | sh
-\end{minted}
-
-\paragraph{Automatic Service Detection} The tool builds in a basic service detection process that is executed during node registration and at rare periodic intervals after this point.
- It detects the presence of known services such as Apache2, Nginx or MySQL within the currently executing process table, these services are defined in a simple component definition list bundled with the agent software, making it easy to expand in future. It then takes further steps to extract version numbers from installed services and includes this information in the node meta-data.
-
-There are a number of issues that prevent this process from being accurate in every scenario, but in practice it is a flexible solution that can detect most services accurately enough to be a useful time saving feature.
-
 \paragraph{Hosted vs. On-Premise Solutions} The system should be built and packaged so that it could run as a hosted service (typically more suitable for startups, and easier to experiment with) and as an on-premise solution where there are concerns over data security or scalability. This can be achieved by using a configuration management tool for setup and deployment, which also has the capability to produce, as build artifacts, pre-built system images such as VMWare packaged appliances or Amazon Machine Images (AMI's).
 
 \paragraph{Security} The installation of any networked monitoring tool increases the attack surface-area on production systems that often host important services and contain sensitive user data. In order to partially mitigate this concern, communication between the each node and the monitoring system will be encrypted, and both the server and client must verify each other’s respective identities to ensure that no Man in the Middle (MiTM) or general spoofing/poisoning attacks can become effective.
@@ -344,6 +330,8 @@ This strategy needs to be carefully evaluated and tested, but should not present
 
 \pagebreak
 \section{Domain Model and Concepts}
+
+Based on decomposition of the problem, the following concepts are deemed to be relevant:
 
 \begin{itemize}
   \item Service - An application that provides functionality to an end-user or another service over a network. e.g. a website or API.
@@ -358,9 +346,10 @@ This strategy needs to be carefully evaluated and tested, but should not present
 
 \pagebreak
 \section{System Architecture}
+
 \label{section:architecture}
 
-The nature of the system is inherently distributed. Service specifications are written by a developer on their personal machines, must be executed on any number of target servers and have results returned to a centralised location. The following decomposition of components is suggested:
+The nature of the system is inherently distributed. Service specifications are written by a developer on their personal machines, must be executed on any number of target servers and have results returned to a centralised location. The following decomposition of components is suggested, with futher explanation provided below:
 
 \begin{listing}[h]
   \centerline{
@@ -378,9 +367,9 @@ The Management API should support a mechanism of real-time updates, such as a We
 
 The streaming service manages the collection of check results, metrics or logs via event streams over TCP or UDP. Streams reporting errors or anomalous metrics will trigger status changes in the management API, as will streams that stop receiving messages, as this may indicate failure in the monitoring framework itself. The streaming service should be the most scalable component, as it will likely be the limiting factor in the total number of checks/hosts supported by the system.
 
-The API itself could assume this role, but the number of events recieved could become very high and overwhelm the API. When considering that a very large percentage of events will be identical to previous events, it makes sense only for the significant events to be forwarded to the API.
+The API itself could assume this role, but the number of events recieved could become very high and overwhelm it. When considering that a very large percentage of events will be identical to previous events, it makes sense only for the significant events to be forwarded to the API.
 
-Due to its highly parallel and asynchronous nature, this service will be written in Clojure, as the functional programming style and asynchronous primitives within the language make it an ideal candidate for this type of processing. The Riemann ~\cite{Riemann} event aggregation and stream processing library has been chosen for stream buffering and filtering.
+Due to its highly parallel and asynchronous nature, this service will be written in Clojure, as the functional programming style and asynchronous primitives within the language make it an ideal candidate for this type of processing. The Riemann ~\cite{Riemann} event aggregation and stream processing library has been chosen for stream buffering and filtering, the rationale for this choice is expanded upon in the next section.
 
 \subsection{Monitoring Agent}
 
@@ -401,8 +390,7 @@ Providing the flexibility needed to encode arbitrary checks within the monitorin
 
 Due to its meta-programming features and flexibility in syntax, Ruby is somewhat uniquely amenable to creating domain specific languages within the language itself, so called `internal DSLs'.
 
-The DSL is heavily inspired by a similar DSL of the RSpec unit testing framework
-~\cite{RSpec}, RSpec is extremely popular within the Ruby community as it leads to highly-readable test cases. The similarities should provide a common medium for communicating the monitoring tool to those who have used RSpec or similar in the past.
+The DSL is heavily inspired by a similar DSL of the RSpec unit testing framework ~\cite{RSpec}, RSpec is extremely popular within the Ruby community as it leads to highly-readable test cases. The similarities should provide a common medium for communicating the monitoring tool to those who have used RSpec or similar in the past.
 
 \subsection{Meta-Programming}
 
@@ -449,9 +437,8 @@ The DSL supports the construction of \textbf{services} and \textbf{components}, 
   end
 \end{minted}
 \label{fig:MetaProgrammingSnippet}
-\pagebreak
 
-The most important feature of the DSL is the ability to encode checks as Ruby blocks. A block contains one or more assertions that throw exceptions with descriptive error messages if they fail. Below is a simple example of this. The health check will be executed every 30 seconds by the monitoring agent. The monitoring agent will catch any exceptions and return a descriptive error message, which may be printed to the console or serialised and sent to the event stream.
+The most important feature of the DSL is the ability to encode checks as Ruby blocks. A block contains one or more assertions that throw exceptions with descriptive error messages if they fail. Below is a simple example of this:
 
 \begin{minted}[fontfamily=fi4]{ruby}
   service "Example Service" do
@@ -463,7 +450,9 @@ The most important feature of the DSL is the ability to encode checks as Ruby bl
   end
 \end{minted}
 
-Importantly, as the blocks executed are pure Ruby code that can throw exceptions, any arbitrary code that fits these criterion can be used within a block:
+The health check will be executed every 30 seconds by the monitoring agent. The monitoring agent will catch any exceptions and return a descriptive error message, which may be printed to the console or serialised and sent to the event stream.
+
+Importantly, as the blocks executed are pure Ruby code that can throw exceptions, any arbitrary code that fits these criterion can be used within a block, including standard expressions and the use of external libraries as plugins:
 
 \begin{minted}[fontfamily=fi4]{ruby}
   service "Example Service" do
@@ -480,6 +469,7 @@ With these simple but powerful primitives, an accurate executable model of the s
 
 This code as configuration approach to monitoring provides a very similar experience to writing unit tests. It can be placed under source control within the existing project repository and therefore fit easily with an existing development workflow, this was a core design goal of the project.
 
+\pagebreak
 \section{Monitoring Agent}
 
 The monitoring agent is written in Ruby, and is packaged as a RubyGem. As the monitoring agent is responsible for executing the Domain Specific Language outlined in the previous section, it must be written in Ruby itself or package the Ruby runtime. Despite the fact that Ruby is not typically pre-installed on servers, it is very simple to install and requires no configuration. The installation procedure manages the installation of Ruby if necessary.
@@ -503,6 +493,18 @@ The installation script performs the following steps:
   \item{Host Registration} - Optionally, the host can be registered with the management server, the hostname and IP address as well as an optional service name and environment will be passed to the management server. This is appropriate on servers but not development workstations.
 \end{enumerate}
 
+\subsection{Workflow}
+
+After installation, a service can be specified and monitored in the following way:
+
+\begin{description}
+  \item[Creation or Discovery] The tool is used to create a service specification, either manually or using the service discovery feature.
+  \item[Local Testing] The specification is checked for validity on the local machine, ensuring that checks are valid and test for the desired properties. Iterative improvements can be made.
+  \item[Pushing] The service definition is pushed to the configured management server, where it is used to update the data model and therefore the user interface. The file is interpreted and posted to the API as a series of partial updates. The original file is also sent, so comments and formatting are maintained for future reference.
+  \item[Pulling] Where other hosts provide the same service, they can ``pull" the service configuration from the management server, taking a copy of the original file. They will then be notified of subsequent pushes, ensuring the specifications stay in sync. If this is not appropriate, this role can be fulfilled by an application deployment or configuration management process.
+  \item[Starting] Monitoring is started on the host, from this point onwards, checks will be executed as appropriate and reported back to the management server. Unexpectedly terminating this process will lead to incident alerts.
+\end{description}
+
 \subsection{Commands and Usage}
 
 The following commands can be executed from the command-line of a development workstation or server where the management agent has been installed. An example command invocation would be structured as follows: `baseline-agent $<$command$>$"
@@ -511,7 +513,7 @@ The following commands can be executed from the command-line of a development wo
   \item[Check] - Run configured health checks on demand. This command is typically used on developer workstations as they iteratively build a service specification using the DSL\@. It provides fast feedback similar to running a suite of unit tests and can be used to quickly validate assumptions, before pushing the specification to the management server.
   \item[Discover] - Creates a service specification from detected system services. This feature can be used primarily to reverse-engineer existing infrastructure setups into a service specification. More details about the discovery mechanism are provided in the next subsection.
   \item[Graph] - Render a graph of the current service - This can be primarily used on the developer workstation, it will use the GraphViz library to render a graph of the system and its dependencies in PDF format. This can be used on its own as a form of documentation, but is typically intended to help visualise the service specification and its dependencies to ensure its correctness.
-  \item[Push] - Pushes the specified service to a management server - This command will parse the DSL and serialise each object to JSON, it is then sent as a PUT request to the management API\. Changes to the service specification take effect immediately and update any connected users in near real-time.
+  \item[Push] - Pushes the specified service to a management server - This command will parse the DSL and serialise each object to JSON, it is then sent as a PUT request to the management API\@. Changes to the service specification take effect immediately and update any connected users in near real-time.
   \item[Pull] - Pulls an existing service from the management server - This command will download the original service specification file from a previous `push" command. This can be used to conveniently add new hosts to existing services.
   \item[Setup] - Register this host with the management server - This is used on the servers running the system under test, it will associate a host with a defined service, listing it in the Web UI and accepting events and check data from it.
   \item[Start] - Starts a monitoring daemon process, which runs in the background and executes checks according to their defined intervals. It will report all data back to the management server's event stream endpoint. Any errors occurring during this process will be logged to a file for later analysis.
@@ -520,6 +522,7 @@ The following commands can be executed from the command-line of a development wo
   \item[Help] - Describes the function of all available commands.
 \end{description}
 
+\pagebreak
 \subsection{Service Discovery}
 
 Reverse-engineering a system configuration is a non-trivial task. As this is not the primary intention of the tool, a simple approach is used to detect commonly installed services and provide some common default health checks for them. It relies upon standard UNIX commands such as `ps', `lsof' and `netstat' to detect running services.
@@ -571,6 +574,21 @@ end
 \end{minted}
 
 This service specification not only lists the running services, but provides a suggested set of health checks for them, as appropriate. This can help new users of the tool become familiar with the syntax and features of the DSL.
+
+\subsection{Bundled Checks \& Extensibility}
+
+The tool bundles a number of built in checks for common use cases, they can be used by calling methods of the same name, such as:
+
+\begin{itemize}
+  \item {Running} - Confirms that a process is running. A process can quit unexpectedly for a number of reasons including misconfiguration, resource constraints, and application errors.
+  \item {Listening} - Confirms that a process is listening on the specified network port.
+  \item {HTTP Success} - Confirms that a HTTP endpoint responds with a successful status code, that is, one that falls within the 200-300 range when redirects are followed.
+  \item {CPU Load} - Uses the systems 5 minute load average to determine CPU utilization, scaled to the number of CPUs. A high figure can suggest that the current CPU specification is insufficient to support the application.
+  \item {Process CPU Load} - Returns the current CPU utilization for a particular process, useful in identifying processes that are behaving incorrectly.
+  \item {Memory Usage} - Returns the total amount of free memory, this metric is sometimes less informative due to aggressive caching and memory management behavior of modern Linux kernels.
+  \item {Process Memory Usage} - Returns the total amount of memory used by a particular process, useful in identifying processes that are behaving incorrectly.
+  \item {Disk Usage} - Returns the disk usage specifics for a given mount point. Useful for identifying overflowing log files or underspecified hardware resources.
+\end{itemize}
 
 \pagebreak
 \section{Streaming Event Service}
