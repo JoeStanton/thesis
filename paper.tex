@@ -29,17 +29,11 @@
 %* Full Stack Monitoring
 %* High Level Visualisation of Application Architecture
 
-%Application architectures are more complex than ever,. The reliance on cloud computing offloads a large amount of complexity to the provider, but typically this is Infrastructure as a Service. It becomes harder to reason about the runtime behavior of the software.
+Application architectures are more complex and dynamic than ever. The growth in cloud computing makes it cheaper and more accessible to build and maintain services at scale, yet the tools to manage the complexity of these services, and their inevitable change over time, are often inadequate.
 
-The complexity of software and the scale at which services must operate is continuing to increase rapidly~\cite{SoftwareComplexity}.
-To support this rapid growth, the supporting application infrastructure needed to keep these services running and providing a suitable quality of service must grow proportionally.
+ Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either `high' or `out of control'~\cite{Gartner2013}.
 
-A typical stack for delivering scalable web based applications now consists of many interconnected parts, including database servers, application servers, caching layers, load balancers and network hardware.
-This inevitable growth in both application and infrastructure complexity presents significant engineering challenges in the design of fault-tolerant and performant distributed systems.
-
-While the problems of delivering software at scale are significantly reduced by the cloud computing movement, the inherent complexities of distributed systems with many components and therefore points of failure continually prove to be problematic. Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either `high' or `out of control'~\cite{Gartner2013}. Managing this complexity, and therefore being able to efficiently identify and fix issues is the key to providing the reliable and performant services we expect, over time.
-
-In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage some of the inherent complexity in modern infrastructure. The emphasis of this investigation is on small to medium size software deployments, rather than enterprises that typically have the resources to tackle these problems.
+In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage some of the inherent complexity in modern infrastructure. The emphasis of this investigation is on small to medium size software deployments, where significant resources are not typically invested into solving these issues.
 
 \chapter*{Originality Avowal}
 I verify that I am the sole author of this report, except where explicitly stated to the contrary. I grant the right to King’s College London to make paper and electronic copies of the submitted work for purposes of marking, plagiarism detection and archival, and to upload a copy of the work to Turnitin or another trusted plagiarism detection service. I confirm this report does not exceed 25,000 words.
@@ -48,9 +42,9 @@ I verify that I am the sole author of this report, except where explicitly state
 
 \textbf{Date:} \today
 
-%\chapter*{Acknowledgements}
+\chapter*{Acknowledgements}
 
-%I would like to express my gratitude to Dr. Steffen Zschaler, for agreeing to supervise this project when it was just an abstract idea and his subsequent advice throughout the year.
+I would like to express my gratitude to Dr.\ Steffen Zschaler, for agreeing to supervise this project when it was a rather abstract idea, and his subsequent useful advice throughout the year.
 
 \tableofcontents
 
@@ -125,19 +119,21 @@ Studies into increased quality, maintainability and developer productivity when 
 \pagebreak
 \subsection{Unit and Integration Testing}
 
-The XP and Agile movements focus on improving software quality and increased responsiveness to changing customer requirements~\cite{WikiXP}. These are both process management and technological issues. XP focuses mostly on the technical aspect, there is a very strong focus on testing, and Test Driven Development (TDD) in particular which helps to realise these goals.
+A popular method of managing software complexity is via the introduction of unit testing. The primary goal of testing is clearly to improve the quality of a delivered piece of software, but unit testing achieves this goal by forcing the decomposition and validation of different parts of the system in isolation. Systems designed with unit testability in mind are commonly more modular and less coupled to the overall system, as this generally makes tests much easier to write.
+
+Edsger W. Dijkstra once stated that ``Simplicity is prerequisite for reliability", simplicity can be achieved by decomposing difficult problems into smaller, more managable chunks, and unit testing encourages this practice.
+
+Test Driven Development (TDD) has surged in popularity within industry as a result of the XP and Agile movements. The cited benefits are: improved software quality and increased responsiveness to changing customer requirements~\cite{WikiXP}. TDD further encourages the decomposition of software into smaller, independently verifiable modules, but goes further than this by stating that these tests should be written before the implementation.
 
 There are many types of testing, but they can generally be grouped into two main categories:
 
 \begin{description}
   \item[Unit Testing] The main role of unit testing is as a design tool, developers can write unit tests to specify the intended behaviour of a component and then implement it to match. They provide fast and specific feedback on the correctness of implementation.
   \item[Integration Testing] verification that each separate component of the system functions correctly when it has been integrated with other components. This could range from testing the composition of two small components or an entire order processing pipeline. They are used to improve confidence in overall system correctness, and they are often use to guard against regressions in functionality over time.
-  \item[Acceptance Testing] verification that the system as a whole fulfils the functional requirements of the end user. These tests are often carried out manually, but can be automated using a black box browser testing tool such as Selenium.
 \end{description}
 
-Testing is often used as a means of managing complexity, especially as systems become larger. A suite of tests is often used as a means to provide quick feedback when changes break other areas of the system. We can see many similarities between the complexity of software and the complexity of its underlying infrastructure, therefore these techniques could have value in this area too.
+We can see many applications of unit/integration testing in the management of infrastructure complexity, as well as software complexity. This observation heavily influences the rest of this report.
 
-\pagebreak
 \section{Managing Infrastructure Complexity}
 
 There is clearly a large amount of research and analysis into managing software complexity. In this section, we will review the techniques used to manage the infrastructure side of this complexity.
@@ -339,7 +335,7 @@ The nature of modern infrastructure is no longer static. Cloud computing and vir
 
 \paragraph{Flexibility}
 
-It is imperative that monitoring tools do not just focus on common areas that are easy to measure or verify. The monitoring needs of an application could be highly domain specific, and overly simplistic verification can cause misleading results. The tool must provide the means to encode and verify arbitrary properties of the system at varying granularity. It should do this in the same way as a good unit testing framework does, with the full capability of a programming language, leveraging a vast array of existing open source libraries.
+It is imperative that monitoring tools do not just focus on common areas that are easy to measure or verify. The monitoring needs of an application could be highly domain specific, and overly simplistic verification can cause misleading results. The tool must provide the means to encode and verify arbitrary properties of the system at varying granularity. One reason that distributed systems are much more difficult to debug is the non-determinism introduced by unreliable networks, layers of caching and load balancing. It should be possible to bypass many of these sources of non-determinism so that real issues can be highlighted. It should do this in the same way as a good unit testing framework does, with the full capability of a programming language, leveraging a vast array of existing open source libraries.
 
 \paragraph{Streaming Metrics} The vast majority of monitoring tools are based upon a polling mechanism. Configured checks are performed from a centralised server at pre-defined intervals. Reversing this mechanism so that servers stream their own metrics back to the monitoring server addresses a number of issues with polling such as the following:
 
