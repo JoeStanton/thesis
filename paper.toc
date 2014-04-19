@@ -176,9 +176,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {6.2}Functional Testing}{56}{section.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.3}Performance Benchmarking}{57}{section.6.3}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.4}Real World Usage}{57}{section.6.4}
+\contentsline {section}{\numberline {6.3}Real World Usage}{57}{section.6.3}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {7}Evaluation}{59}{chapter.7}
 \defcounter {refsection}{0}\relax 
