@@ -166,22 +166,28 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {5}Professional Issues}{51}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Testing}{52}{chapter.6}
+\contentsline {section}{\numberline {5.1}Plagarism \& Licensing}{51}{section.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.1}Unit Testing}{52}{section.6.1}
+\contentsline {section}{\numberline {5.2}Developer Competence \& Risk}{51}{section.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.2}Functional Testing}{53}{section.6.2}
+\contentsline {section}{\numberline {5.3}Data Integrity \& Security}{52}{section.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.3}Performance Benchmarking}{54}{section.6.3}
+\contentsline {chapter}{\numberline {6}Testing}{53}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.4}Real World Usage}{54}{section.6.4}
+\contentsline {section}{\numberline {6.1}Unit Testing}{53}{section.6.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Evaluation}{56}{chapter.7}
+\contentsline {section}{\numberline {6.2}Functional Testing}{54}{section.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.1}Functional Requirements}{56}{section.7.1}
+\contentsline {section}{\numberline {6.3}Performance Benchmarking}{55}{section.6.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.1.1}Non-Functional Requirements}{58}{subsection.7.1.1}
+\contentsline {section}{\numberline {6.4}Real World Usage}{55}{section.6.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.1.2}Critical Evaluation}{61}{subsection.7.1.2}
+\contentsline {chapter}{\numberline {7}Evaluation}{57}{chapter.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{63}{chapter.8}
+\contentsline {section}{\numberline {7.1}Functional Requirements}{57}{section.7.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {7.1.1}Non-Functional Requirements}{59}{subsection.7.1.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {7.1.2}Critical Evaluation}{62}{subsection.7.1.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{64}{chapter.8}

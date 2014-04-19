@@ -1016,6 +1016,27 @@ A configuration file controls the setup of a base Ubuntu Linux v13.04 image, Pac
 
 \pagebreak
 \chapter{Professional Issues}
+
+As this tool is designed to be deployed and used in a professional environment, there are a number of issues I have taken into consideration, these include:
+
+\section{Plagarism \& Licensing}
+    The delivered solution makes use of a number of open-source libraries and tools, such as the Riemann event processor, Ruby on Rails and a number of common RubyGems. The delineation between my own work and that of others has been made clear throughout my report, it will also be documented in developer notes.
+
+    Many of these libraries have different licenses, but all permit usage within commercial software. As my tool is also open source, a number of licensing implications do not apply, but if a commercial offering was made in future, these would have to be reconsidered carefully.
+
+\section{Developer Competence \& Risk}
+    The codebase has been made open-source to encourage audits and improvements from more experienced developers. This should help to to uncover and rectify any significant defects which could affect the tools functionality in a live environment.
+
+    Additionally, no bold claims about the tools maturity or stability will be made in the documentation without significant prior evidence. This should ensure that any adopters of the tool are able to make a well informed decision about any risks involved.
+
+    As the tool runs in its own process, and background processing happens on a separate server, ideally it should not directly cause the failure of other components, but side effects such as extremely high resource/bandwidth usage could have a negative impact on live services. Wherever possible, best practices such as unit testing and rigorous functional testing have been used, and development has been carried out dilligently with these issues in mind. The testing phase revealed no such issues of this nature.
+\section{Data Integrity \& Security}
+    The tool will be installed onto servers which will likely contain sensitive data. Therefore it is essential that precautions are taken to prevent the leakage of this data resulting from the use of this tool. This issue was considered extensively during the design phase, and has resulted in an architecture in which it is not necessary for the management agent to listen on a network interface, or require the opening of network ports upon a firewall. The tool is self-hosting within a private network if desired, where it typically will be isolated from external networks via a firewall, and subject to any company specific security policies. This means that the attack surface area for a given service is not increased by using the tool.
+
+    Secondly, the installation and subsequent communication between the management API and system under test is encrypted via HTTPS/TLS\@. If a malicious third-party was to intercept or redirect the monitoring traffic within a private network, the data would not be readable without the server's private key, this also prevents tampering by a proxy.
+
+    Thirdly, the tool is not yet available as a `Software as a Service' offering, but if this is pursued at a later date, each instance of the tool must be isolated from the other, so as to avoid any leaking of data between users. Generally, it may be safer to run many instances of the application using virtualization, so as to be sufficiently isolated from other users.
+
 \chapter{Testing}
 
 Testing is an extremely important part of the software development lifecycle, and is key to delivering a quality product. The system I have developed comprises of a number of interconnected components, each of which must be tested in isolation and as a whole to ensure correctness.
