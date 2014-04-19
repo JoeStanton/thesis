@@ -225,7 +225,7 @@ A set of functional and non-functional requirements will be established from use
   \item A System Administrator at HCL
 \end{itemize}
 
-\subsection{User Stories}
+\section{User Stories}
 \begin{enumerate}
   \item As a developer, I would like a simple and expressive way to document my application's infrastructure requirements, so I can effectively communicate them to other developers and system administrators.
   \item As a developer, I have the ability to execute my documented infrastructure specifications to automatically validate the correctness of the system under test.
@@ -238,7 +238,7 @@ A set of functional and non-functional requirements will be established from use
   \item As a developer / system administrator, I would like to measure the reliability of a service and its components over time.
 \end{enumerate}
 
-\subsection{Functional Requirements}
+\section{Functional Requirements}
 \begin{enumerate}
   \item Testing Framework
     \begin{enumerate}
@@ -264,7 +264,7 @@ A set of functional and non-functional requirements will be established from use
     \end{enumerate}
 \end{enumerate}
 
-\subsection{Non-Functional Requirements}
+\section{Non-Functional Requirements}
 \begin{enumerate}
   \item Reliability - The system and all of its components should provide a reliable platform for monitoring live systems.
   \item Usability - It should be easy to start using the system and understand how it fits within the users existing organisation. Understanding of the implementation details should not be necessary for basic use cases.
@@ -294,7 +294,7 @@ A set of functional and non-functional requirements will be established from use
     \end{enumerate}
 \end{enumerate}
 
-\subsection{Additional Aims}
+\section{Additional Aims}
 
 I will open source the project on GitHub, using a flexible and open license, as it could appeal to anyone with a general interest in infrastructure modelling and verification. Similar to a unit testing framework, the project would be pitched as a distributed modelling and testing framework for servers and other infrastructure. Open sourcing the project could have a number of benefits, such as:
 
@@ -307,7 +307,7 @@ I will open source the project on GitHub, using a flexible and open license, as 
 
 If the project is open sourced, it could still be made available commercially in a hosted and supported form at a later date.
 
-\subsection{Limitations}
+\section{Limitations}
 
 Due to the significant differences between Windows and UNIX based servers, including compatibility of tools, remote command execution strategies and scriptability, I have decided to target only UNIX based (specifically Linux) servers initially. This decision is based upon the dominance of UNIX within the server market, at 66.8\% in a 2013 study~\cite{UnixMarketShare}.
 
@@ -390,7 +390,7 @@ The Management API should support a mechanism of real-time updates, such as a We
 
 \subsection{Streaming Metrics/Events Service}
 
-The streaming service manages the collection of check results, metrics or logs via event streams over TCP or UDP. Streams reporting errors or anomalous metrics will trigger status changes in the management API, as will streams that stop receiving messages, as this may indicate failure in the monitoring framework itself. The streaming service should be the most scalable component, as it will likely be the limiting factor in the total number of checks/hosts supported by the system.
+The streaming service manages the collection of check results, metrics or logs via event streams over TCP or UDP\@. Streams reporting errors or anomalous metrics will trigger status changes in the management API, as will streams that stop receiving messages, as this may indicate failure in the monitoring framework itself. The streaming service should be the most scalable component, as it will likely be the limiting factor in the total number of checks/hosts supported by the system.
 
 The API itself could assume this role, but the number of events received could become very high and overwhelm it. When considering that a very large percentage of events will be identical to previous events, it makes sense only for the significant events to be forwarded to the API.
 
@@ -877,22 +877,37 @@ SMS notifications can convey a more limited quantity of information than emails,
 
 \pagebreak
 \section{Web UI}
+
+The Web UI is an important component, acting as the primary way for the user to visualize the state of the system. It provides a clear and simple interface to display services, components, events and incidents. Implementation choices and specific features are detailed further below.
+
 \subsection{Implementation Choices}
 
-\subsubsection{Single Page Application}
+\subsubsection{Traditional Website vs. Single Page Application}
 
-The Web UI is implemented as a single page web application, written in JavaScript. Single page applications have recently increased significantly in popularity, due to the improved capabilities of modern browsers. A single page application differs from a traditional website in the following ways:
+The Web UI is implemented as a single page web application, written in JavaScript. Single page applications have recently increased significantly in popularity, due to the improved capabilities and performance of modern browsers. A single page application differs from a traditional website in the following ways:
 
 \begin{description}
   \item[Rendering]
-    Most web applications are executed exclusively on the server-side, this is an obvious choice as it provides many benefits such as: low-latency database access, the standard execution environment of a server under the developers control and effective security. With a single page application, the server side components are usually exposed via an API which takes advantage of these benefits, and the client-side JavaScript fetches data from this API via AJAX requests. When data is received, it is rendered into HTML elements by JavaScript executing in the browser.
+    Most web applications are executed exclusively on the server-side, this is an obvious choice as it provides many benefits such as: low-latency database access, the standard execution environment of a server under the developers control and improved security, eg.\ no direct database access or ability to modify the source code. With a single page application, the server side components are usually exposed via an API which takes advantage of these benefits, and the client-side JavaScript fetches data from this API via AJAX requests. When data is received, it is rendered into HTML elements by JavaScript executing in the browser.
   \item[Interactivity and Responsiveness]
-    The user experience of a single page application can be significantly better than a traditional website, when used in an appropriate situation. Websites can feel much more like a desktop application, with multiple views, background data synchronisation, data filtering etc. The main increase in responsiveness comes from eliminating jarring page reloads, thereby increasing perceived performance.
+    The user experience of a single page application can be significantly better than a traditional website, when used in an appropriate situation. Websites can feel much more like a native desktop application, with multiple views, background data synchronisation, data filtering etc. The main increase in responsiveness comes from eliminating page reloads, which incur the full latency penalty unless they are cached, thereby increasing perceived performance.
+  \item[Deep Linking \& History]
+    Browsers cater well to traditional web pages, as each page must have a uniquely accessible URL and is explicitly navigated to by clicking on a hyperlink. Single page applications must emulate this behavior using JavaScript techniques to achieve deep-linking so that bookmarks or shared URL's will navigate to the correct state within an application. Features such as the HTML5 history API enable this.
+  \item[Search Engine Optimization]
+    Single Page Applications are generally a poor choice where search engine rankings are important for a website. Search crawlers typically do not execute JavaScript and are therefore unable to index content effectively. For a tool such as the Monitoring UI, this is unimportant, as it is intended as an internal tool which will often be protected by a layer of authentication and not accessible from the web. Solutions for this issue are available, and involve executing the application on the server side using a JavaScript engine such as Node.js initially.
+  \item[ Abstraction and Maintainability]
+    Single page application frameworks often apply standard architectural patterns such as Model-View-Controller. These patterns can help to raise the level of abstraction when creating highly interactive applications beyond manually binding event listeners to DOM elements in order to update and present data. Applications that are abstracted from the imperative nature of programming with the DOM (Document Object Model) can find benefits in a more declarative approach. This can help improve testability, code reuse and can reduce the number of defects.
 \end{description}
 
-Abstraction and Maintainability
+The vastly improved user experience attainable from a single page application was the primary consideration in selecting this approach. The UI is primarily read-only, but its role is to provide a near real-time view of the system from a number of different perspectives, switching between these perspectives can be seamless as a result of this implementation choice.
 
-    Single page application frameworks often apply standard architectural patterns such as Model-View-Controller. These patterns can help to raise the level of abstraction when creating highly interactive applications beyond manually binding event listeners to DOM elements in order to update and present data. Applications that are abstracted from the imperative nature of programming with the DOM (Document Object Model) can find benefits in a more declarative approach. This can help improve testability, code reuse and can reduce the number of defects.
+\subsubsection{Single Page Application Frameworks}
+
+There are many popular Single Page Application frameworks, including: Knockout.js, Angular.js, and more recently, React.js. The frameworks vary from very small and focused (such as React.js) to the more complex and full-featured (such as Angular.js).
+
+The Web UI is a fairly simple application, and a large framework can cause performance concerns as well as significantly increase the complexity of the code. React.js is the simplest of the mentioned frameworks, developed at Facebook and used on major sites such as Facebook, Instagram and Khan Academy, it deals with building reusable components, data binding and high performance view rendering, and its design is inspired by functional reactive programming.
+
+React.js was chosen for this project as the simplest and most effective tool for the job, its simplicity made it extremely productive to work with.
 
 \subsection{Features}
 
@@ -904,30 +919,34 @@ The service overview provides the information necessary to understand the high-l
 
 All individual components and hosts are listed, together with their respective statuses. If there are any issues within the service, they will be highlighted and enhanced with extra detail to aid in the troubleshooting process.
 
+\begin{center}
+  \includegraphics[scale=0.28]{web-ui/service-overview.png}
+\end{center}
+
 \subsubsection{Incident Tracking}
 
-As previously discussed, Incidents are a consolidated view of relevant context that users can use to identify the root cause of issues. Users will be directed to the incident page via notifications received via Email or SMS\. The interface surfaces relevant events occurring before or during an incident, as well as similar incidents that have occurred in the past.
+As previously discussed, Incidents are a consolidated view of relevant context that users can use to identify the root cause of issues. Users will be directed to the incident page via notifications received via Email or SMS\@. The interface surfaces relevant events occurring before or during an incident, as well as similar incidents that have occurred in the past.
 
 After an incident has been resolved, the user is encouraged to provide a brief note detailing the root cause, as well as any remedial action taken. This will be surfaced when other relevant incidents occur in future.
+
+\begin{center}
+  \includegraphics[scale=0.28]{web-ui/incidents.png}
+\end{center}
 
 \subsubsection{Event Logging}
 
 The monitoring system is designed to accommodate and track changes in underlying infrastructure. The event log provides a chronological view of these changes together with supplementary information provided via each integration. For example, a deployment event will normally include meta-data such as the hosts affected, the branch deployed as well as the specific build or version number if available. The interface provides the means to filter these events, so users can easily identify changes in relevant parts of the system if issues occur.
 
-* At a glance status of all monitored services and components.
-* Detailed error messages in the case of failed services, nodes or components.
-* Reliability metrics calculated and augmented with Graphite stats.
-* Incident tracking
-* Access to the full event log
+\begin{center}
+  \includegraphics[scale=0.28]{web-ui/events.png}
+\end{center}
 
-Tech
-* 'Single page' application - What does this mean?
-* D3.js
-* SSE/WebSockets
+\subsubsection{Specification View}
+The UI provides an easy way to check the exact details of a specification, by switching to its raw representation. This is intended primarily as a debugging tool.
 
-\subsection{React.js}
-\subsection{Data Visualisation - D3.js}
-\subsection{Live Updates}
+\begin{center}
+  \includegraphics[scale=0.28]{web-ui/specification.png}
+\end{center}
 
 \pagebreak
 \section{Deployment \& Provisioning}
@@ -1177,7 +1196,7 @@ The following chapter will provide a critical analysis into the delivered soluti
     \end{enumerate}
 \end{enumerate}
 
-\subsection{Non-Functional Requirements}
+\section{Non-Functional Requirements}
 \begin{enumerate}
   \item Reliability - The system and all of its components should provide a reliable platform for monitoring live systems.
 
@@ -1267,7 +1286,7 @@ The following chapter will provide a critical analysis into the delivered soluti
     \end{enumerate}
 \end{enumerate}
 
-\subsection{Critical Evaluation}
+\section{Critical Evaluation}
 
 As evident from the previous subsections, the system delivered at least partially satisfied every requirement set out in the analysis phase. The tool is practically usable and deployed on a number of real systems. There are however a few weaknesses or areas of improvement upon the final implementation:
 
