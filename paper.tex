@@ -101,7 +101,7 @@ In this chapter, we discuss the increase in infrastructure and software complexi
 
 The problem of increasing software complexity is a well publicised and researched phenomenon. Software that is complex takes longer to develop, and is harder to maintain. As it affects the value proposition to the user so directly, it is often the dominant factor in determining the feasibility of implementing a given system.
 
-The rise in software complexity together with ever changing business demands during its development has given rise to a number of popular methodologies or techniques in research and industry, such as Model Driven Development~\cite{MDD}, Extreme Programming~\cite{BeckXP} and the Agile movement~\cite{AgileManifesto}.
+The rise in software complexity together with ever changing business demands during its development has given rise to a number of popular methodologies or techniques in research and industry, such as Model Driven Development~\cite{ModelDrivenDevelopment}, Extreme Programming~\cite{BeckXP} and the Agile movement~\cite{AgileManifesto}.
 
 \subsection{Modelling and Model Driven Software Engineering (MDSE)}
 
@@ -125,7 +125,7 @@ A popular method of managing software complexity is via the introduction of unit
 
 Edsger W. Dijkstra once stated that ``Simplicity is prerequisite for reliability", simplicity can be achieved by decomposing difficult problems into smaller, more managable chunks, and unit testing encourages this practice.
 
-Test Driven Development (TDD) has surged in popularity within industry as a result of the XP and Agile movements. The cited benefits are: improved software quality and increased responsiveness to changing customer requirements~\cite{WikiXP}. TDD further encourages the decomposition of software into smaller, independently verifiable modules, but goes further than this by stating that these tests should be written before the implementation.
+Test Driven Development (TDD) has surged in popularity within industry as a result of the XP and Agile movements. The cited benefits are: improved software quality and increased responsiveness to changing customer requirements~\cite{BeckTDD}. TDD further encourages the decomposition of software into smaller, independently verifiable modules, but goes further than this by stating that these tests should be written before the implementation.
 
 There are many types of testing, but they can generally be grouped into two main categories:
 
@@ -698,11 +698,13 @@ Check results are interpreted in the following way:
 \pagebreak
 \section{Management API}
 
-The Management API is provided as the interface to the core application logic and domain model. It is responsible for storage and retrieval of all entities such as hosts, services and their respective dependencies. These entities are exposed via the REST API to other parts of the application. The API accepts and responds with JSON\footnote{http://www.json.org/js.html} serialised data. The API is simple and discoverable, encouraging integration with other systems.
+The Management API is provided as the interface to the core application logic and domain model. It is responsible for storage and retrieval of all entities such as hosts, services and their respective dependencies. These entities are exposed via the REST API to other parts of the application. The API accepts and responds with JSON\footnote{JSON - http://www.json.org/js.html} serialised data. The API is simple and discoverable, encouraging integration with other systems.
 
 \subsection{Ruby on Rails}
 
-Ruby on Rails is an extremely popular web framework written in Ruby. It provides a full suite of functionality from database access to view rendering. It has an extremely active community, over 3,400 contributors\cite{RailsContrib} and has been downloaded nearly 34 million times according to RubyGems.org~\cite{RailsPopularity}. It embraces common best practice patterns such as Model-View-Controller (MVC) and the ActiveRecord pattern~\cite{ActiveRecord}. Ruby on Rails was chosen for this project for the above reasons, as well as the excellent support for testing libraries such as RSpec.
+Ruby on Rails\footnote{Ruby on Rails - http://rubyonrails.org/} is an extremely popular web framework written in Ruby. It provides a full suite of functionality from database access to view rendering. It has an extremely active community, over 3,400 contributors\cite{RailsContrib} and has been downloaded nearly 34 million times according to RubyGems.org~\cite{RailsPopularity}. It embraces common best practice patterns such as Model-View-Controller (MVC) and the ActiveRecord pattern~\cite{ActiveRecord}. Ruby on Rails was chosen for this project for the above reasons, as well as the excellent support for testing libraries such as RSpec\footnote{RSpec - https://relishapp.com/rspec}.
+
+Sinatra\footnote{Sinatra - http://www.sinatrarb.com/} and Padrino\footnote{Padrino - http://www.padrinorb.com/} are alternative popular web frameworks for Ruby. Both of these frameworks are more minimal than Rails. They are useful for projects that are either especially simple, or projects that deviate from the standard Rails functionality by a large degree. This is not true of the monitoring API, it is a typical web application that can benefit from many of the framework features Rails offers, therefore it was deemed an appropriate choice for this component.
 
 Whilst Rails is extremely popular, it is typically used for websites with a HTML interface, not pure REST API's. Many of the convenient features of Rails are not necessary or useful without a view layer. As Rails is a modular framework, a number of Rails core contributors released a subset of Rails functionality useful for API's. This project, known simply as `rails-api' is an excellent fit for the management API.
 
@@ -710,7 +712,7 @@ Whilst Rails is extremely popular, it is typically used for websites with a HTML
 
 The ActiveRecord\cite{ActiveRecord} pattern, and its Ruby implementation with the same name is the default object-relational mapper/persistence layer within Ruby on Rails.
 
-The pattern provides tight coupling between domain objects and the respective database tables that persist the data. ActiveRecord is a very convenient and low friction way of adding persistence to the application, but it has a few a disadvantages. It's main disadvantage is that it is very tightly coupled to the domain objects, this makes them harder to write isolated unit tests for, without extensive mocking of the database. There are, however, good solutions for the burden and fragility of database mocking within Ruby gems such as NullDB~\cite{NullDB}.
+The pattern provides tight coupling between domain objects and the respective database tables that persist the data. ActiveRecord is a very convenient and low friction way of adding persistence to the application, but it has a few a disadvantages. It's main disadvantage is that it is very tightly coupled to the domain objects, this makes them harder to write isolated unit tests for, without extensive mocking of the database. There are, however, good solutions for the burden and fragility of database mocking within Ruby gems such as FactoryGirl\footnote{FactoryGirl - https://github.com/thoughtbot/factory\_girl} and NullDB\footnote{NullDB - https://github.com/nulldb/nulldb}.
 
 Another popular alternative to the ActiveRecord pattern is DataMapper\cite{DataMapper}, this pattern involves manually mapping objects to their respective database rows and vice-versa, it is useful in applications with more complex data models, but ActiveRecord was chosen for the increased productivity and implicit framework support.
 
