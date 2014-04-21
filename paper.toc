@@ -100,7 +100,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.5.4}Service Discovery}{28}{subsection.4.5.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.5}Bundled Checks \& Extensibility}{29}{subsection.4.5.5}
+\contentsline {subsection}{\numberline {4.5.5}Bundled Checks \& Extensibility}{30}{subsection.4.5.5}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.6}Streaming Event Service}{31}{section.4.6}
 \defcounter {refsection}{0}\relax 

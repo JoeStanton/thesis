@@ -571,7 +571,9 @@ database:
     version: mysql --version
 \end{minted}
 
-It then gets the table of currently executing processes, via the UNIX command `ps aux' and parses the output. It then matches this list with the processes in the service definitions list, and verifies the listening port via `lsof -i :$<$port$>$'. When a process has been detected, the tool will execute the specified `version' command to extract the current version number of the service.
+It then gets the table of currently executing processes, via the UNIX command `ps aux' and parses the output. It then matches this list with the processes in the service definitions list, and verifies the listening port via `lsof -i :$<$port$>$'.
+
+When a process has been detected, the tool will execute the specified `version' command to extract the current version number of the service.
 
 \pagebreak
 The discovery process will output a service specification similar to the following:
@@ -603,6 +605,7 @@ end
 
 This service specification not only lists the running services, but provides a suggested set of health checks for them, as appropriate. This can help new users of the tool become familiar with the syntax and features of the DSL.
 
+\pagebreak
 \subsection{Bundled Checks \& Extensibility}
 \label{bundledchecks}
 
@@ -1071,19 +1074,18 @@ A configuration file controls the setup of a base Ubuntu Linux v13.04 image, Pac
 \section{Tools and Methodologies}
 \begin{description}
   \item [Version Control]\hfill \\
-    Due to the size of the project and significant development effort involved, I will be using \textbf{Git} to version control my codebase. This will be hosted in \textbf{GitHub} for redundancy and issue tracking features. The project will be split into a number of independent services as outlined above, which will likely exist as separate code repositories.
-  \item [Test Driven Development]\hfill \\
-    It is of utmost importance to ensure that the codebase of the monitoring tool is as free from defects as possible. An unreliable monitoring tool eliminates all of the safety guarantees a stable tool would provide. Therefore I will be using Test Driven Development to write tests and relate them to features as I develop the solution.
+    Due to the size of the project and significant development effort involved, \textbf{Git} has been used to version control my codebase. The code itself is distributed across 5 separate repositories. It is hosted as a set of open-source repositories at \textbf{GitHub} for redundancy and issue tracking features.
 
-    Where this is particularly difficult due to a large number of side effects or dependencies, I will use integration testing to provide some high-level guarantees and ensure that the system satisfies its requirements. A small amount of manual testing will also be required.
+  \item [Test Driven Development]\hfill \\
+    It is of utmost importance to ensure that the codebase of the monitoring tool is as free from defects as possible. An unreliable monitoring tool eliminates all of the safety guarantees a stable tool would provide. As further detailed in the testing section, Test Driven Development has been exensively used to verify the correctness of each component as it is implemented.
+
+    Where this is particularly difficult due to a large number of side effects or dependencies, slower integration testing was used to provide some high-level guarantees and ensure that the system satisfies its requirements. A small amount of manual testing was also required.
   \item [Vagrant and Amazon AWS]\hfill \\
-    Where integration tests are required, I will use Vagrant\footnote{See
-    https://docs.vagrantup.com/v2/why-vagrant/index.html - Benefits of using Vagrant}, a Ruby scripting tool that controls
+    Where integration tests are required, Vagrant\footnote{See
+    https://docs.vagrantup.com/v2/why-vagrant/index.html - Benefits of using Vagrant} is used.Vagrant is a Ruby scripting tool that controls
     VirtualBox\footnote{See https://www.virtualbox.org/ for an overview of VirtualBox} and automates the provisioning and setup of Virtual Machines according to a specification.
 
-    I can use these provisioned virtual machines to test cross-platform compatibility of the solution, and to simulate failures and verify the behaviour of the monitoring tool.
-
-    For real world tests, Amazon AWS will be used to provision cloud based instances together with the API to alter the environment (such as security groups and hardware specifications) and initiate failures.
+    These provisioned virtual machines have been used to test cross-platform compatibility of the solution, and to simulate failures and verify the behaviour of the monitoring tool.
 \end{description}
 
 \pagebreak
@@ -1111,7 +1113,7 @@ As this tool is designed to be deployed and used in a professional environment, 
 
 \chapter{Testing}
 
-Testing is an extremely important part of the software development lifecycle, and is key to delivering a quality product. The system I have developed comprises of a number of interconnected components, each of which must be tested in isolation and as a whole to ensure correctness.
+Testing is an extremely important part of the software development lifecycle, and is key to delivering a quality product. The system I have developed composes a number of interconnected components, each of which must be tested in isolation and as a whole to ensure correctness.
 
 A number of strategies were chosen to test the application, detailed below.
 
