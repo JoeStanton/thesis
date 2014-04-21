@@ -633,6 +633,7 @@ Events are sent from the monitoring agent installed on each host via a TCP socke
 
 A typical event payload can be arbitrarily defined, but is typically structured as follows:
 
+\label{eventschema}
 \begin{minted}[fontfamily=fi4]{yaml}
   host: "example-production-1"
   service: "example-service"
@@ -892,6 +893,7 @@ Both SSE and WebSockets were deemed to be better implementations than a long-pol
 
 \pagebreak
 \subsection{Email and SMS Notifications}
+\label{notifications}
 
 The management API implements two methods of notification, Email and SMS. Both of these types of notification are intended to alert developers or system administrators of new incidents opened on services they are responsible for.
 
@@ -957,6 +959,7 @@ The service overview provides the information necessary to understand the high-l
 All individual components and hosts are listed, together with their respective statuses. If there are any issues within the service, they will be highlighted and enhanced with extra detail to aid in the troubleshooting process.
 
 \begin{center}
+  \label{webui-overview}
   \includegraphics[scale=0.28]{web-ui/service-overview.png}
 \end{center}
 
@@ -965,6 +968,7 @@ All individual components and hosts are listed, together with their respective s
 Diagrams are often the best way to express complex services with many dependencies, the Web UI uses D3.js to render Scalable Vector Graphic representations of the modelled system. These diagrams also colour code the status of each component.
 
 \begin{center}
+  \label{webui-architecture}
   \includegraphics[scale=0.33]{web-ui/architecture.png}
 \end{center}
 
@@ -975,6 +979,7 @@ As previously discussed, Incidents are a consolidated view of relevant context t
 After an incident has been resolved, the user is encouraged to provide a brief note detailing the root cause, as well as any remedial action taken. This will be surfaced when other relevant incidents occur in future.
 
 \begin{center}
+  \label{webui-incidents}
   \includegraphics[scale=0.28]{web-ui/incidents.png}
 \end{center}
 
@@ -983,6 +988,7 @@ After an incident has been resolved, the user is encouraged to provide a brief n
 The monitoring system is designed to accommodate and track changes in underlying infrastructure. The event log provides a chronological view of these changes together with supplementary information provided via each integration. For example, a deployment event will normally include meta-data such as the hosts affected, the branch deployed as well as the specific build or version number if available. The interface provides the means to filter these events, so users can easily identify changes in relevant parts of the system if issues occur.
 
 \begin{center}
+  \label{webui-events}
   \includegraphics[scale=0.28]{web-ui/events.png}
 \end{center}
 
@@ -995,6 +1001,7 @@ The UI provides an easy way to check the exact details of a specification, by sw
 
 \pagebreak
 \section{Deployment \& Provisioning}
+\label{ansible}
 
 The management server should have an automated, repeatable provisioning and deployment process. This involves the setup and configuration of all supporting software packages on a given host via a configuration management tool.
 
@@ -1177,17 +1184,15 @@ The following chapter will provide a critical analysis into the delivered soluti
 
         \litem{The developer should be able to use to the tool to describe a system accurately and concisely.}
 
-        Three production systems were described using the service specification DSL, they could all be represented appropriately.
+        A number of production systems were described using the service specification DSL, all components could be represented accurately and concisely, examples can be found in \autoref{dslexamples}.
 
       \litem{The developer should be able to execute this description to validate the correctness of a system, verifying any arbitrary property as required.}
 
-        Service specifications, such as the examples satisfying the previous requirement, can be executed using the `check' and `start' commands. When using the check command, output is similar to that seen in \ref{}.
-
-        The service overview page displays the results of checks on started daemons \ref{}.
+        Service specifications, such as the examples satisfying the previous requirement, can be executed using the `check' and `start' commands.
 
       \litem{The tool should provide an auto-detection process to detect existing services and assist in describing them.}
 
-        The service discovery functionality was implemented and tested on a Linux virtual machine, it correctly identified the components specified in the component definitions file. Clearly, this functionality will not work with previously un-documented services.
+        The service discovery functionality was implemented and tested on a Linux virtual machine, it correctly identified the components specified in the component definitions file. Detection is limited to a small set of service definitions, currently.
 
       \litem{The tool should provide built in checks so the developer does not have to write them all from scratch.}
 
@@ -1195,7 +1200,7 @@ The following chapter will provide a critical analysis into the delivered soluti
 
       \litem{The developer should be able to use external libraries to add additional functionality to health checks.}
 
-        The example service specification shows the usage of the tool with an external RubyGem to interface with Redis, assertions can be made on the results using the built in methods and standard Ruby functionality as demonstrated. This pattern can be followed with any external RubyGem.
+        The example service specification in \autoref{dslgem} shows the usage of the tool with an external RubyGem to interface with Redis, assertions can be made on the results using the built in methods and standard Ruby functionality as demonstrated. This pattern can be followed with any external RubyGem.
 
       \litem{The developer should be able to deploy this tool on a production server, and monitor the system continuously.}
 
@@ -1203,7 +1208,7 @@ The following chapter will provide a critical analysis into the delivered soluti
 
       \litem{The tool should report results back to a central location where they can be viewed.}
 
-        The management agent reports its check results back to the streaming event service according to the schema specified in~\ref{EventSchema}. The results of this can be verified by observing that the correct success/failure messages and description are displayed on the Web UI.
+        The management agent reports its check results back to the streaming event service according to the schema specified in \autoref{eventschema}. The results of this can be verified by observing that the correct success/failure messages and description are displayed on the Web UI.
 
       \litem{The tool should work in an environment where inbound connections to the system under test are prohibited by a firewall.}
 
@@ -1214,31 +1219,31 @@ The following chapter will provide a critical analysis into the delivered soluti
     \begin{enumerate}
       \litem{The tool should effectively visualise the state of a system under test, including services, components and hosts.}
 
-        The web interface effectively presents the state of the system, including all of the above details. Screenshots of this functionality can be found in \ref{}
+      The web interface effectively presents the state of the system, including all of the above details. Screenshots of this functionality can be found in \autoref{webui-overview} and \autoref{webui-architecture}
 
       \litem{The tool should provide a way to view results of the health checks.}
 
-        The web interface effectively presents the results of health checks, including specific error messages to aid debugging efforts. Screenshots of this functionality can be found in \ref{}
+      The web interface effectively presents the results of health checks, including specific error messages to aid debugging efforts. Evidence of this functionality is provided in \autoref{webui-overview}.
 
       \litem{The tool should provide a way to track and visualise changes happening within the system.}
 
-        The management API tracks a number of different event types, including: `deployment', `configuration', `host-registration', `host-deregistration', `check-result'. The web interface presents these events in chronological order as seen in \ref{}.
+        The management API tracks a number of different event types, including: `deployment', `configuration', `host-registration', `host-deregistration', `check-result'. The web interface presents these events in chronological order as seen in \autoref{webui-events}.
 
       \litem{The tool should calculate the degree of reliability of each host, service and component.}
 
-        The management API uses event and incident data to calculate ``Mean Time Between Failure (MBTF)", ``Mean Time Before Recovery (MTBR)" and the derived ``Service Availability". The web interface presents these events in chronological order as seen in \ref{}.
+        The management API uses event and incident data to calculate ``Mean Time Between Failure (MBTF)", ``Mean Time Before Recovery (MTBR)" and the derived ``Service Availability". The web interface presents these events in chronological order as seen in \autoref{webui-incidents}.
 
       \litem{The tool should send Email notifications to users when incidents occur.}
 
-        As displayed in \ref{}, the tool sends emails when incidents are triggered and resolved.
+        As displayed in \autoref{notifications}, the tool sends emails when incidents are triggered and resolved.
 
       \litem{The tool should send SMS notifications to users when incidents occur.}
 
-        As displayed in \ref{}, the tool sends SMS messages when incidents are triggered and resolved.
+        As displayed in \autoref{notifications}, the tool sends SMS messages when incidents are triggered and resolved.
 
       \litem{The data collection and monitoring should be deployable on a private network.}
 
-        The Ansible playbooks discussed in \ref{}, together with the Packer build process explained in the same section make this possible. Example build artifacts are linked in \ref{}.
+        The Ansible playbooks discussed in \autoref{ansible}, together with the Packer build process explained in the same section make this possible.
 
     \end{enumerate}
 \end{enumerate}
@@ -1297,7 +1302,7 @@ The following chapter will provide a critical analysis into the delivered soluti
 
         \litem{Insecure transmission of sensitive data}
 
-        \ref{}
+        As discussed in previous sections, all data transmission between the management API and the system under test is protected by SSL encryption.
 
         \litem{Remote code execution}
 
@@ -1366,9 +1371,21 @@ As well as the monitoring of live systems, I have also discovered a number of ot
 
 I hope that the concepts and implementation of this tool can be directly re-used and expanded upon in future by open source contributions or competing projects, I feel that there is still lots of room for improvement but believe that it can be realised in time with this approach.
 
-% \chapter{Appendices}
-
 \printbibliography[title=References]
-% \include{appendix}
+
+\pagebreak
+\section{Appendix}
+\subsection{Service Specification Examples}
+\label{dslexamples}
+
+\subsubsection{X-Time}
+\label{dslgem}
+\inputminted[fontfamily=fi4]{ruby}{appendices/x-time.rb}
+
+\subsubsection{X-Awards Site}
+\inputminted[fontfamily=fi4]{ruby}{appendices/x-awards-site.rb}
+
+\subsubsection{Workspace +}
+\inputminted[fontfamily=fi4]{ruby}{appendices/workspace.rb}
 
 \end{document}

@@ -193,3 +193,13 @@
 \contentsline {section}{\numberline {7.3}Critical Evaluation}{69}{section.7.3}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{70}{chapter.8}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {8.1}Appendix}{73}{section.8.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {8.1.1}Service Specification Examples}{73}{subsection.8.1.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{X-Time}{73}{section*.33}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{X-Awards Site}{74}{section*.34}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Workspace +}{75}{section*.35}
