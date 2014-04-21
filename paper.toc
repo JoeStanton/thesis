@@ -130,60 +130,62 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.7.7}Incidents}{41}{subsection.4.7.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.8}Live Updates - Server Sent Events}{42}{subsection.4.7.8}
+\contentsline {subsection}{\numberline {4.7.8}Root Cause Analysis - Reachability Matrix}{43}{subsection.4.7.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.9}Email and SMS Notifications}{43}{subsection.4.7.9}
+\contentsline {subsection}{\numberline {4.7.9}Live Updates - Server Sent Events}{44}{subsection.4.7.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.8}Web UI}{44}{section.4.8}
+\contentsline {subsection}{\numberline {4.7.10}Email and SMS Notifications}{45}{subsection.4.7.10}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.1}Implementation Choices}{44}{subsection.4.8.1}
+\contentsline {section}{\numberline {4.8}Web UI}{46}{section.4.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Traditional Website vs. Single Page Application}{44}{section*.23}
+\contentsline {subsection}{\numberline {4.8.1}Implementation Choices}{46}{subsection.4.8.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Single Page Application Frameworks}{45}{section*.24}
+\contentsline {subsubsection}{Traditional Website vs. Single Page Application}{46}{section*.23}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.2}Features}{46}{subsection.4.8.2}
+\contentsline {subsubsection}{Single Page Application Frameworks}{47}{section*.24}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{A Service Overview}{46}{section*.25}
+\contentsline {subsection}{\numberline {4.8.2}Features}{48}{subsection.4.8.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Incident Tracking}{46}{section*.26}
+\contentsline {subsubsection}{A Service Overview}{48}{section*.25}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Event Logging}{47}{section*.27}
+\contentsline {subsubsection}{Incident Tracking}{48}{section*.26}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Specification View}{48}{section*.28}
+\contentsline {subsubsection}{Event Logging}{49}{section*.27}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{49}{section.4.9}
+\contentsline {subsubsection}{Specification View}{50}{section*.28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.9.1}Configuration Management Tools}{49}{subsection.4.9.1}
+\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{51}{section.4.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Ansible}{49}{section*.29}
+\contentsline {subsection}{\numberline {4.9.1}Configuration Management Tools}{51}{subsection.4.9.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.9.2}Virtual Appliances - Packer}{51}{subsection.4.9.2}
+\contentsline {subsubsection}{Ansible}{51}{section*.29}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.10}Tools and Methodologies}{52}{section.4.10}
+\contentsline {subsection}{\numberline {4.9.2}Virtual Appliances - Packer}{53}{subsection.4.9.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Professional Issues}{53}{chapter.5}
+\contentsline {section}{\numberline {4.10}Tools and Methodologies}{54}{section.4.10}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Plagarism \& Licensing}{53}{section.5.1}
+\contentsline {chapter}{\numberline {5}Professional Issues}{55}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}Developer Competence \& Risk}{53}{section.5.2}
+\contentsline {section}{\numberline {5.1}Plagarism \& Licensing}{55}{section.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.3}Data Integrity \& Security}{54}{section.5.3}
+\contentsline {section}{\numberline {5.2}Developer Competence \& Risk}{55}{section.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Testing}{55}{chapter.6}
+\contentsline {section}{\numberline {5.3}Data Integrity \& Security}{56}{section.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.1}Unit Testing}{55}{section.6.1}
+\contentsline {chapter}{\numberline {6}Testing}{57}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.2}Functional Testing}{56}{section.6.2}
+\contentsline {section}{\numberline {6.1}Unit Testing}{57}{section.6.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.3}Real World Usage}{57}{section.6.3}
+\contentsline {section}{\numberline {6.2}Functional Testing}{58}{section.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Evaluation}{59}{chapter.7}
+\contentsline {section}{\numberline {6.3}Real World Usage}{59}{section.6.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.1}Functional Requirements}{59}{section.7.1}
+\contentsline {chapter}{\numberline {7}Evaluation}{61}{chapter.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.2}Non-Functional Requirements}{61}{section.7.2}
+\contentsline {section}{\numberline {7.1}Functional Requirements}{61}{section.7.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.3}Critical Evaluation}{64}{section.7.3}
+\contentsline {section}{\numberline {7.2}Non-Functional Requirements}{63}{section.7.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{66}{chapter.8}
+\contentsline {section}{\numberline {7.3}Critical Evaluation}{66}{section.7.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{68}{chapter.8}

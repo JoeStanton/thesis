@@ -847,6 +847,34 @@ Incident detection is a layer of logic above events. It will detect events of a 
 
 Incidents are designed to group all of the required context such as component failures, recent events such as deployments, and past incidents of a similar nature. When an incident has been resolved, the system will trigger an email requesting that the investigator of the problem provides a short summary of the root cause of the issue. The API will also track statistics such as the time taken for recovery to occur, which is then used in reliability calculations at the service level. This information is then stored and can be used to help solve similar issues in future, especially where the same infrastructure problems keep recurring.
 
+\pagebreak
+\subsection{Root Cause Analysis - Reachability Matrix}
+
+As the Management API tracks dependencies between services and components, it is able to infer the likely root-cause of a problem.
+
+The root cause is inferred via the following process:
+
+\begin{enumerate}
+  \item Failing services and components are detected and raised in an incident.
+  \item A reachability matrix is calculated via a recursive SQL query. The results of this query (a transitive closure\footnote{A transitive closure is defined as follows: http://mathworld.wolfram.com/TransitiveClosure.html}) can be used to check if there exists a path between two given nodes.
+
+    This query can become expensive, with a time complexity on the order of $O(n^3)$, therefore it uses a common time-space tradeoff technique known as `materialized views'\footnote{For more details on materialized views, see http://www.postgresql.org/docs/9.3/static/rules-materializedviews.html} to incrementally compute changes over time. The total number of nodes is usually low enough to make this feasible.
+  \item The failing service or component is defined as the root cause if:
+    \begin{enumerate}
+      \item It has no failing dependencies itself.
+      \item There is a dependency path to it from all other failing services/components.
+    \end{enumerate}
+\end{enumerate}
+
+As a concrete example, consider the following scenario:
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[scale=0.7]{web-ui/rca.png}
+\end{figure}
+
+The component `Redis' is inferred as the root-cause, as all other failing components are dependent upon it, and it does not itself have any failing dependencies.
+
 \subsection{Live Updates - Server Sent Events}
 
 As well as the typical API resources previously discussed, a single endpoint is provided for clients to subscribe to a stream of changes. Where appropriate, all domain entities will be published to the changes stream as they are created, updated or deleted. Clients such as the Web UI can subscribe to these changes and update the user interface accordingly.
