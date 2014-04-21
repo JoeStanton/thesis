@@ -1113,31 +1113,31 @@ As this tool is designed to be deployed and used in a professional environment, 
 
 \chapter{Testing}
 
-Testing is an extremely important part of the software development lifecycle, and is key to delivering a quality product. The system I have developed composes a number of interconnected components, each of which must be tested in isolation and as a whole to ensure correctness.
+Testing is an extremely important part of the software development lifecycle, and is key to delivering a quality product. The system I have developed composes a number of interconnected components, each of which must be tested in isolation and as a whole, to ensure correctness.
 
 A number of strategies were chosen to test the application, detailed below.
 
 \section{Unit Testing}
 
-Unit Testing is a simple and effective way of ensuring units of functionality such as classes and methods behave correctly. Unit testing can be used to pinpoint the exact cause of a problem, as the code tested is isolated as well as possible from other interacting components such as databases. Running tests frequently during development provides a fast feedback loop in which correctness of new code can be verified, as well as detecting regressions in other areas of the code.
+Unit Testing is a simple and effective way of ensuring units of functionality such as classes and methods behave correctly. Unit testing can be used to pinpoint the exact cause of a problem, as the code tested is isolated as well as possible from other interacting components such as databases. Running tests frequently during development provides a fast feedback loop in which correctness of new code can be verified, as well as detecting unexpected regressions in other areas of the code.
 
 Both the API and Management Agent were developed using Test Driven Development, this is a development methodology which involves writing failing test cases before the implementation code. By writing tests as a natural part of the development process, a high amount of code coverage can be achieved without significant extra effort. Both of these components have strong unit test suites which were invaluable during the development process and beyond.
 
-The management agent in particular benefited from this form of testing. The DSL uses a number of meta-programming capabilities of Ruby, discussed in a previous section. The meta-programming features can, in some cases, make it harder to reason about the implementation code. A suite of unit tests specifically for the parsing of the DSL were both simple to write and extremely valuable in improving its quality and correctness.
+The management agent in particular benefited from this form of testing. The DSL uses a number of meta-programming capabilities of Ruby, discussed in a previous section. The meta-programming features can, in some cases, make it harder to reason about the correctness of the implementation. A suite of unit tests specifically for the parsing of the DSL were both simple to write and extremely valuable in improving its quality and correctness.
 
-The small amount of configuration within the event streaming service was unit tested. As Riemann itself is a well tested event processing library, there was no need to test its functionality too. Therefore there are only a couple of test cases needed for this component.
+The small amount of configuration within the event streaming service was also unit tested. As Riemann itself is a well tested event processing library, there was no need to test its functionality too. Therefore there are only a couple of test cases needed for this component.
 
 The Web UI was not unit tested. The Web UI primarily fetches and presents data to the user and the layout of this data changed significantly during the course of development. Unit testing the UI would have lead to very brittle test cases, which would break with any minor change. A combination of functional and manual testing were deemed to be a better fit for this component.
 
 \section{Functional Testing}
 
-While unit testing can be very beneficial in improving the quality of individual components, it does not expose any defects relating to the integration of these components into the whole system. Functional, or integration tests can vary from the combination of two components to testing the entire system end-to-end.
+While unit testing can be very beneficial in improving the quality of individual components, it does not expose any defects relating to the integration of these components into the whole system. Functional tests can vary from the combination of two components to testing the entire system end-to-end in order to validate if requirements have been satisfied.
 
-They can typically be automated in the same way as unit tests, but it is generally more challenging and time consuming to do so. They can expose a large number of more subtle defects which are much more difficult to find after the software has been deployed.
+Functional tests can typically be automated in the same way as unit tests, but it is generally more challenging and time consuming to do so. They can expose a large number of more subtle defects which are much more difficult to find after the software has been deployed.
 
 The end-to-end monitoring process, from parsing a service specification to displaying its results on the Web UI, requires the orchestration of a number of components, some of which are distributed over the network.
 
-The following functional tests were carried out, as they correspond to an important piece of functionality that is not possible to verify via unit tests:
+Below are examples of the functional tests carried out, as they correspond to an important piece of functionality that is not possible to verify via unit tests:
 
 \begin{itemize}
   \item When a host is setup via the installation script, it should appear on the admin interface with the correct hostname, port and service.
@@ -1156,10 +1156,11 @@ The following functional tests were carried out, as they correspond to an import
 
 Since approximately half way through the development process, a prototype of the system has been running on a number of production servers. These servers were supporting real services and the system was acting as the primary mechanism of detecting failure. This form of testing has been the most valuable. A number of minor issues could only be highlighted when the tool had been fully distributed across the internet, and others emerged after many days of continuous operation. Where problems were identified, they were reproduced with a unit test and subsequently fixed.
 
-Positive findings of real world usage testing:
+Some positive findings from real world usage testing include:
 
 \begin{itemize}
   \item It was simple to write a basic set of tests for an existing service.
+  \item The produced architecture diagrams were invaluable in checking the accuracy of a service specification, as well as communicating this to others.
   \item The service discovery feature was simple and effective, and provided a usable service specification template to build upon.
   \item After the initial setup, it became obvious that the tool could be used to detect some subtle problems, such as missing nightly database backups.
 \end{itemize}
@@ -1341,10 +1342,17 @@ The following chapter will provide a critical analysis into the delivered soluti
     \end{enumerate}
 \end{enumerate}
 
-\pagebreak
 \section{Critical Evaluation}
 
-As evident from the previous subsections, the system delivered at least partially satisfied every requirement set out in the analysis phase. The tool is practically usable and deployed on a number of real systems. There are however a few weaknesses or areas of improvement upon the final implementation:
+As evident from the previous subsections, the system delivered at least partially satisfied every requirement set out in the analysis phase, in that regard it can be considered successful. The tool is practically usable and deployed on a number of real systems. Areas where particular improvements have been made upon previous tools are noted below:
+
+\begin{description}
+  \item[Check Flexibility] The ability to check arbitrary properties of a system from a black box perspective (without access to the source code) can be seen as a significant benefit of using this tool.
+  \item[Effective Visualization \& Communication] Perhaps the largest improvement over existing monitoring tools such as Nagios is the quality of visualization. Service specifications generate easy to understand architecture diagrams of dependencies, with live updates when the state of each component changes. The extra context that this provides means that operations teams will be better placed to understand the modelled systems and the impact of problems whenever they occur.
+  \item[Root Cause Analysis] Whilst the root cause analysis mechanism is quite simple, it has proven to be effective in narrowing down the scope of problems, especially in more complex systems and therefore aiding in their resolution. Most other monitoring tools lack the context to be able to do this kind of analysis.
+\end{description}
+
+There are however a few weaknesses or areas of improvement upon the final implementation:
 
 \begin{description}
   \item[Dependency on Ruby] For good reason, many of the target users of the tool gave feedback stating their reluctance to install Ruby on production servers where it was not otherwise required. As previously discussed, the tool will manage this install process itself, reducing administrative burden, but it is still an unavoidable dependency which makes the footprint of the tool larger than necessary, and can sometimes make the installation process slow.
