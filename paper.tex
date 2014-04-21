@@ -34,18 +34,20 @@ Application architectures are more complex and dynamic than ever. The growth in 
 
  Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either `high' or `out of control'~\cite{Gartner2013}.
 
-In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage some of the inherent complexity in modern infrastructure. The emphasis of this investigation is on small to medium size software deployments, where significant resources are not typically invested into solving these issues.
+In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage some of the inherent complexity in modern infrastructure. We will attempt to design an infrastructure modelling language, and use this model to validate real-world systems, as well as generating helpful architecture diagrams for documentation purposes.
 
 \chapter*{Originality Avowal}
-I verify that I am the sole author of this report, except where explicitly stated to the contrary. I grant the right to King’s College London to make paper and electronic copies of the submitted work for purposes of marking, plagiarism detection and archival, and to upload a copy of the work to Turnitin or another trusted plagiarism detection service. I confirm this report does not exceed 25,000 words.
+I verify that I am the sole author of this report, except where explicitly stated to the contrary.
 
-\textbf{Signed:} Joe Stanton 
+I grant the right to King’s College London to make paper and electronic copies of the submitted work for purposes of marking, plagiarism detection and archival, and to upload a copy of the work to Turnitin or another trusted plagiarism detection service. I confirm this report does not exceed 25,000 words.
+
+\textbf{Signed:} Joe Stanton
 
 \textbf{Date:} \today
 
 \chapter*{Acknowledgements}
 
-I would like to express my gratitude to Dr.\ Steffen Zschaler, for agreeing to supervise this project when it was a rather abstract idea, and his subsequent useful advice throughout the year.
+I would like to express my gratitude to Dr.\ Steffen Zschaler, for agreeing to supervise this project when it was a rather abstract idea. His subsequent useful advice throughout the year has also been invaluable.
 
 \tableofcontents
 
@@ -117,7 +119,6 @@ Models can be built textually as well as graphically. Textual models are commonl
 
 Studies into increased quality, maintainability and developer productivity when using MDSE techniques can be found commonly in academia but are difficult to find in industry. In a study into Industrial Adoption of Model Driven Development, it was stated that "interviewees emphasised tool immaturity, complexity and lack of usability as major barriers to adoption"~\cite{IndustryMDSE}.
 
-\pagebreak
 \subsection{Unit and Integration Testing}
 
 A popular method of managing software complexity is via the introduction of unit testing. The primary goal of testing is clearly to improve the quality of a delivered piece of software, but unit testing achieves this goal by forcing the decomposition and validation of different parts of the system in isolation. Systems designed with unit testability in mind are commonly more modular and less coupled to the overall system, as this generally makes tests much easier to write.
@@ -157,7 +158,7 @@ The real value of these DSL's is that they are directly executable.  They can 
 
 As part of the runtime execution, each service's conformance to this set of properties is verified and if there is any divergence, the tool will orchestrate a set of imperative actions, for example installing the service or altering its configuration file and then restarting it.
 
-\begin{listing}[h]
+\begin{listing}[H]
 \begin{minted}[fontfamily=fi4]{ruby}
 class sshd {
     package { 'openssh-server':
@@ -209,7 +210,7 @@ New Relic is a popular subscription-based, hosted Application Performance Monito
 
 New Relic is extremely easy to integrate with existing web applications as it provides environment specific tooling such as Ruby gems or Python packages. It reports on fine-grained application metrics such as slow SQL queries, poor response times and browser based monitoring metrics with a snippet of JavaScript.
 
-Whilst New Relic is extremely simple to set up and provides a fairly deep insight into application performance, it is a relatively expensive service beyond a trivial number of hosts, treats all hosts as independent nodes rather than interconnected services with dependencies, and lacks the extensibility of the open source solutions when it comes to monitoring other non-supported parts of the stack.
+Whilst New Relic is simple to set up and provides a fairly deep insight into application performance, it is a relatively expensive service beyond a trivial number of hosts and severely lacks the extensibility of the open source solutions when it comes to monitoring other non-supported parts of the stack.
 
 \subsubsection{Summary}
  A vast array of monitoring tools already exist, many of which are mature solutions. However, they generally require a large investment of time and do not help with visualising or managing infrastructure complexity. They often also require deep insight into the application/service being monitored, which is not always the case when developers and operations teams are separate.
@@ -1374,18 +1375,18 @@ I hope that the concepts and implementation of this tool can be directly re-used
 \printbibliography[title=References]
 
 \pagebreak
-\section{Appendix}
-\subsection{Service Specification Examples}
+\chapter{Appendix}
+\section{Service Specification Examples}
 \label{dslexamples}
 
-\subsubsection{X-Time}
+\subsection{X-Time}
 \label{dslgem}
 \inputminted[fontfamily=fi4]{ruby}{appendices/x-time.rb}
 
-\subsubsection{X-Awards Site}
+\subsection{X-Awards Site}
 \inputminted[fontfamily=fi4]{ruby}{appendices/x-awards-site.rb}
 
-\subsubsection{Workspace +}
+\subsection{Workspace +}
 \inputminted[fontfamily=fi4]{ruby}{appendices/workspace.rb}
 
 \end{document}
