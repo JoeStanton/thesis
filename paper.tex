@@ -530,7 +530,7 @@ After installation, a service can be specified and monitored in the following wa
   \item[Local Testing] The specification is checked for validity on the local machine, ensuring that checks are valid and test for the desired properties. Iterative improvements can be made.
   \item[Pushing] The service definition is pushed to the configured management server, where it is used to update the data model and therefore the user interface. The file is interpreted and posted to the API as a series of partial updates. The original file is also sent, so comments and formatting are maintained for future reference.
   \item[Pulling] Where other hosts provide the same service, they can ``pull" the service configuration from the management server, taking a copy of the original file. They will then be notified of subsequent pushes, ensuring the specifications stay in sync. If this is not appropriate, this role can be fulfilled by an application deployment or configuration management process.
-  \item[Starting] Monitoring is started on the host, from this point onward, checks will be executed as appropriate and reported back to the management server. Unexpectedly terminating this process will lead to incident alerts.
+  \item[Monitoring] Monitoring is started on the host, from this point onward, checks will be executed as appropriate and reported back to the management server. Unexpectedly terminating this process will lead to incident alerts.
 \end{description}
 
 \subsection{Commands and Usage}
