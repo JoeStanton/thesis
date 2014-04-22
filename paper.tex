@@ -77,7 +77,7 @@ Better collaboration and knowledge transfer between these teams often provides t
 \section{Solution Objectives}
 %Embracing change is a key tenet of the cloud computing architecture.
 
-The objective is to design and implement a tool that helps with the modelling of complex infrastructure within real-world systems. The application will provide application developers or operations staff the ability to model systems as a graph of nodes, which may have dependencies and fine grained tests used to verify their current state.
+The objective is to design and implement a tool that helps with the modelling of complex infrastructure within real-world systems. The application will provide application developers or operations staff the ability to model systems as a graph of interconnected nodes, which may have dependencies and fine grained tests used to verify their current state.
 
 The tool will then execute this model as a means of system monitoring. It will verify the correctness of the live system continuously and warn of any divergence. It will also allow the attachment of meta-data and metrics to nodes. This model, meta-data and metrics will then serve as a useful diagnostic tool if the state of the system changes, e.g.\ a loss of connectivity between two nodes. This fine-grained and clear mechanism of communicating failure should reduce investigation and response times when issues arise, and provide the insight which prevents them from recurring.
 
@@ -123,7 +123,7 @@ Studies into increased quality, maintainability and developer productivity when 
 
 A popular method of managing software complexity is via the introduction of unit testing. The primary goal of testing is clearly to improve the quality of a delivered piece of software, but unit testing achieves this goal by forcing the decomposition and validation of different parts of the system in isolation. Systems designed with unit testability in mind are commonly more modular and less coupled to the overall system, as this generally makes tests much easier to write.
 
-Edsger W. Dijkstra once stated that ``Simplicity is prerequisite for reliability", simplicity can be achieved by decomposing difficult problems into smaller, more managable chunks, and unit testing encourages this practice.
+Edsger W. Dijkstra once stated that ``Simplicity is prerequisite for reliability", simplicity can be achieved by decomposing difficult problems into smaller, more manageable chunks, and unit testing encourages this practice.
 
 Test Driven Development (TDD) has surged in popularity within industry as a result of the XP and Agile movements. The cited benefits are: improved software quality and increased responsiveness to changing customer requirements~\cite{BeckTDD}. TDD further encourages the decomposition of software into smaller, independently verifiable modules, but goes further than this by stating that these tests should be written before the implementation.
 
@@ -915,7 +915,7 @@ SMS notifications can convey a more limited quantity of information than emails,
 \pagebreak
 \section{Web UI}
 
-The Web UI is an important component, acting as the primary way for the user to visualize the state of the system. It provides a clear and simple interface to display services, components, events and incidents. Implementation choices and specific features are detailed further below.
+The Web UI is an important component, acting as the primary way for the user to visualise the state of the system. It provides a clear and simple interface to display services, components, events and incidents. Implementation choices and specific features are detailed further below.
 
 \subsection{Implementation Choices}
 
@@ -929,8 +929,8 @@ The Web UI is implemented as a single page web application, written in JavaScrip
   \item[Interactivity and Responsiveness]
     The user experience of a single page application can be significantly better than a traditional website, when used in an appropriate situation. Websites can feel much more like a native desktop application, with multiple views, background data synchronisation, data filtering etc. The main increase in responsiveness comes from eliminating page reloads, which incur the full latency penalty unless they are cached, thereby increasing perceived performance.
   \item[Deep Linking \& History]
-    Browsers cater well to traditional web pages, as each page must have a uniquely accessible URL and is explicitly navigated to by clicking on a hyperlink. Single page applications must emulate this behavior using JavaScript techniques to achieve deep-linking so that bookmarks or shared URL's will navigate to the correct state within an application. Features such as the HTML5 history API enable this.
-  \item[Search Engine Optimization]
+    Browsers cater well to traditional web pages, as each page must have a uniquely accessible URL and is explicitly navigated to by clicking on a hyperlink. Single page applications must emulate this behaviour using JavaScript techniques to achieve deep-linking so that bookmarks or shared URL's will navigate to the correct state within an application. Features such as the HTML5 history API enable this.
+  \item[Search Engine Optimisation]
     Single Page Applications are generally a poor choice where search engine rankings are important for a website. Search crawlers typically do not execute JavaScript and are therefore unable to index content effectively. For a tool such as the Monitoring UI, this is unimportant, as it is intended as an internal tool which will often be protected by a layer of authentication and not accessible from the web. Solutions for this issue are available, and involve executing the application on the server side using a JavaScript engine such as Node.js initially.
   \item[ Abstraction and Maintainability]
     Single page application frameworks often apply standard architectural patterns such as Model-View-Controller. These patterns can help to raise the level of abstraction when creating highly interactive applications beyond manually binding event listeners to DOM elements in order to update and present data. Applications that are abstracted from the imperative nature of programming with the DOM (Document Object Model) can find benefits in a more declarative approach. This can help improve testability, code reuse and can reduce the number of defects.
@@ -1079,7 +1079,7 @@ A configuration file controls the setup of a base Ubuntu Linux v13.04 image, Pac
     Due to the size of the project and significant development effort involved, \textbf{Git} has been used to version control my codebase. The code itself is distributed across 5 separate repositories. It is hosted as a set of open-source repositories at \textbf{GitHub} for redundancy and issue tracking features.
 
   \item [Test Driven Development]\hfill \\
-    It is of utmost importance to ensure that the codebase of the monitoring tool is as free from defects as possible. An unreliable monitoring tool eliminates all of the safety guarantees a stable tool would provide. As further detailed in the testing section, Test Driven Development has been exensively used to verify the correctness of each component as it is implemented.
+    It is of utmost importance to ensure that the codebase of the monitoring tool is as free from defects as possible. An unreliable monitoring tool eliminates all of the safety guarantees a stable tool would provide. As further detailed in the testing section, Test Driven Development has been extensively used to verify the correctness of each component as it is implemented.
 
     Where this is particularly difficult due to a large number of side effects or dependencies, slower integration testing was used to provide some high-level guarantees and ensure that the system satisfies its requirements. A small amount of manual testing was also required.
   \item [Vagrant and Amazon AWS]\hfill \\
@@ -1105,7 +1105,7 @@ As this tool is designed to be deployed and used in a professional environment, 
 
     Additionally, no bold claims about the tools maturity or stability will be made in the documentation without significant prior evidence. This should ensure that any adopters of the tool are able to make a well informed decision about any risks involved.
 
-    As the tool runs in its own process, and background processing happens on a separate server, ideally it should not directly cause the failure of other components, but side effects such as extremely high resource/bandwidth usage could have a negative impact on live services. Wherever possible, best practices such as unit testing and rigorous functional testing have been used, and development has been carried out dilligently with these issues in mind. The testing phase revealed no such issues of this nature.
+    As the tool runs in its own process, and background processing happens on a separate server, ideally it should not directly cause the failure of other components, but side effects such as extremely high resource/bandwidth usage could have a negative impact on live services. Wherever possible, best practices such as unit testing and rigorous functional testing have been used, and development has been carried out diligently with these issues in mind. The testing phase revealed no such issues of this nature.
 \section{Data Integrity \& Security}
     The tool will be installed onto servers which will likely contain sensitive data. Therefore it is essential that precautions are taken to prevent the leakage of this data resulting from the use of this tool. This issue was considered extensively during the design phase, and has resulted in an architecture in which it is not necessary for the management agent to listen on a network interface, or require the opening of network ports upon a firewall. The tool is self-hosting within a private network if desired, where it typically will be isolated from external networks via a firewall, and subject to any company specific security policies. This means that the attack surface area for a given service is not increased by using the tool.
 
@@ -1268,7 +1268,7 @@ The following chapter will provide a critical analysis into the delivered soluti
     \begin{enumerate}
       \litem{The system should efficiently validate system correctness.}
 
-        It was confirmed during testing, that the system adds a negligible overhead compared to executing the checks directly, they are necessarily I/O bound and therefore difficult to optimize any further.
+        It was confirmed during testing, that the system adds a negligible overhead compared to executing the checks directly, they are necessarily I/O bound and therefore difficult to optimise any further.
 
       \litem{Alerts or warnings should be delivered in a reliable and timely fashion.}
 
@@ -1278,7 +1278,7 @@ The following chapter will provide a critical analysis into the delivered soluti
         
         Delivery of emails and SMS messages is subject to the performance of third party services but is generally very quick, at around 5-10 seconds.
 
-        During testing, no incidents were missed and all alerts were recieved successfully.
+        During testing, no incidents were missed and all alerts were received successfully.
 
       \litem{Validation of the system should scale above a trivial number of hosts. (Over 20)}
 
@@ -1312,7 +1312,7 @@ The following chapter will provide a critical analysis into the delivered soluti
 
         \litem{Remote code execution}
 
-        As there are no opened network ports, the only way to execute code is by explicitly connecting to the server via existing methods such as Secure Shell (SSH), pulling a service definition and executing it. As this is equivalent to shell access anyway, and thus only attainable by authorized users, the tool does not expose the possibility for remote code execution.
+        As there are no opened network ports, the only way to execute code is by explicitly connecting to the server via existing methods such as Secure Shell (SSH), pulling a service definition and executing it. As this is equivalent to shell access anyway, and thus only attainable by authorised users, the tool does not expose the possibility for remote code execution.
 
     \end{enumerate}
     \litem{Maintainability - The system should be maintainable so that new features are easier to implement and the implementation is easier to understand for any open source contributors.}
@@ -1350,7 +1350,7 @@ As evident from the previous subsections, the system delivered at least partiall
 
 \begin{description}
   \item[Check Flexibility] The ability to check arbitrary properties of a system from a black box perspective (without access to the source code) can be seen as a significant benefit of using this tool.
-  \item[Effective Visualization \& Communication] Perhaps the largest improvement over existing monitoring tools such as Nagios is the quality of visualization. Service specifications generate easy to understand architecture diagrams of dependencies, with live updates when the state of each component changes. The extra context that this provides means that operations teams will be better placed to understand the modelled systems and the impact of problems whenever they occur.
+  \item[Effective Visualization \& Communication] Perhaps the largest improvement over existing monitoring tools such as Nagios is the quality of visualisation. Service specifications generate easy to understand architecture diagrams of dependencies, with live updates when the state of each component changes. The extra context that this provides means that operations teams will be better placed to understand the modelled systems and the impact of problems whenever they occur.
   \item[Root Cause Analysis] Whilst the root cause analysis mechanism is quite simple, it has proven to be effective in narrowing down the scope of problems, especially in more complex systems and therefore aiding in their resolution. Most other monitoring tools lack the context to be able to do this kind of analysis.
 \end{description}
 
