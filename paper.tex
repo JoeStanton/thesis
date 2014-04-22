@@ -32,7 +32,7 @@
 
 Application architectures are more complex and dynamic than ever. The growth in cloud computing makes it cheaper and more accessible to build and maintain services at scale, yet the tools to manage the complexity of these services, and their inevitable change over time, are often inadequate.
 
- Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either `high' or `out of control'~\cite{Gartner2013}.
+ Infrastructure complexity is steadily increasing, and is a leading cause of downtime and unreliability. According to a recent Gartner survey, 73\% of IT executives say their infrastructure complexity is either `high' or `out of control'.
 
 In this report, we discuss and implement an infrastructure modelling and monitoring tool that can be used to help manage some of the inherent complexity in modern infrastructure. We will attempt to design an infrastructure modelling language, and use the subsequently produced models to effectively visualise and validate the correctness of real-world systems.
 
@@ -83,7 +83,7 @@ The tool will then execute this model as a means of system monitoring. It will v
 
 This model can serve as `living documentation' that is used by Ops teams and Developers to help manage and transfer knowledge, documenting their implicit knowledge. It should help to predict the impact of changes. It should improve collaboration between the teams and provide deeper insight into issues with the performance or reliability of the system.
 
-Languages and tools for the modelling of software architecture and infrastructure do exist, however they lack the simplicity and pragmatism in their implementation to see widespread adoption in industry~\cite{ModellingAdoption}. I propose a simple, pragmatic tool that may come with some modelling limitations, but will be quick and easy to set up and begin reaping the benefits.
+Languages and tools for the modelling of software architecture and infrastructure do exist, however they lack the simplicity and pragmatism in their implementation to see widespread adoption in industry~\cite{IndustryMDSE}. I propose a simple, pragmatic tool that may come with some modelling limitations, but will be quick and easy to set up and begin reaping the benefits.
 
 Given its role as the centralised location of knowledge for the system, this tool could become a platform to solve other distributed systems issues, such as service discovery etc.\ but these problems are not part of the initial scope.
 
@@ -117,7 +117,7 @@ Models can be built textually as well as graphically. Textual models are commonl
 
 \paragraph{Adoption of Modelling and MDSE}
 
-Studies into increased quality, maintainability and developer productivity when using MDSE techniques can be found commonly in academia but are difficult to find in industry. In a study into Industrial Adoption of Model Driven Development, it was stated that "interviewees emphasised tool immaturity, complexity and lack of usability as major barriers to adoption"~\cite{IndustryMDSE}.
+Studies into increased quality, maintainability and developer productivity when using MDSE techniques are found commonly in academia but are difficult to find in industry. In a study into Industrial Adoption of Model Driven Development, it was stated that ``interviewees emphasised tool immaturity, complexity and lack of usability as major barriers to adoption"~\cite{IndustryMDSE}.
 
 \subsection{Unit and Integration Testing}
 
@@ -154,7 +154,7 @@ Modern configuration management tools can be considered a type of infrastructure
 
 Configuration management tools are especially interesting due to their mass adoption in recent years within the Agile software development community, as well as at enterprises such as Facebook and Amazon~\cite{Chef}.
 
-The real value of these DSL's is that they are directly executable.  They can be executed to drive infrastructure changes and ensure convergence with the model. Figure~\ref{fig:PuppetDSLSnippet} provides an example snippet of a Puppet recipe, declaratively specifying details of the SSH (secure shell) service that will be made available on a specific host.
+The real value of these DSL's is that they are directly executable.  They can be executed to drive infrastructure changes and ensure convergence with the model. Listing~\ref{fig:PuppetDSLSnippet}. provides an example snippet of a Puppet recipe, declaratively specifying details of the SSH (secure shell) service that will be made available on a specific host.
 
 As part of the runtime execution, each service's conformance to this set of properties is verified and if there is any divergence, the tool will orchestrate a set of imperative actions, for example installing the service or altering its configuration file and then restarting it.
 
@@ -858,6 +858,21 @@ Incident detection is a layer of logic above events. It will detect events of a 
 
 Incidents are designed to group all of the required context such as component failures, recent events such as deployments, and past incidents of a similar nature. When an incident has been resolved, the system will trigger an email requesting that the investigator of the problem provides a short summary of the root cause of the issue. The API will also track statistics such as the time taken for recovery to occur, which is then used in reliability calculations at the service level. This information is then stored and can be used to help solve similar issues in future, especially where the same infrastructure problems keep recurring.
 
+
+\subsection{Live Updates - Server Sent Events}
+
+As well as the typical API resources previously discussed, a single endpoint is provided for clients to subscribe to a stream of changes. Where appropriate, all domain entities will be published to the changes stream as they are created, updated or deleted. Clients such as the Web UI can subscribe to these changes and update the user interface accordingly.
+
+The changes feed is implemented as a Server Sent Events\footnote{HTML5 Server Sent Events - http://www.w3.org/TR/2009/WD-eventsource-20091029/} (SSE) stream, SSE is a HTML5 standard for uni-directional, long running HTTP responses. Alternatives to Server Sent Events are WebSockets and standard long polling techniques. SSE was chosen over WebSockets for the following reasons:
+
+\begin{description}
+  \item[Uni-Directional] There is only a need to send messages from the server to the client.
+  \item[Pure HTTP] As a higher level, text-based protocol, HTTP incurs more overhead than TCP sockets (the level at which WebSockets operate), but is far more compatible with typical network infrastructure such as corporate web proxies etc. If WebSockets was used, it is likely that the TCP connection could be denied by proxies or firewalls.
+  \item[Good Browser Compatibility] Although SSE is only natively supported in modern browsers, it is possible to effectively emulate this functionality in older browsers using JavaScript. This is not required for this project, but could be a consideration if the tool increased in popularity.
+\end{description}
+
+Both SSE and WebSockets were deemed to be better implementations than a long-polling mechanism as they are more efficient, and require less custom logic on the receiving client.
+
 \pagebreak
 \subsection{Root Cause Analysis - Reachability Matrix}
 
@@ -869,7 +884,7 @@ The root cause is inferred via the following process:
   \item Failing services and components are detected and raised in an incident.
   \item A reachability matrix is calculated via a recursive SQL query. The results of this query (a transitive closure\footnote{A transitive closure is defined as follows: http://mathworld.wolfram.com/TransitiveClosure.html}) can be used to check if there exists a path between two given nodes.
 
-    This query can become expensive, with a time complexity on the order of $O(n^3)$, therefore it uses a common time-space tradeoff technique known as `materialized views'\footnote{For more details on materialized views, see http://www.postgresql.org/docs/9.3/static/rules-materializedviews.html} to incrementally compute changes over time. The total number of nodes is usually low enough to make this feasible.
+    This query can become expensive, with a time complexity on the order of $O(n^3)$, therefore it uses a common time-space trade-off technique known as `materialized views'\footnote{For more details on materialized views, see http://www.postgresql.org/docs/9.3/static/rules-materializedviews.html} to incrementally compute changes over time. The total number of nodes is usually low enough to make this feasible.
   \item The failing service or component is defined as the root cause if:
     \begin{enumerate}
       \item It has no failing dependencies itself.
@@ -885,20 +900,6 @@ As a concrete example, consider the following scenario:
 \end{figure}
 
 The component `Redis' is inferred as the root-cause, as all other failing components are dependent upon it, and it does not itself have any failing dependencies.
-
-\subsection{Live Updates - Server Sent Events}
-
-As well as the typical API resources previously discussed, a single endpoint is provided for clients to subscribe to a stream of changes. Where appropriate, all domain entities will be published to the changes stream as they are created, updated or deleted. Clients such as the Web UI can subscribe to these changes and update the user interface accordingly.
-
-The changes feed is implemented as a Server Sent Events\footnote{HTML5 Server Sent Events - http://www.w3.org/TR/2009/WD-eventsource-20091029/} (SSE) stream, SSE is a HTML5 standard for uni-directional, long running HTTP responses. Alternatives to Server Sent Events are WebSockets and standard long polling techniques. SSE was chosen over WebSockets for the following reasons:
-
-\begin{description}
-  \item[Uni-Directional] There is only a need to send messages from the server to the client.
-  \item[Pure HTTP] As a higher level, text-based protocol, HTTP incurs more overhead than TCP sockets (the level at which WebSockets operate), but is far more compatible with typical network infrastructure such as corporate web proxies etc. If WebSockets was used, it is likely that the TCP connection could be denied by proxies or firewalls.
-  \item[Good Browser Compatibility] Although SSE is only natively supported in modern browsers, it is possible to effectively emulate this functionality in older browsers using JavaScript. This is not required for this project, but could be a consideration if the tool increased in popularity.
-\end{description}
-
-Both SSE and WebSockets were deemed to be better implementations than a long-polling mechanism as they are more efficient, and require less custom logic on the receiving client.
 
 \pagebreak
 \subsection{Email and SMS Notifications}
@@ -937,7 +938,7 @@ The Web UI is implemented as a single page web application, written in JavaScrip
   \item[Search Engine Optimisation]
     Single Page Applications are generally a poor choice where search engine rankings are important for a website. Search crawlers typically do not execute JavaScript and are therefore unable to index content effectively. For a tool such as the Monitoring UI, this is unimportant, as it is intended as an internal tool which will often be protected by a layer of authentication and not accessible from the web. Solutions for this issue are available, and involve executing the application on the server side using a JavaScript engine such as Node.js initially.
   \item[ Abstraction and Maintainability]
-    Single page application frameworks often apply standard architectural patterns such as Model-View-Controller. These patterns can help to raise the level of abstraction when creating highly interactive applications beyond manually binding event listeners to DOM elements in order to update and present data. Applications that are abstracted from the imperative nature of programming with the DOM (Document Object Model) can find benefits in a more declarative approach. This can help improve testability, code reuse and can reduce the number of defects.
+    Single page application frameworks often apply standard architectural patterns such as Model-View-Controller. These patterns can help to raise the level of abstraction when creating highly interactive applications beyond manually binding event listeners to Document Object Model (DOM) elements in order to update and present data. Applications that are abstracted from the imperative nature of programming with the DOM can find benefits in a more declarative approach. This can help improve testability, code reuse and can reduce the number of defects.
 \end{description}
 
 The vastly improved user experience attainable from a single page application was the primary consideration in selecting this approach. The UI is primarily read-only, but its role is to provide a near real-time view of the system from a number of different perspectives, switching between these perspectives can be seamless as a result of this implementation choice.
@@ -1354,7 +1355,7 @@ As evident from the previous subsections, the system delivered at least partiall
 
 \begin{description}
   \item[Check Flexibility] The ability to check arbitrary properties of a system from a black box perspective (without access to the source code) can be seen as a significant benefit of using this tool.
-  \item[Effective Visualization \& Communication] Perhaps the largest improvement over existing monitoring tools such as Nagios is the quality of visualisation. Service specifications generate easy to understand architecture diagrams of dependencies, with live updates when the state of each component changes. The extra context that this provides means that operations teams will be better placed to understand the modelled systems and the impact of problems whenever they occur.
+  \item[Effective Visualisation \& Communication] Perhaps the largest improvement over existing monitoring tools such as Nagios is the quality of visualisation. Service specifications generate easy to understand architecture diagrams of dependencies, with live updates when the state of each component changes. The extra context that this provides means that operations teams will be better placed to understand the modelled systems and the impact of problems whenever they occur.
   \item[Root Cause Analysis] Whilst the root cause analysis mechanism is quite simple, it has proven to be effective in narrowing down the scope of problems, especially in more complex systems and therefore aiding in their resolution. Most other monitoring tools lack the context to be able to do this kind of analysis.
 \end{description}
 
