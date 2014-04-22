@@ -746,7 +746,7 @@ The API will typically be used via JSON serialised requests and responses, but o
 \subsection{Root}
 \label{json}
 
-The root of the API contains an index of available resources, this is a weak form of the `Hypermedia as the Engine of Application State (HATEOAS)' unified interface, which states that API's should be discoverable without prior knowledge. The discoverability also theoretically means that URI's can change in future and not break integration's, although this benefit is not typically realised. The JSON response from the root endpoint looks similar to the following:
+The root of the API contains an index of available resources, this is a weak form of the `Hypermedia as the Engine of Application State (HATEOAS)' unified interface \cite{REST}, which states that API's should be discoverable without prior knowledge. The discoverability also theoretically means that URI's can change in future and not break integration's, although this benefit is not typically realised. The JSON response from the root endpoint looks similar to the following:
 
 \begin{listing}[h]
 \begin{minted}[fontfamily=fi4]{json}
