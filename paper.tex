@@ -745,7 +745,7 @@ The API will typically be used via JSON serialised requests and responses, but o
 \subsection{Root}
 \label{json}
 
-The root of the API contains an index of available resources, this is a weak form of the Hypermedia as the `Engine of Application State (HATEOS)' unified interface, which states that API's should be discoverable without prior knowledge. The discoverability also theoretically means that URI's can change in future and not break integration's, although this benefit is not typically realised. The JSON response from the root endpoint looks similar to the following:
+The root of the API contains an index of available resources, this is a weak form of the `Hypermedia as the Engine of Application State (HATEOAS)' unified interface, which states that API's should be discoverable without prior knowledge. The discoverability also theoretically means that URI's can change in future and not break integration's, although this benefit is not typically realised. The JSON response from the root endpoint looks similar to the following:
 
 \begin{listing}[h]
 \begin{minted}[fontfamily=fi4]{json}
@@ -903,14 +903,14 @@ Both SSE and WebSockets were deemed to be better implementations than a long-pol
 
 The management API implements two methods of notification, Email and SMS. Both of these types of notification are intended to alert developers or system administrators of new incidents opened on services they are responsible for.
 
-The email notifications are triggered when incidents open or are subsequently resolved. They provide an at-a-glance summary of the issue, together with a link to the Web UI for viewing in more detail. The emails are created via the ActionMailer functionality in Ruby on Rails and sent via the third party service SendGrid via SMTP. SendGrid ensures the reliable delivery of these emails.
+The email notifications are triggered when incidents open or are subsequently resolved. They provide an at-a-glance summary of the issue, together with a link to the Web UI for viewing in more detail. The emails are created via the ActionMailer functionality in Ruby on Rails and sent via the third party service SendGrid\footnote{SendGrid - http://sendgrid.com/docs/User\_Guide/index.html} via SMTP. SendGrid ensures the reliable delivery of these emails.
 
 \begin{figure}[h]
 \includegraphics[scale=0.6]{email.png}
 \caption{An example email notification, triggered when an incident has been detected.}
 \end{figure}
 
-SMS notifications can convey a more limited quantity of information than emails, but can be useful when the user in question does not have access to the internet. SMS messages are sent via the third party service Twilio. Twilio provide a REST API and can deliver messages to the provided phone numbers internationally.
+SMS notifications can convey a more limited quantity of information than emails, but can be useful when the user in question does not have access to the internet. SMS messages are sent via the third party service Twilio\footnote{Twilio - https://www.twilio.com/docs/api/rest}. Twilio provide a REST API and can deliver messages to the provided phone numbers internationally.
 
 \pagebreak
 \section{Web UI}
