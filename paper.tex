@@ -554,7 +554,7 @@ The following commands can be executed from the command-line of a development wo
 \pagebreak
 \subsection{Service Discovery}
 
-Reverse-engineering a system configuration is a non-trivial task. As this is not the primary intention of the tool, a simple approach is used to detect commonly installed services and provide some common default health checks for them. It relies upon standard UNIX commands such as `ps', `lsof' and `netstat' to detect running services.
+Reverse-engineering a system configuration is a non-trivial task. As this is not the primary intention of the tool, a simple approach is used to detect commonly installed services and provide some common default health checks for them. It relies upon standard UNIX commands such as `ps'\footnote{ps - Retrieves the current process table}, `lsof'\footnote{lsof - Lists open 'file descriptors'} and `netstat'\footnote{netstat - Lists network status, including listening processes} to detect running services.
 
 The algorithm reads from a list of component definitions similar to the following:
 
@@ -652,7 +652,7 @@ A typical event payload can be arbitrarily defined, but is typically structured 
   ttl: 15
 \end{minted}
 
-The streaming event service provides one endpoint to send all types of event data, this includes results from status checks, application performance metrics and log file entries. These types of event can all be processed and routed to a number of locations. This agnosticism makes it easy to adapt the monitoring architecture in future, hosts can be configured to send data to a single endpoint, which in turn can route the events to their appropriate location.
+The streaming event service provides one endpoint to send all types of event data, for example: results from status checks, application performance metrics and log file entries. These types of event can all be processed and routed to a number of locations. This agnosticism makes it easy to adapt the monitoring architecture in future, hosts can be configured to send data to a single endpoint, which in turn can route the events to their appropriate location.
 
 Another important principle of Riemann is the notion of a time-to-live (TTL) sent with each event. After the number of seconds specified in the TTL field, specified by the sender, Riemann will change the event type to `expired'. This means that if the agent software stops sending events due to a loss of connectivity or a software defect, some error handling logic can be executed, such as updating the component's state to `unknown'. Without this feature, the streaming mechanism would not match the polling based mechanism for robustness.
 
