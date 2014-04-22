@@ -189,7 +189,7 @@ I have extensively researched existing monitoring tools ranging from very simple
 
 \subsubsection{Nagios}
 
-Nagios is an open source infrastructure and application monitoring framework. Often considered the `industry standard', it provides a vast array of features, from execution of fine-grained protocol specific tests to complex capacity planning forecasts. It is also very extensible, which is perhaps the largest reason for its success within the industry.
+Nagios\footnote{Nagios - http://www.nagios.org/} is an open source infrastructure and application monitoring framework. Often considered the `industry standard', it provides a vast array of features, from execution of fine-grained protocol specific tests to complex capacity planning forecasts. It is also very extensible, which is perhaps the largest reason for its success within the industry.
 
 Nagios is in active use by over 250,000 organisations worldwide, including Amazon, AT\&T and JP Morgan Chase~\cite{NagiosUsage}. It supports a number of common monitoring architectures, including both agent based and agent-less (based on the Simple Network Management Protocol) that means it can run efficiently up to a very large number of hosts~\cite{NagiosArchitectures}.
 
@@ -197,16 +197,15 @@ Anecdotal feedback about Nagios typically suggests that it is a mature and flexi
 
 \subsubsection{StatsD, CollectD, Graphite}
 
-This collection of tools all work together in providing near real-time metrics tracking and graphing, they are used heavily at vastly successful startups such as 37signals, GitHub and Shopify. Metrics can be collected from the infrastructure and application layers. 
-CollectD is a system utility written in C that periodically makes system calls to extract performance fundamentals such as CPU, memory and network usage. 
+This collection of tools all work together in providing near real-time metrics tracking and graphing, they are used heavily at vastly successful startups such as 37signals~\cite{37SignalsGraphite} and Etsy~\cite{EtsyGraphite}. Metrics can be collected from the infrastructure and application layers.
 
 \label{StatsD}
-Application level metrics can be collected using StatsD. Applications can send metrics to a local StatsD instance via UDP, which adds very little performance overhead. This means that it is possible to heavily instrument the critical paths of an application except in extremely performance sensitive scenarios. Both of these tools aggregate this data and flush it to a backend Graphite instance at configurable intervals. Graphite provides extremely flexible data visualisation techniques, but requires some up front investment in time to produce meaningful results.
+Application level metrics can be collected using StatsD\footnote{StatsD - http://codeascraft.com/2011/02/15/measure-anything-measure-everything/}. Applications can send metrics to a local StatsD instance via UDP, which adds very little performance overhead. This means that it is possible to heavily instrument the critical paths of an application except in extremely performance sensitive scenarios. Both of these tools aggregate this data and flush it to a backend Graphite\footnote{Graphite - https://graphite.readthedocs.org/en/latest/overview.html} instance at configurable intervals. Graphite provides extremely flexible data visualisation techniques, but requires some up front investment in time to produce meaningful results.
 
 This collection of tools provides an extremely flexible and performant source of aggregate data that can be used to diagnose reliability and performance problems effectively. Its disadvantages however include a lack of any alerting mechanism, a number of independent components that are both non-trivial to deploy and difficult to monitor themselves, and a difficulty in actually interpreting aggregate data to draw conclusions without deep insight into both the application and the infrastructure it’s relying on.
 
 \subsubsection{New Relic - APM} 
-New Relic is a popular subscription-based, hosted Application Performance Monitoring (APM) service. It provides integration with popular languages, frameworks and platforms such as the Java Virtual Machine (JVM), Ruby/Ruby on Rails and Python with the Django web framework.
+New Relic\footnote{New Relic - http://newrelic.com/about} is a popular subscription-based, hosted Application Performance Monitoring (APM) service. It provides integration with popular languages, frameworks and platforms such as the Java Virtual Machine (JVM), Ruby/Ruby on Rails and Python with the Django web framework.
 
 New Relic is extremely easy to integrate with existing web applications as it provides environment specific tooling such as Ruby gems or Python packages. It reports on fine-grained application metrics such as slow SQL queries, poor response times and browser based monitoring metrics with a snippet of JavaScript.
 
@@ -317,17 +316,19 @@ The platform limitation will apply to the first version of the tool, but it will
 
 \chapter{Design and Implementation}
 
+The following chapter details the design and implementation process. It specifically focuses on the the critical technical decisions made, and how they relate back to the requirements and design objectives set out initially.
+
 \section{Design Objectives}
 
-\paragraph{Speed/Ease of Setup} Many comments from developers detailed the fact that most monitoring and modelling tools were too time consuming to set up, and clients did not see demonstrable value in investing time upfront in this process before services were launched and issues actually occurred. 
+\paragraph{Speed/Ease of Setup} Comments from developers often mention that most monitoring and modelling tools were too time consuming to set up. Clients did not see demonstrable value in investing time upfront in this process before services were launched and issues actually occurred.
 
 A tool that provides a simple installation process, follows ‘convention over configuration’ and provides a degree of auto-detection of installed services would be extremely valuable and increase chances of adoption significantly.
 
-\paragraph{Simplicity and Pragmatism} Often the need for extensive application and infrastructure monitoring is not recognised until after the application has been deployed into a production environment. Introducing monitoring at an earlier stage, e.g.. in a staging environment, can highlight issues of reliability and performance before they are experienced in production. Monitoring key domain specific metrics can also aid in reasoning about the runtime behaviour of the system. With these benefits in mind, the tool should be simple enough to introduce early in the development process with minimal effort on the part of the developer, it should provide pragmatic value from the start, and offer the flexibility to continue to deliver value as the system grows in complexity.
+\paragraph{Simplicity and Pragmatism} Often the need for extensive application and infrastructure monitoring is not fully recognised until after the application has been deployed into a production environment. Introducing monitoring at an earlier stage, e.g.. in a staging environment, can highlight issues of reliability and performance before they are experienced in production. Monitoring key domain specific metrics can also aid in reasoning about the runtime behaviour of the system. With these benefits in mind, the tool should be simple enough to introduce early in the development process with minimal effort on the part of the developer, it should provide pragmatic value from the start, and offer the flexibility to continue to deliver value as the system grows in complexity.
 
 \paragraph{Embracing Change}
 
-Maintaining agility while providing a suitable quality of service is challenging. Continuous Integration (CI) and Delivery (CD) are fundamental principles of the Extreme Programming (XP) movement and discuss solutions to this problem at great length, the most cited benefit is the reduction of risk. Small amounts of change applied frequently are easier to reason about and test, and of course provide the end user with value quicker. In conjunction with version control systems, CI/CD can be used to effectively identify the root cause of problems soon after they occur. The application of CI/CD is widespread within the industry, and a whole suite of tools such as CI servers, automated code deployment tools and configuration management utilities all aid to facilitate the practice.
+Maintaining agility while providing a suitable quality of service is challenging. Continuous Integration (CI) and Delivery (CD) are fundamental principles of the Extreme Programming\cite{BeckXP} (XP) movement and discuss solutions to this problem at great length, the most cited benefit is the reduction of risk. Small amounts of change applied frequently are easier to reason about and test, and of course provide the end user with value quicker. In conjunction with version control systems, CI/CD can be used to effectively identify the root cause of problems soon after they occur. The application of CI/CD is widespread within the industry, and a whole suite of tools such as CI servers, automated code deployment tools and configuration management utilities all aid to facilitate the practice.
 
 The monitoring tool should fit within an agile workflow, where system architectures change frequently. It could even be used to verify that system reconfiguration was successful, as a form of test driven infrastructure change. The tool should provide the means to track changes such as code deployments and re-configuration and provide an interface to visualise this, similar to viewing changes in code under source control.
 
@@ -415,7 +416,7 @@ The Web UI will subscribe to a real-time connection (via WebSockets or Server Se
 
 Providing the flexibility needed to encode arbitrary checks within the monitoring tool is difficult to achieve without a very large amount of static configuration. The full expressive power of a real programming language, leveraging a vast array of open source libraries is perhaps a better way to approach this problem.
 
-Due to its meta-programming features and flexibility in syntax, Ruby is somewhat uniquely amenable to creating domain specific languages within the language itself, so called `internal DSLs'.
+Due to its meta-programming features and flexibility in syntax, Ruby is somewhat uniquely amenable to creating domain specific languages within the language itself, so called `internal DSLs'\footnote{Internal/Embedded DSL's - http://www.martinfowler.com/bliki/DomainSpecificLanguage.html}.
 
 The DSL is heavily inspired by a similar DSL of the RSpec unit testing framework ~\cite{RSpec}, RSpec is extremely popular within the Ruby community as it leads to highly-readable test cases. The similarities should provide a common medium for communicating the monitoring tool to those who have used RSpec or similar in the past.
 
@@ -516,9 +517,9 @@ The installation script performs the following steps:
 
 \begin{enumerate}
   \item{Detection of Operating System} - The tool initially supports Linux and Mac OS X only, it will distinguish between these operating systems or abort the installation if running on a different platform.
-  \item{Detection or Installation of Ruby} - If Ruby 2.0.1 is not installed, the script will use the standard package manager of the distribution to install it.
+  \item{Detection or Installation of Ruby} - If Ruby 2.0 or higher is not installed, the script will use the standard package manager of the distribution to install it.
   \item{Download of Agent Software} - The source code will be obtained directly from GitHub over a secure connection protecting against spoofing attacks, dependencies will be resolved and installed.
-  \item{Host Registration} - Optionally, the host can be registered with the management server, the hostname and IP address as well as an optional service name and environment will be passed to the management server. This is appropriate on servers but not development workstations.
+  \item{Host Registration} - Optionally, the host can be registered with the management server, the hostname and IP address as well as an optional service name and environment will be passed to the management server. This is appropriate on servers but not development workstations, as these are irrelevant to the system under test.
 \end{enumerate}
 
 \subsection{Workflow}
@@ -795,7 +796,9 @@ Standard measures of system reliability are calculated at the service level, for
 
 \pagebreak
 \subsection{Hosts}
-Hosts are a simple structure, they are conceptually just an instance of the management agent running on a physical or virtual server. When the management software is installed, the user can specify an environment, e.g.\ development, staging or production. Hosts are initially registered via the `setup' command of the management agent, and are associated/dissociated with services when the `start' and `stop' monitoring commands are used, specifying a particular service specification. Hosts are considered transient, they are instances of an application running at a particular time. This is particularly true of more dynamic infrastructure such as auto-scaling groups.
+Hosts are a simple structure, they are conceptually just an instance of the management agent running on a physical or virtual server. When the management software is installed, the user can specify an environment, e.g.\ development, staging or production.
+
+Hosts are initially registered via the `setup' command of the management agent, and are associated/dissociated with services when the `start' and `stop' monitoring commands are used, specifying a particular service specification. Hosts are considered transient, they are instances of an application running at a particular time. This is particularly true of more dynamic infrastructure such as auto-scaling groups.
 
 \begin{listing}[h]
 \begin{minted}[fontfamily=fi4]{json}
@@ -887,7 +890,7 @@ The component `Redis' is inferred as the root-cause, as all other failing compon
 
 As well as the typical API resources previously discussed, a single endpoint is provided for clients to subscribe to a stream of changes. Where appropriate, all domain entities will be published to the changes stream as they are created, updated or deleted. Clients such as the Web UI can subscribe to these changes and update the user interface accordingly.
 
-The changes feed is implemented as a Server Sent Events (SSE) stream, SSE is a HTML5 standard for uni-directional, long running HTTP responses. Alternatives to Server Sent Events are WebSockets and standard long polling techniques. SSE was chosen over WebSockets for the following reasons:
+The changes feed is implemented as a Server Sent Events\footnote{HTML5 Server Sent Events - http://www.w3.org/TR/2009/WD-eventsource-20091029/} (SSE) stream, SSE is a HTML5 standard for uni-directional, long running HTTP responses. Alternatives to Server Sent Events are WebSockets and standard long polling techniques. SSE was chosen over WebSockets for the following reasons:
 
 \begin{description}
   \item[Uni-Directional] There is only a need to send messages from the server to the client.
@@ -906,8 +909,9 @@ The management API implements two methods of notification, Email and SMS. Both o
 The email notifications are triggered when incidents open or are subsequently resolved. They provide an at-a-glance summary of the issue, together with a link to the Web UI for viewing in more detail. The emails are created via the ActionMailer functionality in Ruby on Rails and sent via the third party service SendGrid\footnote{SendGrid - http://sendgrid.com/docs/User\_Guide/index.html} via SMTP. SendGrid ensures the reliable delivery of these emails.
 
 \begin{figure}[h]
-\includegraphics[scale=0.6]{email.png}
-\caption{An example email notification, triggered when an incident has been detected.}
+  \centering
+  \includegraphics[scale=0.6]{email.png}
+  \caption{An example email notification, triggered when an incident has been detected.}
 \end{figure}
 
 SMS notifications can convey a more limited quantity of information than emails, but can be useful when the user in question does not have access to the internet. SMS messages are sent via the third party service Twilio\footnote{Twilio - https://www.twilio.com/docs/api/rest}. Twilio provide a REST API and can deliver messages to the provided phone numbers internationally.

@@ -40,166 +40,166 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Summary}{9}{section*.11}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Requirements Specification}{10}{chapter.3}
+\contentsline {chapter}{\numberline {3}Requirements Specification}{11}{chapter.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}User Stories}{10}{section.3.1}
+\contentsline {section}{\numberline {3.1}User Stories}{11}{section.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Functional Requirements}{11}{section.3.2}
+\contentsline {section}{\numberline {3.2}Functional Requirements}{12}{section.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.3}Non-Functional Requirements}{12}{section.3.3}
+\contentsline {section}{\numberline {3.3}Non-Functional Requirements}{13}{section.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.4}Additional Aims}{13}{section.3.4}
+\contentsline {section}{\numberline {3.4}Additional Aims}{14}{section.3.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.5}Limitations}{14}{section.3.5}
+\contentsline {section}{\numberline {3.5}Limitations}{15}{section.3.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Design and Implementation}{15}{chapter.4}
+\contentsline {chapter}{\numberline {4}Design and Implementation}{16}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Design Objectives}{15}{section.4.1}
+\contentsline {section}{\numberline {4.1}Design Objectives}{16}{section.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Speed/Ease of Setup}{15}{section*.12}
+\contentsline {paragraph}{Speed/Ease of Setup}{16}{section*.12}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Simplicity and Pragmatism}{15}{section*.13}
+\contentsline {paragraph}{Simplicity and Pragmatism}{16}{section*.13}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Embracing Change}{15}{section*.14}
+\contentsline {paragraph}{Embracing Change}{16}{section*.14}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Dynamic Infrastructure}{16}{section*.15}
+\contentsline {paragraph}{Dynamic Infrastructure}{17}{section*.15}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Flexibility}{16}{section*.16}
+\contentsline {paragraph}{Flexibility}{17}{section*.16}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Streaming Metrics}{16}{section*.17}
+\contentsline {paragraph}{Streaming Metrics}{17}{section*.17}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Hosted vs. On-Premise Solutions}{17}{section*.18}
+\contentsline {paragraph}{Hosted vs. On-Premise Solutions}{18}{section*.18}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Security}{17}{section*.19}
+\contentsline {paragraph}{Security}{18}{section*.19}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Domain Model and Concepts}{18}{section.4.2}
+\contentsline {section}{\numberline {4.2}Domain Model and Concepts}{20}{section.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}System Architecture}{19}{section.4.3}
+\contentsline {section}{\numberline {4.3}System Architecture}{21}{section.4.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.1}Core Management API}{19}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.1}Core Management API}{21}{subsection.4.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.2}Streaming Metrics/Events Service}{20}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.2}Streaming Metrics/Events Service}{22}{subsection.4.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.3}Monitoring Agent}{20}{subsection.4.3.3}
+\contentsline {subsection}{\numberline {4.3.3}Monitoring Agent}{22}{subsection.4.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3.4}Web UI}{21}{subsection.4.3.4}
+\contentsline {subsection}{\numberline {4.3.4}Web UI}{23}{subsection.4.3.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.4}Domain-Specific Language}{22}{section.4.4}
+\contentsline {section}{\numberline {4.4}Domain-Specific Language}{24}{section.4.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4.1}Meta-Programming}{22}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.1}Meta-Programming}{24}{subsection.4.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4.2}Features and Implementation}{23}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.2}Features and Implementation}{25}{subsection.4.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.5}Monitoring Agent}{25}{section.4.5}
+\contentsline {section}{\numberline {4.5}Monitoring Agent}{27}{section.4.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.1}Installation}{25}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.1}Installation}{27}{subsection.4.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.2}Workflow}{26}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.2}Workflow}{28}{subsection.4.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.3}Commands and Usage}{26}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {4.5.3}Commands and Usage}{28}{subsection.4.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.4}Service Discovery}{28}{subsection.4.5.4}
+\contentsline {subsection}{\numberline {4.5.4}Service Discovery}{30}{subsection.4.5.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.5.5}Bundled Checks \& Extensibility}{30}{subsection.4.5.5}
+\contentsline {subsection}{\numberline {4.5.5}Bundled Checks \& Extensibility}{32}{subsection.4.5.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.6}Streaming Event Service}{31}{section.4.6}
+\contentsline {section}{\numberline {4.6}Streaming Event Service}{33}{section.4.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.6.1}Event Schema \& Routing}{31}{subsection.4.6.1}
+\contentsline {subsection}{\numberline {4.6.1}Event Schema \& Routing}{33}{subsection.4.6.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.6.2}Interpreting Check Results}{32}{subsection.4.6.2}
+\contentsline {subsection}{\numberline {4.6.2}Interpreting Check Results}{34}{subsection.4.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.7}Management API}{34}{section.4.7}
+\contentsline {section}{\numberline {4.7}Management API}{36}{section.4.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.1}Ruby on Rails}{34}{subsection.4.7.1}
+\contentsline {subsection}{\numberline {4.7.1}Ruby on Rails}{36}{subsection.4.7.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{ActiveRecord}{35}{section*.20}
+\contentsline {subsubsection}{ActiveRecord}{37}{section*.20}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.2}REST}{35}{subsection.4.7.2}
+\contentsline {subsection}{\numberline {4.7.2}REST}{37}{subsection.4.7.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Semantic use of HTTP verbs}{35}{section*.21}
+\contentsline {subsubsection}{Semantic use of HTTP verbs}{37}{section*.21}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Content Negotiation}{36}{section*.22}
+\contentsline {subsubsection}{Content Negotiation}{38}{section*.22}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.3}Root}{36}{subsection.4.7.3}
+\contentsline {subsection}{\numberline {4.7.3}Root}{38}{subsection.4.7.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.4}Services \& Components}{36}{subsection.4.7.4}
+\contentsline {subsection}{\numberline {4.7.4}Services \& Components}{38}{subsection.4.7.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.5}Hosts}{38}{subsection.4.7.5}
+\contentsline {subsection}{\numberline {4.7.5}Hosts}{40}{subsection.4.7.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.6}Events}{38}{subsection.4.7.6}
+\contentsline {subsection}{\numberline {4.7.6}Events}{40}{subsection.4.7.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.7}Incidents}{39}{subsection.4.7.7}
+\contentsline {subsection}{\numberline {4.7.7}Incidents}{41}{subsection.4.7.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.8}Root Cause Analysis - Reachability Matrix}{41}{subsection.4.7.8}
+\contentsline {subsection}{\numberline {4.7.8}Root Cause Analysis - Reachability Matrix}{43}{subsection.4.7.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.9}Live Updates - Server Sent Events}{42}{subsection.4.7.9}
+\contentsline {subsection}{\numberline {4.7.9}Live Updates - Server Sent Events}{44}{subsection.4.7.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.7.10}Email and SMS Notifications}{43}{subsection.4.7.10}
+\contentsline {subsection}{\numberline {4.7.10}Email and SMS Notifications}{45}{subsection.4.7.10}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.8}Web UI}{44}{section.4.8}
+\contentsline {section}{\numberline {4.8}Web UI}{46}{section.4.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.1}Implementation Choices}{44}{subsection.4.8.1}
+\contentsline {subsection}{\numberline {4.8.1}Implementation Choices}{46}{subsection.4.8.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Traditional Website vs. Single Page Application}{44}{section*.23}
+\contentsline {subsubsection}{Traditional Website vs. Single Page Application}{46}{section*.23}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Single Page Application Frameworks}{45}{section*.24}
+\contentsline {subsubsection}{Single Page Application Frameworks}{47}{section*.24}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.8.2}Features}{46}{subsection.4.8.2}
+\contentsline {subsection}{\numberline {4.8.2}Features}{48}{subsection.4.8.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Getting Started Guide}{46}{section*.25}
+\contentsline {subsubsection}{Getting Started Guide}{48}{section*.25}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{A Service Overview}{46}{section*.26}
+\contentsline {subsubsection}{A Service Overview}{48}{section*.26}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Architecture Diagrams}{47}{section*.27}
+\contentsline {subsubsection}{Architecture Diagrams}{49}{section*.27}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Incident Tracking}{47}{section*.28}
+\contentsline {subsubsection}{Incident Tracking}{49}{section*.28}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Event Logging}{48}{section*.29}
+\contentsline {subsubsection}{Event Logging}{50}{section*.29}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Specification View}{49}{section*.30}
+\contentsline {subsubsection}{Specification View}{51}{section*.30}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{50}{section.4.9}
+\contentsline {section}{\numberline {4.9}Deployment \& Provisioning}{52}{section.4.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.9.1}Configuration Management Tools}{50}{subsection.4.9.1}
+\contentsline {subsection}{\numberline {4.9.1}Configuration Management Tools}{52}{subsection.4.9.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Ansible}{50}{section*.31}
+\contentsline {subsubsection}{Ansible}{52}{section*.31}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.9.2}Virtual Appliances - Packer}{52}{subsection.4.9.2}
+\contentsline {subsection}{\numberline {4.9.2}Virtual Appliances - Packer}{54}{subsection.4.9.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.10}Tools and Methodologies}{53}{section.4.10}
+\contentsline {section}{\numberline {4.10}Tools and Methodologies}{55}{section.4.10}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Professional Issues}{54}{chapter.5}
+\contentsline {chapter}{\numberline {5}Professional Issues}{56}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.1}Plagarism \& Licensing}{54}{section.5.1}
+\contentsline {section}{\numberline {5.1}Plagarism \& Licensing}{56}{section.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.2}Developer Competence \& Risk}{54}{section.5.2}
+\contentsline {section}{\numberline {5.2}Developer Competence \& Risk}{56}{section.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5.3}Data Integrity \& Security}{55}{section.5.3}
+\contentsline {section}{\numberline {5.3}Data Integrity \& Security}{57}{section.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {6}Testing}{56}{chapter.6}
+\contentsline {chapter}{\numberline {6}Testing}{58}{chapter.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.1}Unit Testing}{56}{section.6.1}
+\contentsline {section}{\numberline {6.1}Unit Testing}{58}{section.6.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.2}Functional Testing}{57}{section.6.2}
+\contentsline {section}{\numberline {6.2}Functional Testing}{59}{section.6.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6.3}Real World Usage}{58}{section.6.3}
+\contentsline {section}{\numberline {6.3}Real World Usage}{60}{section.6.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {7}Evaluation}{60}{chapter.7}
+\contentsline {chapter}{\numberline {7}Evaluation}{62}{chapter.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.1}Functional Requirements}{60}{section.7.1}
+\contentsline {section}{\numberline {7.1}Functional Requirements}{62}{section.7.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.2}Non-Functional Requirements}{63}{section.7.2}
+\contentsline {section}{\numberline {7.2}Non-Functional Requirements}{65}{section.7.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7.3}Critical Evaluation}{66}{section.7.3}
+\contentsline {section}{\numberline {7.3}Critical Evaluation}{68}{section.7.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{68}{chapter.8}
+\contentsline {chapter}{\numberline {8}Conclusion \& Future Work}{70}{chapter.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {9}Appendix}{71}{chapter.9}
+\contentsline {chapter}{\numberline {9}Appendix}{73}{chapter.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {9.1}Service Specification Examples}{71}{section.9.1}
+\contentsline {section}{\numberline {9.1}Service Specification Examples}{73}{section.9.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {9.1.1}X-Time}{71}{subsection.9.1.1}
+\contentsline {subsection}{\numberline {9.1.1}X-Time}{73}{subsection.9.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {9.1.2}X-Awards Site}{72}{subsection.9.1.2}
+\contentsline {subsection}{\numberline {9.1.2}X-Awards Site}{74}{subsection.9.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {9.1.3}Workspace +}{74}{subsection.9.1.3}
+\contentsline {subsection}{\numberline {9.1.3}Workspace +}{76}{subsection.9.1.3}
