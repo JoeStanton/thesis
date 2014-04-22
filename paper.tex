@@ -1262,7 +1262,7 @@ The following chapter will provide a critical analysis into the delivered soluti
 \begin{enumerate}
   \litem{Reliability - The system and all of its components should provide a reliable platform for monitoring live systems.}
 
-    The reliability of the tool has steadily improved due to the iterative, generally test driven development process. A number of issues were fixed in the actual testing phase, but these were generally minor issues which did not affect the reliability of the tool directly. \ref{}
+    The reliability of the tool has steadily improved due to the iterative, generally test driven development process. A number of issues were fixed in the actual testing phase, but these were generally minor issues which did not affect the reliability of the tool directly.
 
   \litem{Usability - It should be easy to start using the system and understand how it fits within the users existing organisation.} Understanding of the implementation details should not be necessary for basic use cases.
 
@@ -1286,7 +1286,7 @@ The following chapter will provide a critical analysis into the delivered soluti
 
       \litem{Validation of the system should scale above a trivial number of hosts. (Over 20)}
 
-        Discussed further in \ref{}
+        As previously discussed, Riemann can handle up to 200,000 events/sec, the overwhelming majority of events will not be forwarded to the management API\@. The management API is the limiting factor, and is able to handle approximately 20 forwarded events/sec, where the request rate exceeds this, events will simply be queued. Therefore, the system is scalable well beyond the target point.
 
       \litem{The impact of validating correctness on the system under test should be minimal.\ i.e. no significant degradation in performance of the monitored applications or resource exhaustion of the hosts under test.}
 
@@ -1332,7 +1332,7 @@ The following chapter will provide a critical analysis into the delivered soluti
 
         \litem{Unit Testing - Wherever possible, the code should be tested by a suite of unit tests that achieve a high coverage of the total codebase.}
 
-        Details of the testing strategy appear in the testing section. Evidence of unit testing as well as achieved test coverage reports are available here \ref{}.
+        Details of the testing strategy appear in the testing section. The unit tested services achieved between 85-95\% of coverage. Evidence of unit testing as well as achieved test coverage reports are available in the code listing.
 
     \end{enumerate}
   \litem{Interoperability - The system should integrate with existing systems in order to provide maximum flexibility/utility to the users. It should therefore:}
