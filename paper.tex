@@ -626,7 +626,7 @@ The tool bundles a number of built in checks for common use cases, they can be u
 \pagebreak
 \section{Streaming Event Service}
 
-The streaming event service is designed to collect metrics from a large number of monitored hosts and report any significant changes back to the management API\@. A language with strong support for concurrency and high throughput networking would be ideal for this problem. Ruby has relatively poor support for the above features, as it generally lacks support for non-blocking operations, and has a number of flaws with multi-threading, such as the `Global Interpreter Lock" problem~\cite{RubyGIL}. In contrast, languages such Java and Clojure\footnote{See http://clojure.org for a full description of Clojure} have far better support for this type of application.
+The streaming event service is designed to collect metrics from a large number of monitored hosts and report any significant changes back to the management API\@. A language with strong support for concurrency and high throughput networking would be ideal for this problem. Ruby has relatively poor support for the above features, as it generally lacks support for non-blocking operations, and has a number of flaws with multi-threading, such as the ``Global Interpreter Lock" problem~\cite{RubyGIL}. In contrast, languages such Java and Clojure\footnote{See http://clojure.org for a full description of Clojure} have far better support for this type of application.
 
 Both Java itself and Clojure have a number of similarities, they both use the Java Virtual Machine (JVM) as the host platform and therefore benefit from a mature ecosystem of tooling and open source libraries. The main difference is that Clojure is a functional language, bringing benefits of improved testability, immutability of data, and higher level concurrency features such as Software Transactional Memory, this makes it a natural fit the problem of transforming and filtering event data concurrently. As Clojure is a good fit for this type of problem, there are a couple of popular libraries suiting this task already. One of these libraries is Riemann\footnote{See http://riemann.io/concepts for an introduction to Riemann.}.
 
@@ -780,7 +780,7 @@ Services are the top-level domain concept, they contain some meta-data, reliabil
 \end{minted}
 \end{listing}
 
-Standard measures of system reliability are calculated at the service level, for example `Mean Time Between Failure" (MTBF) and `Mean Time To Recovery" (MTTR), these measures give a good indication of how often and how serious any issues are. These measures can be supplemented at the UI level with other measures from Graphite, such as service uptime/availability.
+Standard measures of system reliability are calculated at the service level, for example ``Mean Time Between Failure" (MTBF) and ``Mean Time To Recovery" (MTTR), these measures give a good indication of how often and how serious any issues are. These measures can be supplemented at the UI level with other measures from Graphite, such as service uptime/availability.
 
 \begin{equation}
   \mbox{Mean Time Before Failure (MTBF)}= \frac{\sum{(\mbox{start of downtime} - \mbox{start of uptime})}}{\mbox{total failures}}
@@ -1023,9 +1023,9 @@ As discussed in the background research section, configuration management tools 
 
 \subsubsection{Ansible}
 
-Ansible is one of the simplest configuration management tools around. Its competitors, Chef and Puppet, provide significantly more functionality that is not required for this project. Many of the features of Chef and Puppet allow them to efficiently orchestrate changes on large numbers of hosts, and offer more features for platform agnosticism, this carries some extra complexity. Ansible is a simpler variant more suitable for a small number of nodes, and its simplicity makes writing `playbooks" quick and painless.
+Ansible is one of the simplest configuration management tools around. Its competitors, Chef and Puppet, provide significantly more functionality that is not required for this project. Many of the features of Chef and Puppet allow them to efficiently orchestrate changes on large numbers of hosts, and offer more features for platform agnosticism, this carries some extra complexity. Ansible is a simpler variant more suitable for a small number of nodes, and its simplicity makes writing ``playbooks" quick and painless.
 
-Ansible `playbooks" are declared in YAML format. Ansible contains specific modules for most types of configuration task, usually implemented as thin wrappers around UNIX commands. It builds in checks to ensure that commands are idempotent. This allows the user to repeatedly use a playbook with no negative effects on the host. The playbooks look similar to the following:
+Ansible ``playbooks" are declared in YAML format. Ansible contains specific modules for most types of configuration task, usually implemented as thin wrappers around UNIX commands. It builds in checks to ensure that commands are idempotent. This allows the user to repeatedly use a playbook with no negative effects on the host. The playbooks look similar to the following:
 
 \begin{listing}[p]
 \begin{minted}[fontfamily=fi4]{yaml}
@@ -1115,7 +1115,7 @@ As this tool is designed to be deployed and used in a professional environment, 
 
     Secondly, the installation and subsequent communication between the management API and system under test is encrypted via HTTPS/TLS\@. If a malicious third-party was to intercept or redirect the monitoring traffic within a private network, the data would not be readable without the server's private key, this also prevents tampering by a proxy.
 
-    Thirdly, the tool is not yet available as a `Software as a Service' offering, but if this is pursued at a later date, each instance of the tool must be isolated from the other, so as to avoid any leaking of data between users. Generally, it may be safer to run many instances of the application using virtualization, so as to be sufficiently isolated from other users.
+    Thirdly, the tool is not yet available as a ``Software as a Service' offering, but if this is pursued at a later date, each instance of the tool must be isolated from the other, so as to avoid any leaking of data between users. Generally, it may be safer to run many instances of the application using virtualization, so as to be sufficiently isolated from other users.
 
 \chapter{Testing}
 
@@ -1175,7 +1175,7 @@ Results of this testing highlighted the following issues:
 
 \begin{itemize}
   \item A large number of events accumulated within the system, causing a significant delay when loading the Web UI. Some problematic checks were fixed, and the amount of data returned from the API significantly reduced, fixing the problem completely.
-  \item Connectivity issues between the host and the management API are quite common, often only lasting for a few seconds. The main solution to this was to increase the time window before a previous event had been declared `expired". Setting the event validity period to approximately 3 times the check interval allows for up to three consecutive lost packets, more indicative of a real problem.
+  \item Connectivity issues between the host and the management API are quite common, often only lasting for a few seconds. The main solution to this was to increase the time window before a previous event had been declared ``expired". Setting the event validity period to approximately 3 times the check interval allows for up to three consecutive lost packets, more indicative of a real problem.
   \item The number of alerts produced is inversely proportional to their value. If alerts are triggered with zero tolerance for failures, the system administrator is unreasonably burdened with issues which will resolve themselves in a few minutes. This results in failures being ignored, or the disabling of checks completely. Incidents now trigger after a short delay, increasing the confidence in a real problem and collecting extra information before alerting the system administrator.
 \end{itemize}
 
@@ -1266,7 +1266,7 @@ The following chapter will provide a critical analysis into the delivered soluti
 
   \litem{Usability - It should be easy to start using the system and understand how it fits within the users existing organisation.} Understanding of the implementation details should not be necessary for basic use cases.
 
-    Justification.
+    The interface is clear and simple. Where it has been demonstrated, users gave overwhelmingly positive feedback on usability and understanding, especially in comparison to existing monitoring tools such as Nagios.
 
     \litem{Performance}
     \begin{enumerate}
