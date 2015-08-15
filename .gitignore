@@ -15,7 +15,6 @@ examples
 *.bbl
 *.blg
 *.dvi
-*.pdf
 *.glg
 *.gls
 *.ilg
